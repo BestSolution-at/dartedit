@@ -1,7 +1,5 @@
 package at.bestsolution.dart.editor.outline;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -11,16 +9,16 @@ import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
-import org.eclipse.fx.code.compensator.editor.Input;
-import org.eclipse.fx.code.compensator.editor.Outline;
-import org.eclipse.fx.code.compensator.editor.Outline.OutlineItem;
-import org.eclipse.fx.code.compensator.editor.services.OutlineFactory;
+import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.outline.Outline;
+import org.eclipse.fx.code.outline.Outline.OutlineItem;
+import org.eclipse.fx.code.outline.services.OutlineTypeProvider;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.ui.controls.styledtext.StyledString;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor;
-import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Adornment;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Location;
+import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.fx.ui.services.sync.UISynchronize;
 import org.osgi.service.component.annotations.Component;
 
@@ -33,15 +31,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 @Component
-public class DartOutlineFactory implements OutlineFactory {
+public class DartOutlineFactory implements OutlineTypeProvider {
 
 	@Override
-	public boolean applies(Input<?> input) {
+	public boolean test(Input<?> input) {
 		return input instanceof DartInput;
 	}
 
 	@Override
-	public Class<? extends Outline> createOutline(Input<?> input) {
+	public Class<? extends Outline> getType(Input<?> input) {
 		return DartOutline.class;
 	}
 
@@ -60,44 +58,44 @@ public class DartOutlineFactory implements OutlineFactory {
 			this.input.outlineProperty().addListener( this::handleOutlineChange );
 			handleOutlineChange(this.input.outlineProperty());
 		}
-		
+
 		private void handleOutlineChange(Observable obs) {
 			if( this.input.outlineProperty().get() != null ) {
-				List<? extends OutlineItem> list = transformItems(null, graphicsLoader, this.input.outlineProperty().get().getChildren()); 
-				sync.asyncExec(() -> items.setAll(list));	
+				List<? extends OutlineItem> list = transformItems(null, graphicsLoader, this.input.outlineProperty().get().getChildren());
+				sync.asyncExec(() -> items.setAll(list));
 			} else {
 				sync.asyncExec(() -> items.clear());
 			}
 		}
-		
+
 		@Override
 		public ObservableList<OutlineItem> getRootItems() {
 			return items;
 		}
 	}
-	
+
 	private static ObservableList<? extends OutlineItem> transformItems(OutlineItem parent, GraphicsLoader graphicsLoader, at.bestsolution.dart.server.api.model.Outline[] outline) {
 		List<DartOutlineItem> list = Stream.of(outline).filter(o -> o.getElement().getKind() != ElementKind.GETTER && o.getElement().getKind() != ElementKind.SETTER).map(o -> new DartOutlineItem(graphicsLoader,parent, o)).collect(Collectors.toList());
 		ObservableList<OutlineItem> rv = FXCollections.observableArrayList(list);
 
 		Map<at.bestsolution.dart.server.api.model.Outline, DartOutlineItem> basicMap = list.stream().collect(Collectors.toMap( o -> ((DartOutlineItem)o).outline, o -> o));
-		
+
 		List<at.bestsolution.dart.server.api.model.Outline> list2 = Stream.of(outline).filter(o -> o.getElement().getKind() == ElementKind.GETTER || o.getElement().getKind() == ElementKind.SETTER).collect(Collectors.toList());
 		Map<String, DartPropertyOutlineItem> elements = new HashMap<>();
-		
+
 		for( at.bestsolution.dart.server.api.model.Outline o : list2 ) {
 			DartPropertyOutlineItem getterSetter = elements.get(o.getElement().getName());
 			if( getterSetter == null ) {
 				getterSetter = new DartPropertyOutlineItem(parent,graphicsLoader);
 				at.bestsolution.dart.server.api.model.Outline ref = null;
-				
+
 				for( at.bestsolution.dart.server.api.model.Outline o2 : outline ) {
 					if( o2 == o ) {
 						break;
 					}
 					ref = o2;
 				}
-				
+
 				if( ref == null ) {
 					rv.add(0,getterSetter);
 				} else if( ref.getElement().getKind() == ElementKind.SETTER || ref.getElement().getKind() == ElementKind.GETTER ) {
@@ -106,38 +104,38 @@ public class DartOutlineFactory implements OutlineFactory {
 					at.bestsolution.dart.server.api.model.Outline fref = ref;
 					rv.add(rv.indexOf(basicMap.get(fref))+1,getterSetter);
 				}
-				
+
 				elements.put(o.getElement().getName(), getterSetter);
 			}
-			
+
 			if( o.getElement().getKind() == ElementKind.SETTER ) {
 				getterSetter.setter = o;
 			} else {
 				getterSetter.getter = o;
 			}
 		}
-		
+
 		return rv;
 	}
-	
+
 	private static class DartOutlineItem implements OutlineItem {
 		private final at.bestsolution.dart.server.api.model.Outline outline;
 		private final OutlineItem parent;
 		private GraphicsLoader graphicsLoader;
-		
+
 		public DartOutlineItem(GraphicsLoader graphicsLoader, OutlineItem parent, at.bestsolution.dart.server.api.model.Outline outline) {
 			this.graphicsLoader = graphicsLoader;
 			this.outline = outline;
 			this.parent = parent;
 		}
-		
+
 		@Override
 		public CharSequence getLabel() {
 			if( outline.getElement().getKind() == ElementKind.FIELD ) {
 				StyledString s = new StyledString();
 				s.appendSegment(outline.getElement().getName(), "dart-element-name");
 				if( outline.getElement().getReturnType() != null ) {
-					s.appendSegment( " \u2192 " + outline.getElement().getReturnType(), "dart-type-info");	
+					s.appendSegment( " \u2192 " + outline.getElement().getReturnType(), "dart-type-info");
 				}
 				return s;
 			} else if( outline.getElement().getKind() == ElementKind.GETTER ) {
@@ -174,24 +172,24 @@ public class DartOutlineFactory implements OutlineFactory {
 		@Override
 		public ObservableList<? extends OutlineItem> getChildren() {
 			if( outline.getChildren() != null ) {
-				return transformItems(this, graphicsLoader, outline.getChildren());	
+				return transformItems(this, graphicsLoader, outline.getChildren());
 			} else {
 				return FXCollections.emptyObservableList();
 			}
 		}
 	}
-	
+
 	static class DartPropertyOutlineItem implements OutlineItem {
 		private at.bestsolution.dart.server.api.model.Outline getter;
 		private at.bestsolution.dart.server.api.model.Outline setter;
 		private GraphicsLoader graphicsLoader;
 		private OutlineItem parent;
-		
+
 		public DartPropertyOutlineItem(OutlineItem parent, GraphicsLoader graphicsLoader) {
 			this.parent = parent;
 			this.graphicsLoader = graphicsLoader;
 		}
-		
+
 		@Override
 		public CharSequence getLabel() {
 			return this.getter != null ? this.getter.getElement().getName() : this.setter.getElement().getName();
@@ -200,7 +198,7 @@ public class DartOutlineFactory implements OutlineFactory {
 		@Override
 		public Node getGraphic() {
 			AdornedImageDescriptor desc = new AdornedImageDescriptor(
-					URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/field_public_obj.png"), 
+					URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/field_public_obj.png"),
 					Collections.singletonList(
 							new Adornment(Location.LEFT_TOP,URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/7/property.png"))));
 			return graphicsLoader.getGraphicsNode(desc);
@@ -217,7 +215,7 @@ public class DartOutlineFactory implements OutlineFactory {
 			if( getter != null ) {
 				rv.add(new DartOutlineItem(graphicsLoader, this, getter));
 			}
-			
+
 			if( setter != null ) {
 				rv.add(new DartOutlineItem(graphicsLoader, this, setter));
 			}

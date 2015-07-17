@@ -11,10 +11,11 @@ import java.util.Collections;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
-import org.eclipse.fx.code.compensator.editor.Input;
-import org.eclipse.fx.code.compensator.editor.TextEditor;
-import org.eclipse.fx.code.compensator.editor.URIProvider;
+import org.eclipse.fx.code.editor.Constants;
+import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.URI;
 import org.eclipse.jface.text.IDocument;
 
@@ -39,9 +40,9 @@ public class DartInput implements Input<String>, URIProvider {
 	private IEventBroker broker;
 	private final ObjectProperty<Outline> outline = new SimpleObjectProperty<>();
 	private Registration outlineReg;
-	
+
 	@Inject
-	public DartInput(DartServer server, IEventBroker broker, @Named(TextEditor.DOCUMENT_URL) String url) {
+	public DartInput(DartServer server, IEventBroker broker, @Optional @Named(Constants.DOCUMENT_URL) String url) {
 		this.path = Paths.get(java.net.URI.create(url));
 		this.server = server;
 		this.broker = broker;
@@ -49,13 +50,13 @@ public class DartInput implements Input<String>, URIProvider {
 		outlineReg = service.outline(this::handleOutlineChange);
 		this.broker.send(DartRemoteFileManager.DART_INPUT_CREATED, this.path.toAbsolutePath().toString());
 	}
-	
+
 	private void handleOutlineChange(AnalysisOutlineNotification n) {
 		if( path.toAbsolutePath().toString().equals(n.getFile()) ) {
 			outline.set(n.getOutline());
 		}
 	}
-	
+
 	public ObjectProperty<Outline> outlineProperty() {
 		return outline;
 	}
@@ -64,7 +65,7 @@ public class DartInput implements Input<String>, URIProvider {
 	public URI getURI() {
 		return URI.create(path.toUri().toString());
 	}
-	
+
 	public Path getPath() {
 		return path;
 	}
@@ -124,9 +125,9 @@ public class DartInput implements Input<String>, URIProvider {
 			outlineReg.dispose();
 		}
 		this.broker.send(DartRemoteFileManager.DART_INPUT_CREATED, this.path.toAbsolutePath().toString());
-		
+
 		this.data = null;
-		this.path = null;		
+		this.path = null;
 	}
 
 	//TODO Move this to DartRemoteFileManager.java

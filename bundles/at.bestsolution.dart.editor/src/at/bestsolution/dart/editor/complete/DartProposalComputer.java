@@ -15,8 +15,8 @@ import java.util.stream.Stream;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.eclipse.fx.code.compensator.editor.ProposalComputer;
-import org.eclipse.fx.code.compensator.editor.URIProvider;
+import org.eclipse.fx.code.editor.fx.services.ProposalComputer;
+import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.core.log.Log;
 import org.eclipse.fx.core.log.Logger;
@@ -39,14 +39,14 @@ import at.bestsolution.dart.server.api.services.ServiceCompletion;
 import javafx.scene.Node;
 
 public class DartProposalComputer implements ProposalComputer {
-	
+
 	private GraphicsLoader graphicsLoader;
 	private String requestId;
 	private ServiceCompletion completionService;
 	private Registration proposalRegistration;
 	private CompletableFuture<List<ICompletionProposal>> future;
 	private List<ICompletionProposal> completions = new ArrayList<>();
-	
+
 	private Logger logger;
 
 	@Inject
@@ -55,10 +55,10 @@ public class DartProposalComputer implements ProposalComputer {
 		this.logger.debug("Creating proposal computer");
 		this.graphicsLoader = graphicsLoader;
 		completionService = server.getService(ServiceCompletion.class);
-		
+
 		proposalRegistration = completionService.results(this::handleHandleResults);
 	}
-	
+
 	private synchronized void handleHandleResults(CompletionResultsNotification notification) {
 		if( requestId != null && requestId.equals(notification.getId()) ) {
 			completions.addAll(Stream.of(notification.getResults()).map( e -> mapToCompletion(notification, e)).collect(Collectors.toList()));
@@ -73,20 +73,20 @@ public class DartProposalComputer implements ProposalComputer {
 							return ((DartCompletionProposal)o1).compareTo((DartCompletionProposal) o2);
 						}
 					});
-					future.complete(tmp);	
+					future.complete(tmp);
 				} else {
 					System.err.println("Received informations after the last item has been sent");
 				}
 			}
 		}
 	}
-	
+
 	private DartCompletionProposal mapToCompletion(CompletionResultsNotification notification, CompletionSuggestion proposal) {
 		StyledString s = new StyledString();
-		
+
 		URI baseImage;
 		List<Adornment> adornments = new ArrayList<>();
-		
+
 		if( proposal.getKind() == CompletionSuggestionKind.KEYWORD ) {
 			baseImage = null;
 			s.appendSegment(proposal.getCompletion(), "dart-element-name");
@@ -102,23 +102,23 @@ public class DartProposalComputer implements ProposalComputer {
 					} else {
 						s.appendSegment(proposal.getElement().getName() + (proposal.getElement().getParameters() == null ? "()": proposal.getElement().getParameters()) + " \u2192 " + proposal.getReturnType(), "dart-element-name");
 					}
-					
+
 					if( proposal.getDeclaringType() != null ) {
 						s.appendSegment(" \u2014 " + proposal.getDeclaringType(), "dart-type-info");
 					}
-					
+
 					if( (proposal.getElement().getFlags() & 0x10) == 0x10 ) {
 						baseImage = URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/methpri_obj.png");
 					} else {
 						baseImage = URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/methpub_obj.png");
 					}
-				} else if( proposal.getElement().getKind() == ElementKind.FIELD ) { 
+				} else if( proposal.getElement().getKind() == ElementKind.FIELD ) {
 					s.appendSegment(proposal.getElement().getName() + " \u2192 " + proposal.getReturnType(), "dart-element-name");
-					
+
 					if( proposal.getDeclaringType() != null ) {
 						s.appendSegment(" \u2014 " + proposal.getDeclaringType(), "dart-type-info");
 					}
-					
+
 					if( (proposal.getElement().getFlags() & 0x10) == 0x10 ) {
 						baseImage = URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/field_private_obj.png");
 					} else {
@@ -211,12 +211,12 @@ public class DartProposalComputer implements ProposalComputer {
 	public Future<List<ICompletionProposal>> compute(ProposalContext context) {
 		URIProvider p = (URIProvider) context.input;
 		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
-		
+
 		CompletionGetSuggestionsResult result = completionService.getSuggestions(file.toString(), context.location);
 		requestId = result.getId();
-		
+
 		future = new CompletableFuture<>();
-		
+
 		return future;
 	}
 

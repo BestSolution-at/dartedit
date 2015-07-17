@@ -1,19 +1,19 @@
 package at.bestsolution.dart.editor.doc;
 
-import org.eclipse.fx.code.compensator.editor.services.InputFactory;
+import org.eclipse.fx.code.editor.services.InputTypeProvider;
 import org.osgi.service.component.annotations.Component;
 
 @Component(property={"service.ranking:Integer=1"})
-public class DartInputFactory implements InputFactory<DartInput> {
+public class DartInputFactory implements InputTypeProvider {
 
 	@Override
-	public boolean applies(String url) {
+	public boolean test(String url) {
 		return url.endsWith(".dart");
 	}
 
 	@Override
-	public Class<DartInput> createInput(String url) {
+	public Class<DartInput> getType(String url) {
 		return DartInput.class;
 	}
-	
+
 }

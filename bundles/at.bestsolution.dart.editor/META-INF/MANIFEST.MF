@@ -5,28 +5,31 @@ Bundle-SymbolicName: at.bestsolution.dart.editor
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.fx.text.ui,
- org.eclipse.fx.code.compensator.hsl,
- org.eclipse.fx.code.compensator.editor,
  org.eclipse.e4.core.services,
  at.bestsolution.dart.server.api;bundle-version="1.0.0",
  org.eclipse.e4.core.contexts,
  org.eclipse.fx.ui.services,
  org.eclipse.fx.core.di,
  org.eclipse.fx.ui.controls,
- org.eclipse.fx.code.editor.hsl,
  org.eclipse.fx.core,
- org.eclipse.jdt.annotation;bundle-version="2.0.100";resolution:=optional
+ org.eclipse.jdt.annotation;bundle-version="2.0.100";resolution:=optional,
+ org.eclipse.fx.code.editor.ldef,
+ org.eclipse.fx.code.editor,
+ org.eclipse.fx.code.editor.ldef.text,
+ org.eclipse.fx.code.outline,
+ org.eclipse.fx.code.editor.fx
 Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.DartServerCF.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.marker.DartAnnotationPresenter.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.complete.DartProposalComputerFactory.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.style.DartStylesheet.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.doc.DartInputFactory.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.doc.DartDocumentFactory.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.internal.DartHSLModelProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.marker.DartAnnotationModelFactory.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.internal.DartSourceConfigAndPartitionerFactory.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml
-Import-Package: org.eclipse.fx.core,
+ OSGI-INF/services/at.bestsolution.dart.editor.complete.DartProposalComputerTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.marker.DartAnnotationModelTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDefModelProvider.xml
+Import-Package: javax.inject,
+ org.eclipse.e4.core.di.annotations,
+ org.eclipse.fx.core,
  org.eclipse.fx.ui.services.theme,
  org.osgi.service.component.annotations;version="1.2.0",
  org.osgi.service.event;version="1.3.1"
