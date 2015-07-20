@@ -3,19 +3,21 @@ package at.bestsolution.dart.editor.marker;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationPresenter;
-import org.osgi.service.component.annotations.Component;
 
 import at.bestsolution.dart.server.api.model.AnalysisErrorType;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 
-@Component
 public class DartAnnotationPresenter implements AnnotationPresenter {
+	@Inject
+	GraphicsLoader loader;
 
 	@Override
 	public List<String> getTypes() {
@@ -23,11 +25,11 @@ public class DartAnnotationPresenter implements AnnotationPresenter {
 	}
 
 	@Override
-	public Node getPresentation(Annotation annotation, GraphicsLoader loader) {
+	public Node getPresentation(Annotation annotation) {
 		Node n = null;
 		if( annotation instanceof DartAnnotation ) {
 			DartAnnotation ja = (DartAnnotation) annotation;
-			
+
 			if( ja.getError().getType() == AnalysisErrorType.TODO ) {
 				n = loader.getGraphicsNode(URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/showtsk_tsk.png"));
 			} else {
@@ -44,8 +46,8 @@ public class DartAnnotationPresenter implements AnnotationPresenter {
 				default:
 					break;
 				}
-			} 
-			
+			}
+
 //			else if( ja.getMarker().getType() == Type.TASK ) {
 //				n = loader.getGraphicsNode(URI.createPlatformPluginURI("org.eclipse.fx.code.compensator.project", "css/icons/16/showtsk_tsk.png"));
 //			}

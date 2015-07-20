@@ -1,3 +1,5 @@
+package at.bestsolution.dart.editor
+
 dart {
 	partitioning {
 		partition __dftl_partition_content_type

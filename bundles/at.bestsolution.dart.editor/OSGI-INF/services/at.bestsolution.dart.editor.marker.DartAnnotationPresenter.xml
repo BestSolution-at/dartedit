@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.editor.marker.DartAnnotationPresenter">
-   <implementation class="at.bestsolution.dart.editor.marker.DartAnnotationPresenter"/>
-   <service>
-      <provide interface="org.eclipse.jface.text.source.AnnotationPresenter"/>
-   </service>
-</scr:component>
