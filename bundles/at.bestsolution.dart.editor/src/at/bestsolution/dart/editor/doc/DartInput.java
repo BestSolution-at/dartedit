@@ -14,7 +14,7 @@ import javax.inject.Named;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.fx.code.editor.Constants;
-import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.StringInput;
 import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.URI;
 import org.eclipse.jface.text.IDocument;
@@ -32,7 +32,7 @@ import at.bestsolution.dart.server.api.services.ServiceAnalysis;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
-public class DartInput implements Input<String>, URIProvider {
+public class DartInput implements StringInput, URIProvider {
 	private Path path;
 	private String data;
 	private DartServer server;
