@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.fx.text.ui,
  org.eclipse.fx.code.outline,
  org.eclipse.fx.code.editor.fx,
  org.eclipse.emf.common;bundle-version="2.11.0",
- org.eclipse.emf.ecore;bundle-version="2.11.0"
+ org.eclipse.emf.ecore;bundle-version="2.11.0",
+ org.eclipse.fx.code.editor.fx.themes
 Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.DartServerCF.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.style.DartStylesheet.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.doc.DartInputFactory.xml,
