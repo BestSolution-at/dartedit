@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor
+package at.bestsolution.sample.code
 
 dart {
 	partitioning {

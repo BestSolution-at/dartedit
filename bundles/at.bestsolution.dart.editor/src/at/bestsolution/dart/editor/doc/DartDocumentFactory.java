@@ -18,10 +18,4 @@ public class DartDocumentFactory implements DocumentTypeProvider {
 	public Class<? extends IDocument> getType(Input<?> s) {
 		return InputDocument.class;
 	}
-
-	@Override
-	public boolean persistDocument(IDocument document) {
-		((InputDocument)document).persist();
-		return true;
-	}
 }
