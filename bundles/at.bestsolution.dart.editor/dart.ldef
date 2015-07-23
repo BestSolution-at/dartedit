@@ -18,10 +18,8 @@ dart {
 		}
 	}
 	lexical_highlighting {
-		rule __dftl_partition_content_type {
-			default dart_default {
-				whitespace javawhitespace
-			}
+		rule __dftl_partition_content_type whitespace javawhitespace {
+			default dart_default
 			dart_operator {
 				character [ ';', '.', '=', '/', '\\', '+', '-', '*', '<', '>', ':', '?', '!', ',', '|', '&', '^', '%', '~' ]
 			}
