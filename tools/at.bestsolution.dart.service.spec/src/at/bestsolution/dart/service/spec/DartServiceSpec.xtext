@@ -1,0 +1,58 @@
+grammar at.bestsolution.dart.service.spec.DartServiceSpec with org.eclipse.xtext.common.Terminals
+
+generate dartServiceSpec "http://www.bestsolution.at/dart/service/spec/DartServiceSpec"
+
+ServiceDefs:
+	'package' packageName=QualifiedName
+
+	domainElements += DomainElement*
+	serviceDefs += ServiceDef+
+;
+
+DomainElement:
+	doc+=DOC*
+	('javatype' name=QualifiedName | (cust?='cust' name=QualifiedName ('extends' superType=[DomainElement|QualifiedName])? '{'
+		attributes+=Attribute*
+	'}'
+	) | ('enum' name=QualifiedName '(' enumValues+=EnumVal* ')') | ('alias' name=QualifiedName 'as' realType=QualifiedName) )
+;
+
+EnumVal:
+	doc+=DOC*
+	name=ID
+;
+
+Attribute:
+	documentation += DOC*
+	optional?='optional'? type=GenericTypeArgument name=ID ('=' value=STRING)?
+;
+
+GenericTypeArgument:
+	type=[DomainElement|QualifiedName] ('<' arguments+=GenericTypeArgument ( ',' arguments+=GenericTypeArgument)* '>')? list?='[]'?
+;
+
+ServiceDef:
+	documentation += DOC*
+	'service' name=ID '{'
+		requests += Request*
+		notifications += Notification*
+	'}'
+;
+
+Request:
+	documentation += DOC*
+	'request' name=ID ('(' attributes+=Attribute+ ')')? 'returns' ('void' | (returnVals+=Attribute+) )
+;
+
+Notification:
+	documentation += DOC*
+	'notification' name=ID ('(' attributes+=Attribute+ ')')?
+;
+
+QualifiedName:
+	ID (=>'.' ID)*
+;
+
+terminal DOC:
+	'##' !('\n'|'\r')* ('\r'? '\n')?
+;
