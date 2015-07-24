@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.ArrayList;
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
-	
+
 public class LocalSearchService implements at.bestsolution.dart.server.api.services.ServiceSearch {
-	
+
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.SearchResultsNotification>> resultsConsumerList = new ArrayList<>();
-	
+
 	public LocalSearchService(LocalDartServer server) {
 		this.server = server;
 	}
-	
+
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 			case "search.results": {
@@ -31,7 +31,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			}
 		}
 	}
-	
+
 	// Requests
 	public at.bestsolution.dart.server.api.model.SearchFindElementReferencesResult findElementReferences(java.lang.String file,int offset,boolean includePotential) {
 		try {
@@ -45,7 +45,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.SearchFindMemberDeclarationsResult findMemberDeclarations(String name) {
 		try {
@@ -59,7 +59,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.SearchFindMemberReferencesResult findMemberReferences(String name) {
 		try {
@@ -73,7 +73,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.SearchFindTopLevelDeclarationsResult findTopLevelDeclarations(String pattern) {
 		try {
@@ -87,7 +87,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.SearchGetTypeHierarchyResult getTypeHierarchy(java.lang.String file,int offset) {
 		try {
@@ -101,7 +101,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 
 	// Notifications

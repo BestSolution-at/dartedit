@@ -9,10 +9,10 @@ public class NavigationTarget  {
 	private int length ;
 	private int startLine ;
 	private int startColumn ;
-	
+
 	public NavigationTarget() {
 	}
-	
+
 	public ElementKind getKind() {
 		return this.kind;
 	}
@@ -55,7 +55,7 @@ public class NavigationTarget  {
 	public void setStartColumn(int startColumn) {
 		this.startColumn = startColumn;
 	}
-	
+
 	public String toString() {
 		return "NavigationTarget@"+hashCode()+"[kind = "+kind+", fileIndex = "+fileIndex+", offset = "+offset+", length = "+length+", startLine = "+startLine+", startColumn = "+startColumn+"]";
 	}

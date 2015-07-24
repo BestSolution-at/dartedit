@@ -7,15 +7,15 @@ public class AnalysisUpdateOptionsRequest {
 
 	public AnalysisUpdateOptionsRequest() {
 	}
-	
+
 	public AnalysisUpdateOptionsRequest(AnalysisOptions options) {
 		this.options = options;
 	}
-	
+
 	public AnalysisOptions getOptions() {
 		return this.options;
 	}
-	
+
 	public void setOptions(AnalysisOptions options) {
 		this.options = options;
 	}

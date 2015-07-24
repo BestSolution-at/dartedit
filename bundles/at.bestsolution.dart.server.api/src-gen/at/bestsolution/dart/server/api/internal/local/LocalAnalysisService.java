@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.ArrayList;
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
-	
+
 public class LocalAnalysisService implements at.bestsolution.dart.server.api.services.ServiceAnalysis {
-	
+
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisErrorsNotification>> errorsConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisFlushResultsNotification>> flushResultsConsumerList = new ArrayList<>();
@@ -21,11 +21,11 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOccurrencesNotification>> occurrencesConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOutlineNotification>> outlineConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOverridesNotification>> overridesConsumerList = new ArrayList<>();
-	
+
 	public LocalAnalysisService(LocalDartServer server) {
 		this.server = server;
 	}
-	
+
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 			case "analysis.errors": {
@@ -111,7 +111,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		}
 	}
-	
+
 	// Requests
 	public at.bestsolution.dart.server.api.model.AnalysisGetErrorsResult getErrors(java.lang.String file) {
 		try {
@@ -125,7 +125,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetHoverResult getHover(java.lang.String file,int offset) {
 		try {
@@ -139,7 +139,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetLibraryDependenciesResult getLibraryDependencies() {
 		try {
@@ -153,7 +153,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetNavigationResult getNavigation(java.lang.String file,int offset,int length) {
 		try {
@@ -167,7 +167,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void reanalyze(java.lang.String[] roots) {
 		try {
@@ -177,7 +177,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void setAnalysisRoots(java.lang.String[] included,java.lang.String[] excluded,Map<java.lang.String,java.lang.String> packageRoots) {
 		try {
@@ -187,7 +187,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void setPriorityFiles(java.lang.String[] files) {
 		try {
@@ -197,7 +197,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void setSubscriptions(Map<AnalysisService,java.lang.String[]> subscriptions) {
 		try {
@@ -207,7 +207,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void updateContent(Map<java.lang.String,Overlay> files) {
 		try {
@@ -217,7 +217,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void updateOptions(AnalysisOptions options) {
 		try {
@@ -227,7 +227,7 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 
 	// Notifications

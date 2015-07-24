@@ -7,15 +7,15 @@ public class ExecutionSetSubscriptionsRequest {
 
 	public ExecutionSetSubscriptionsRequest() {
 	}
-	
+
 	public ExecutionSetSubscriptionsRequest(ExecutionService[] subscriptions) {
 		this.subscriptions = subscriptions;
 	}
-	
+
 	public ExecutionService[] getSubscriptions() {
 		return this.subscriptions;
 	}
-	
+
 	public void setSubscriptions(ExecutionService[] subscriptions) {
 		this.subscriptions = subscriptions;
 	}

@@ -7,15 +7,15 @@ public class AnalysisGetErrorsRequest {
 
 	public AnalysisGetErrorsRequest() {
 	}
-	
+
 	public AnalysisGetErrorsRequest(java.lang.String file) {
 		this.file = file;
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
-	
+
 	public void setFile(java.lang.String file) {
 		this.file = file;
 	}

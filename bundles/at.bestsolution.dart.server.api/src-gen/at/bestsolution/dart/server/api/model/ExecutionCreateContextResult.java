@@ -7,11 +7,11 @@ public class ExecutionCreateContextResult {
 
 	public ExecutionCreateContextResult() {
 	}
-	
+
 	public ExecutionContextId getId() {
 		return this.id;
 	}
-	
+
 	public void setId(ExecutionContextId id) {
 		this.id = id;
 	}

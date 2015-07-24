@@ -8,15 +8,15 @@ javatype long
 
 enum model.ServerService ( STATUS )
 
-## A directive to begin overlaying the contents of a file. The supplied content will be used for analysis in place of the file contents in the filesystem. 
-## If this directive is used on a file that already has a file content overlay, the old overlay is discarded and replaced with the new one. 
+## A directive to begin overlaying the contents of a file. The supplied content will be used for analysis in place of the file contents in the filesystem.
+## If this directive is used on a file that already has a file content overlay, the old overlay is discarded and replaced with the new one.
 cust model.AddContentOverlay extends model.Overlay {
 	## The new content of the file.
 	java.lang.String content
 	java.lang.String type = '"add"'
 }
 
-## An indication of an error, warning, or hint that was produced by the analysis. 
+## An indication of an error, warning, or hint that was produced by the analysis.
 cust model.AnalysisError {
 	## The severity of the error.
 	model.AnalysisErrorSeverity severity
@@ -30,7 +30,7 @@ cust model.AnalysisError {
 	optional java.lang.String correction
 }
 
-##  A list of fixes associated with a specific error 
+##  A list of fixes associated with a specific error
 cust model.AnalysisErrorFixes {
 	## The error with which the fixes are associated.
 	model.AnalysisError error
@@ -38,16 +38,16 @@ cust model.AnalysisErrorFixes {
 	model.SourceChange[] fixes
 }
 
-##  An enumeration of the possible severities of analysis errors. 
-enum model.AnalysisErrorSeverity ( 
-	INFO 
-	WARNING 
+##  An enumeration of the possible severities of analysis errors.
+enum model.AnalysisErrorSeverity (
+	INFO
+	WARNING
 	ERROR
 )
 
 ##  An enumeration of the possible types of analysis errors.
-enum model.AnalysisErrorType ( 
-	CHECKED_MODE_COMPILE_TIME_ERROR 
+enum model.AnalysisErrorType (
+	CHECKED_MODE_COMPILE_TIME_ERROR
 	COMPILE_TIME_ERROR
 	HINT
 	LINT
@@ -57,7 +57,7 @@ enum model.AnalysisErrorType (
 	TODO
 )
 
-##  A set of options controlling what kind of analysis is to be performed. If the value of a field is omitted the value of the option will not be changed. 
+##  A set of options controlling what kind of analysis is to be performed. If the value of a field is omitted the value of the option will not be changed.
 cust model.AnalysisOptions {
 	// Deprecated
 	## True if the client wants to enable support for the proposed async feature.
@@ -66,25 +66,25 @@ cust model.AnalysisOptions {
 	// Deprecated
 	## True if the client wants to enable support for the proposed deferred loading feature.
 	optional boolean enableDeferredLoading
-	
+
 	// Deprecated
 	## True if the client wants to enable support for the proposed enum feature.
 	optional boolean enableEnums
-    
+
     ## True if the client wants to enable support for the proposed "null aware operators" feature.
 	optional boolean enableNullAwareOperators
 
-	## True if hints that are specific to dart2js should be generated. This option is ignored if generateHints is false. 
+	## True if hints that are specific to dart2js should be generated. This option is ignored if generateHints is false.
 	optional boolean generateDart2jsHints
 
-    ## True if hints should be generated as part of generating errors and warnings. 
+    ## True if hints should be generated as part of generating errors and warnings.
 	optional boolean generateHints
 
 	## True if lints should be generated as part of generating errors and warnings.
     optional boolean generateLints
 }
 
-## An enumeration of the services provided by the analysis domain. 
+## An enumeration of the services provided by the analysis domain.
 enum model.AnalysisService (
 	FOLDING
 	HIGHLIGHTS
@@ -95,7 +95,7 @@ enum model.AnalysisService (
 	OVERRIDES
 )
 
-##  An indication of the current state of analysis. 
+##  An indication of the current state of analysis.
 cust model.AnalysisStatus {
 	## True if analysis is currently being performed.
 	boolean isAnalyzing
@@ -103,10 +103,10 @@ cust model.AnalysisStatus {
 	java.lang.String analysisTarget
 }
 
-## A directive to modify an existing file content overlay. One or more ranges of text are deleted from the old file content overlay and replaced with new text. 
-## The edits are applied in the order in which they occur in the list. This means that the offset of each edit must be correct under the assumption that all previous edits have been applied. 
-## It is an error to use this overlay on a file that does not yet have a file content overlay or that has had its overlay removed via RemoveContentOverlay. 
-## If any of the edits cannot be applied due to its offset or length being out of range, an INVALID_OVERLAY_CHANGE error will be reported. 
+## A directive to modify an existing file content overlay. One or more ranges of text are deleted from the old file content overlay and replaced with new text.
+## The edits are applied in the order in which they occur in the list. This means that the offset of each edit must be correct under the assumption that all previous edits have been applied.
+## It is an error to use this overlay on a file that does not yet have a file content overlay or that has had its overlay removed via RemoveContentOverlay.
+## If any of the edits cannot be applied due to its offset or length being out of range, an INVALID_OVERLAY_CHANGE error will be reported.
 cust model.ChangeContentOverlay extends model.Overlay {
 	## The edits to be applied to the file.
 	model.SourceEdit[] edits
@@ -116,27 +116,27 @@ cust model.ChangeContentOverlay extends model.Overlay {
 ## An identifier used to associate completion results with a completion request.
 alias model.CompletionId as java.lang.String
 
-##  A suggestion for how to complete partially entered text. Many of the fields are optional, depending on the kind of element being suggested. 
+##  A suggestion for how to complete partially entered text. Many of the fields are optional, depending on the kind of element being suggested.
 cust model.CompletionSuggestion {
 	## The kind of element being suggested.
-	model.CompletionSuggestionKind kind	
+	model.CompletionSuggestionKind kind
 	## The relevance of this completion suggestion where a higher number indicates a higher relevance.
 	int relevance
-    ## The identifier to be inserted if the suggestion is selected. If the suggestion is for a method or function, the client might want to additionally insert a template for the parameters. The information required in order to do so is contained in other fields. 
+    ## The identifier to be inserted if the suggestion is selected. If the suggestion is for a method or function, the client might want to additionally insert a template for the parameters. The information required in order to do so is contained in other fields.
 	java.lang.String completion
-	## The offset, relative to the beginning of the completion, of where the selection should be placed after insertion.     
+	## The offset, relative to the beginning of the completion, of where the selection should be placed after insertion.
 	int selectionOffset
-	## The number of characters that should be selected after insertion.     
+	## The number of characters that should be selected after insertion.
 	int selectionLength
-	## True if the suggested element is deprecated. 
+	## True if the suggested element is deprecated.
 	boolean isDeprecated
-	## True if the element is not known to be valid for the target. This happens if the type of the target is dynamic. 
+	## True if the element is not known to be valid for the target. This happens if the type of the target is dynamic.
 	boolean isPotential
-	## An abbreviated version of the Dartdoc associated with the element being suggested, This field is omitted if there is no Dartdoc associated with the element.    
+	## An abbreviated version of the Dartdoc associated with the element being suggested, This field is omitted if there is no Dartdoc associated with the element.
 	optional java.lang.String docSummary
 	## The Dartdoc associated with the element being suggested, This field is omitted if there is no Dartdoc associated with the element.
 	optional java.lang.String docComplete
-	## The class that declares the element being suggested. This field is omitted if the suggested element is not a member of a class. 
+	## The class that declares the element being suggested. This field is omitted if the suggested element is not a member of a class.
 	optional java.lang.String declaringType
 	## Information about the element reference being suggested.
 	optional model.Element element
@@ -158,7 +158,7 @@ cust model.CompletionSuggestion {
 	optional java.lang.String importUri
 }
 
-##  An enumeration of the kinds of elements that can be included in a completion suggestion. 
+##  An enumeration of the kinds of elements that can be included in a completion suggestion.
 enum model.CompletionSuggestionKind (
 	## A list of arguments for the method or function that is being invoked. For this suggestion kind, the completion field is a textual representation of the invocation and the parameterNames, parameterTypes, and requiredParameterCount attributes are defined.
 	ARGUMENT_LIST
@@ -175,7 +175,7 @@ enum model.CompletionSuggestionKind (
 	PARAMETER
 )
 
-##  Information about an element (something that can be declared in code). 
+##  Information about an element (something that can be declared in code).
 cust model.Element {
 	## The kind of the element.
 	model.ElementKind kind
@@ -199,7 +199,7 @@ cust model.Element {
 	optional java.lang.String typeParameters
 }
 
-##  An enumeration of the kinds of elements. 
+##  An enumeration of the kinds of elements.
 enum model.ElementKind (
 	CLASS
 	CLASS_TYPE_ALIAS
@@ -225,7 +225,7 @@ enum model.ElementKind (
 	UNKNOWN
 )
 
-##  A description of an executable file. 
+##  A description of an executable file.
 cust model.ExecutableFile {
 	## The path of the executable file.
 	model.FilePath file
@@ -233,7 +233,7 @@ cust model.ExecutableFile {
 	model.ExecutableKind kind
 }
 
-##  An enumeration of the kinds of executable files. 
+##  An enumeration of the kinds of executable files.
 enum model.ExecutableKind(
 	CLIENT
 	EITHER
@@ -244,10 +244,10 @@ enum model.ExecutableKind(
 
 ## The identifier for a execution context.
 cust model.ExecutionContextId {
-	
+
 }
 
-##  An enumeration of the services provided by the execution domain. 
+##  An enumeration of the services provided by the execution domain.
 enum model.ExecutionService (
 	LAUNCH_DATA
 )
@@ -255,7 +255,7 @@ enum model.ExecutionService (
 ## The absolute path of a file.
 alias model.FilePath as java.lang.String
 
-##  An enumeration of the kinds of folding regions. 
+##  An enumeration of the kinds of folding regions.
 enum model.FoldingKind (
 	COMMENT
 	CLASS_MEMBER
@@ -264,7 +264,7 @@ enum model.FoldingKind (
 	TOP_LEVEL_DECLARATION
 )
 
-##  A description of a region that can be folded. 
+##  A description of a region that can be folded.
 cust model.FoldingRegion {
 	## The kind of the region.
 	model.FoldingKind kind
@@ -274,7 +274,7 @@ cust model.FoldingRegion {
 	int length
 }
 
-##  A description of a region that could have special highlighting associated with it. 
+##  A description of a region that could have special highlighting associated with it.
 cust model.HighlightRegion {
 	## The type of highlight associated with the region.
 	model.HighlightRegionType type
@@ -284,7 +284,7 @@ cust model.HighlightRegion {
 	int length
 }
 
-##  An enumeration of the kinds of highlighting that can be applied to files. 
+##  An enumeration of the kinds of highlighting that can be applied to files.
 enum model.HighlightRegionType (
 	ANNOTATION
 	BUILT_IN
@@ -326,7 +326,7 @@ enum model.HighlightRegionType (
 	TYPE_PARAMETER
 )
 
-##  The hover information associated with a specific location. 
+##  The hover information associated with a specific location.
 cust model.HoverInformation {
 	## The offset of the range of characters that encompases the cursor position and has the same hover information as the cursor position.
 	int offset
@@ -352,7 +352,7 @@ cust model.HoverInformation {
 	optional java.lang.String staticType
 }
 
-##  A collection of positions that should be linked (edited simultaneously) for the purposes of updating code after a source change. For example, if a set of edits introduced a new variable name, the group would contain all of the positions of the variable name so that if the client wanted to let the user edit the variable name after the operation, all occurrences of the name could be edited simultaneously. 
+##  A collection of positions that should be linked (edited simultaneously) for the purposes of updating code after a source change. For example, if a set of edits introduced a new variable name, the group would contain all of the positions of the variable name so that if the client wanted to let the user edit the variable name after the operation, all occurrences of the name could be edited simultaneously.
 cust model.LinkedEditGroup {
 	## The positions of the regions that should be edited simultaneously.
 	model.Position[] positions
@@ -361,8 +361,8 @@ cust model.LinkedEditGroup {
 	## Pre-computed suggestions for what every region might want to be changed to.
 	model.LinkedEditSuggestion[] suggestions
 }
- 
-##  A suggestion of a value that could be used to replace all of the linked edit regions in a LinkedEditGroup. 
+
+##  A suggestion of a value that could be used to replace all of the linked edit regions in a LinkedEditGroup.
 cust model.LinkedEditSuggestion {
 	## The value that could be used to replace all of the linked edit regions.
 	java.lang.String value
@@ -370,7 +370,7 @@ cust model.LinkedEditSuggestion {
 	model.LinkedEditSuggestionKind kind
 }
 
-##  An enumeration of the kind of values that can be suggested for a linked edit. 
+##  An enumeration of the kind of values that can be suggested for a linked edit.
 enum model.LinkedEditSuggestionKind (
 	METHOD
 	PARAMETER
@@ -378,7 +378,7 @@ enum model.LinkedEditSuggestionKind (
 	VARIABLE
 )
 
-##  A location (character range) within a file. 
+##  A location (character range) within a file.
 cust model.Location {
 	## The file containing the range.
 	model.FilePath file
@@ -392,7 +392,7 @@ cust model.Location {
 	int startColumn
 }
 
-##  A description of a region from which the user can navigate to the declaration of an element. 
+##  A description of a region from which the user can navigate to the declaration of an element.
 cust model.NavigationRegion {
 	## The offset of the region from which the user can navigate.
 	int offset
@@ -402,7 +402,7 @@ cust model.NavigationRegion {
 	int[] targets
 }
 
-##  A description of a target to which the user can navigate. 
+##  A description of a target to which the user can navigate.
 cust model.NavigationTarget {
 	## The kind of the element.
 	model.ElementKind kind
@@ -418,7 +418,7 @@ cust model.NavigationTarget {
 	int startColumn
 }
 
-##  A description of the references to a single element within a single file. 
+##  A description of the references to a single element within a single file.
 cust model.Occurrences {
 	## The element that was referenced.
 	model.Element element
@@ -428,7 +428,7 @@ cust model.Occurrences {
 	int length
 }
 
-##  An node in the outline structure of a file. 
+##  An node in the outline structure of a file.
 cust model.Outline {
 	## A description of the element represented by this node.
 	model.Element element
@@ -440,7 +440,7 @@ cust model.Outline {
 	optional model.Outline[] children
 }
 
-##  A description of a member that overrides an inherited member. 
+##  A description of a member that overrides an inherited member.
 cust model.Override {
 	## The offset of the name of the overriding member.
 	int offset
@@ -452,7 +452,7 @@ cust model.Override {
 	optional model.OverriddenMember[] interfaceMembers
 }
 
-##  A description of a member that is being overridden. 
+##  A description of a member that is being overridden.
 cust model.OverriddenMember {
 	## The element that is being overridden.
 	model.Element element
@@ -460,7 +460,7 @@ cust model.OverriddenMember {
 	java.lang.String className
 }
 
-##  A position within a file. 
+##  A position within a file.
 cust model.Position {
 	## The file containing the position.
 	model.FilePath file
@@ -468,13 +468,13 @@ cust model.Position {
 	int offset
 }
 
-##  An indication of the current state of pub execution. 
+##  An indication of the current state of pub execution.
 cust model.PubStatus {
 	## True if the server is currently running pub to produce a list of package directories.
 	boolean isListingPackageDirs
 }
 
-##  An enumeration of the kinds of refactorings that can be created. 
+##  An enumeration of the kinds of refactorings that can be created.
 enum model.RefactoringKind (
 	CONVERT_GETTER_TO_METHOD
 	CONVERT_METHOD_TO_GETTER
@@ -487,7 +487,7 @@ enum model.RefactoringKind (
 	SORT_MEMBERS
 )
 
-##  A description of a parameter in a method refactoring. 
+##  A description of a parameter in a method refactoring.
 cust model.RefactoringMethodParameter {
 	## The unique identifier of the parameter. Clients may omit this field for the parameters they want to add.
 	optional java.lang.String id
@@ -498,37 +498,37 @@ cust model.RefactoringMethodParameter {
 	## The name that should be given to the parameter.
 	java.lang.String name
 	## The parameter list of the parameter's function type. If the parameter is not of a function type, this field will not be defined. If the function type has zero parameters, this field will have a value of "()".
-	optional java.lang.String parameters	
+	optional java.lang.String parameters
 }
 
-##  An abstract superclass of all refactoring feedbacks. 
+##  An abstract superclass of all refactoring feedbacks.
 cust model.RefactoringFeedback {
-	
+
 }
 
-##  An abstract superclass of all refactoring options. 
+##  An abstract superclass of all refactoring options.
 cust model.RefactoringOptions {
-	
+
 }
 
-##  An enumeration of the kinds of parameters. 
+##  An enumeration of the kinds of parameters.
 enum model.RefactoringMethodParameterKind (
 	REQUIRED
 	POSITIONAL
 	NAMED
 )
 
-## A description of a problem related to a refactoring. 
+## A description of a problem related to a refactoring.
 cust model.RefactoringProblem {
 	## The severity of the problem being represented.
 	model.RefactoringProblemSeverity severity
 	## A human-readable description of the problem being represented.
 	java.lang.String message
 	## The location of the problem being represented. This field is omitted unless there is a specific location associated with the problem (such as a location where an element being renamed will be shadowed).
-	optional model.Location location	
+	optional model.Location location
 }
 
-## An enumeration of the severities of problems that can be returned by the refactoring requests. 
+## An enumeration of the severities of problems that can be returned by the refactoring requests.
 enum model.RefactoringProblemSeverity (
 	INFO
 	WARNING
@@ -537,12 +537,12 @@ enum model.RefactoringProblemSeverity (
 )
 
 ## A directive to remove an existing file content overlay. After processing this directive, the file contents will once again be read from the file system.
-## If this directive is used on a file that doesn't currently have a content overlay, it has no effect.  
+## If this directive is used on a file that doesn't currently have a content overlay, it has no effect.
 cust model.RemoveContentOverlay extends model.Overlay {
 	java.lang.String type = '"remove"'
 }
 
-##  An indication of a problem with the execution of the server, typically in response to a request. 
+##  An indication of a problem with the execution of the server, typically in response to a request.
 cust model.RequestError {
 	## A code that uniquely identifies the error that occurred.
 	model.RequestErrorCode code
@@ -552,7 +552,7 @@ cust model.RequestError {
 	optional java.lang.String stackTrace
 }
 
-##  An enumeration of the types of errors that can occur in the execution of the server. 
+##  An enumeration of the types of errors that can occur in the execution of the server.
 enum model.RequestErrorCode (
 	## An "analysis.getErrors" or "analysis.getNavigation" request could not be satisfied because the content of the file changed before the requested results could be computed.
 	CONTENT_MODIFIED
@@ -576,8 +576,8 @@ enum model.RequestErrorCode (
 	NO_INDEX_GENERATED
 	## Another refactoring request was received during processing of this one.
 	REFACTORING_REQUEST_CANCELLED
-	##  The analysis server has already been started (and hence won't accept new connections). 
-	##  This error is included for future expansion; at present the analysis server can only speak to one client at a time so this error will never occur. 
+	##  The analysis server has already been started (and hence won't accept new connections).
+	##  This error is included for future expansion; at present the analysis server can only speak to one client at a time so this error will never occur.
 	SERVER_ALREADY_STARTED
 	## An internal error occurred in the analysis server. Also see the server.error notification.
 	SERVER_ERROR
@@ -585,15 +585,15 @@ enum model.RequestErrorCode (
 	SORT_MEMBERS_INVALID_FILE
 	## An "edit.sortMembers" request specified a Dart file that has scan or parse errors.
 	SORT_MEMBERS_PARSE_ERRORS
-	##  An "analysis.setPriorityFiles" request includes one or more files that are not being analyzed. 
-	##  This is a legacy error; it will be removed before the API reaches version 1.0. 
+	##  An "analysis.setPriorityFiles" request includes one or more files that are not being analyzed.
+	##  This is a legacy error; it will be removed before the API reaches version 1.0.
 	UNANALYZED_PRIORITY_FILES
 	## A request was received which the analysis server does not recognize, or cannot handle in its current configuation.
 	UNKNOWN_REQUEST
 	## The analysis server was requested to perform an action on a source that does not exist.
 	UNKNOWN_SOURCE
-	##  The analysis server was requested to perform an action which is not supported. 
-	##  This is a legacy error; it will be removed before the API reaches version 1.0. 
+	##  The analysis server was requested to perform an action which is not supported.
+	##  This is a legacy error; it will be removed before the API reaches version 1.0.
 	UNSUPPORTED_FEATURE
 )
 
@@ -602,7 +602,7 @@ cust model.SearchId {
 
 }
 
-##  A single result from a search request. 
+##  A single result from a search request.
 cust model.SearchResult {
 	## The location of the code that matched the search criteria.
 	model.Location location
@@ -614,7 +614,7 @@ cust model.SearchResult {
 	model.Element[] path
 }
 
-##  An enumeration of the kinds of search results returned by the search domain. 
+##  An enumeration of the kinds of search results returned by the search domain.
 enum model.SearchResultKind (
 	## The declaration of an element.
 	DECLARATION
@@ -632,12 +632,12 @@ enum model.SearchResultKind (
 	WRITE
 )
 
-##  An enumeration of the services provided by the server domain. 
+##  An enumeration of the services provided by the server domain.
 enum model.ServerService (
 	STATUS
 )
 
-##  A description of a set of edits that implement a single conceptual change. 
+##  A description of a set of edits that implement a single conceptual change.
 cust model.SourceChange {
 	## A human-readable description of the change to be applied.
 	java.lang.String message
@@ -649,7 +649,7 @@ cust model.SourceChange {
 	optional model.Position selection
 }
 
-##  A description of a single change to a single file. 
+##  A description of a single change to a single file.
 cust model.SourceEdit {
 	## The offset of the region to be modified.
 	int offset
@@ -658,11 +658,11 @@ cust model.SourceEdit {
 	## The code that is to replace the specified region in the original code.
 	java.lang.String replacement
 	## An identifier that uniquely identifies this source edit from other edits in the same response. This field is omitted unless a containing structure needs to be able to identify the edit for some reason.
-	## For example, some refactoring operations can produce edits that might not be appropriate (referred to as potential edits). Such edits will have an id so that they can be referenced. Edits in the same response that do not need to be referenced will not have an id. 
+	## For example, some refactoring operations can produce edits that might not be appropriate (referred to as potential edits). Such edits will have an id so that they can be referenced. Edits in the same response that do not need to be referenced will not have an id.
 	optional java.lang.String id
 }
 
-##  A description of a set of changes to a single file. 
+##  A description of a set of changes to a single file.
 cust model.SourceFileEdit {
 	## The file containing the code to be modified.
 	model.FilePath file
@@ -672,7 +672,7 @@ cust model.SourceFileEdit {
 	model.SourceEdit[] edits
 }
 
-##  A representation of a class in a type hierarchy. 
+##  A representation of a class in a type hierarchy.
 cust model.TypeHierarchyItem {
 	## The class element represented by this item.
 	model.Element classElement
@@ -690,81 +690,81 @@ cust model.TypeHierarchyItem {
 	int[] subclasses
 }
 
-## 
+##
 cust model.Overlay {
-	
+
 }
 
 service server {
-	
+
 	## Return the version number of the analysis server.
-	request getVersion 
-		returns 
+	request getVersion
+		returns
 		## The version number of the analysis server.
 		java.lang.String version
-	
-	## Cleanly shutdown the analysis server. 
-	## Requests that are received after this request will not be processed. 
-	## Requests that were received before this request, but for which a response has not yet been sent, will not be responded to. 
-	## No further responses or notifications will be sent after the response to this request has been sent. 
+
+	## Cleanly shutdown the analysis server.
+	## Requests that are received after this request will not be processed.
+	## Requests that were received before this request, but for which a response has not yet been sent, will not be responded to.
+	## No further responses or notifications will be sent after the response to this request has been sent.
 	request shutdown returns void
-	
+
 	## Subscribe for services. All previous subscriptions are replaced by the given set of services.
-	## It is an error if any of the elements in the list are not valid services. 
-	## If there is an error, then the current subscriptions will remain unchanged. 
+	## It is an error if any of the elements in the list are not valid services.
+	## If there is an error, then the current subscriptions will remain unchanged.
 	request setSubscriptions (
 		## A list of the services being subscribed to.
 		model.ServerService[] subscriptions
 	) returns void
-	
-	
+
+
 	## Reports that the server is running. This notification is issued once after the server has started running but before any requests are processed to let the client know that it started correctly.
-	## It is not possible to subscribe to or unsubscribe from this notification. 
+	## It is not possible to subscribe to or unsubscribe from this notification.
 	notification connected (
 		## The version number of the analysis server.
 		java.lang.String version
 	)
-	
+
 	## Reports that an unexpected error has occurred while executing the server. This notification is not used for problems with specific requests (which are returned as part of the response) but is used for exceptions that occur while performing other tasks, such as analysis or preparing notifications.
-	## It is not possible to subscribe to or unsubscribe from this notification. 
-	notification error( 
+	## It is not possible to subscribe to or unsubscribe from this notification.
+	notification error(
 		## True if the error is a fatal error, meaning that the server will shutdown automatically after sending this notification.
-		boolean isFatal 
+		boolean isFatal
 		## The error message indicating what kind of error was encountered.
 		java.lang.String message
 		## The stack trace associated with the generation of the error, used for debugging the server.
 		java.lang.String stackTrace
 	)
 	## Reports the current status of the server. Parameters are omitted if there has been no change in the status represented by that parameter.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "STATUS" in the list of services passed in a server.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "STATUS" in the list of services passed in a server.setSubscriptions request.
 	notification status(
 		## The current status of analysis, including whether analysis is being performed and if so what is being analyzed.
 		optional model.AnalysisStatus analysis
 		## The current status of pub execution, indicating whether we are currently running pub.
 		optional model.PubStatus pub
 	)
-	
+
 //	## Reports the current status of the server. Parameters are omitted if there has been no change in the status represented by that parameter.
-//	## This notification is not subscribed to by default. Clients can subscribe by including the value "STATUS" in the list of services passed in a server.setSubscriptions request. 
+//	## This notification is not subscribed to by default. Clients can subscribe by including the value "STATUS" in the list of services passed in a server.setSubscriptions request.
 //	notification status (
-//		
+//
 //	)
 }
 
-##  The analysis domain contains API’s related to the analysis of files. 
+##  The analysis domain contains API’s related to the analysis of files.
 service analysis {
 	## Return the errors associated with the given file. If the errors for the given file have not yet been computed, or the most recently computed errors for the given file are out of date, then the response for this request will be delayed until they have been computed. If some or all of the errors for the file cannot be computed, then the subset of the errors that can be computed will be returned and the response will contain an error to indicate why the errors could not be computed. If the content of the file changes after this request was received but before a response could be sent, then an error of type CONTENT_MODIFIED will be generated.
 	## This request is intended to be used by clients that cannot asynchronously apply updated error information. Clients that can apply error information as it becomes available should use the information provided by the 'analysis.errors' notification.
-	## If a request is made for a file which does not exist, or which is not currently subject to analysis (e.g. because it is not associated with any analysis root specified to analysis.setAnalysisRoots), an error of type GET_ERRORS_INVALID_FILE will be generated. 
+	## If a request is made for a file which does not exist, or which is not currently subject to analysis (e.g. because it is not associated with any analysis root specified to analysis.setAnalysisRoots), an error of type GET_ERRORS_INVALID_FILE will be generated.
 	request getErrors(
 		## The file for which errors are being requested.
 		model.FilePath file
-	) 
-		returns 
+	)
+		returns
 		## The errors associated with the file.
 		model.AnalysisError[] errors
-	
-	##  Return the hover information associate with the given location. If some or all of the hover information is not available at the time this request is processed the information will be omitted from the response. 
+
+	##  Return the hover information associate with the given location. If some or all of the hover information is not available at the time this request is processed the information will be omitted from the response.
 	request getHover(
 		## The file in which hover information is being requested.
 		model.FilePath file
@@ -773,17 +773,17 @@ service analysis {
 	) returns
 		## The hover information associated with the location. The list will be empty if no information could be determined for the location. The list can contain multiple items if the file is being analyzed in multiple contexts in conflicting ways (such as a part that is included in multiple libraries).
 		model.HoverInformation[] hovers
-		
-	##  Return library dependency information for use in client-side indexing and package URI resolution. 
-	request getLibraryDependencies 
+
+	##  Return library dependency information for use in client-side indexing and package URI resolution.
+	request getLibraryDependencies
 		returns
 			## A list of the paths of library elements referenced by files in existing analysis roots.
 			model.FilePath[] libraries
 			## A mapping from context source roots to package maps which map package names to source directories for use in client-side package URI resolution.
 			java.util.Map<java.lang.String, java.util.Map<java.lang.String, model.FilePath[]>> packageMap
-			
+
 	## Return the navigation information associated with the given region of the given file. If the navigation information for the given file has not yet been computed, or the most recently computed navigation information for the given file is out of date, then the response for this request will be delayed until it has been computed. If the content of the file changes after this request was received but before a response could be sent, then an error of type CONTENT_MODIFIED will be generated.
-	## If a navigation region overlaps (but extends either before or after) the given region of the file it will be included in the result. This means that it is theoretically possible to get the same navigation region in response to multiple requests. Clients can avoid this by always choosing a region that starts at the beginning of a line and ends at the end of a (possibly different) line in the file. 
+	## If a navigation region overlaps (but extends either before or after) the given region of the file it will be included in the result. This means that it is theoretically possible to get the same navigation region in response to multiple requests. Clients can avoid this by always choosing a region that starts at the beginning of a line and ends at the end of a (possibly different) line in the file.
 	request getNavigation(
 		## The file in which navigation information is being requested.
 		model.FilePath file
@@ -798,17 +798,17 @@ service analysis {
 		model.NavigationTarget[] targets
 		## A list of the navigation regions within the requested region of the file.
 		model.NavigationRegion[] regions
-	
+
 	## Force the re-analysis of everything contained in the specified analysis roots. This will cause all previously computed analysis results to be discarded and recomputed, and will cause all subscribed notifications to be re-sent.
-	## If no analysis roots are provided, then all current analysis roots will be re-analyzed. If an empty list of analysis roots is provided, then nothing will be re-analyzed. If the list contains one or more paths that are not currently analysis roots, then an error of type INVALID_ANALYSIS_ROOT will be generated. 
+	## If no analysis roots are provided, then all current analysis roots will be re-analyzed. If an empty list of analysis roots is provided, then nothing will be re-analyzed. If the list contains one or more paths that are not currently analysis roots, then an error of type INVALID_ANALYSIS_ROOT will be generated.
 	request reanalyze(
 		## A list of the analysis roots that are to be re-analyzed.
 		optional model.FilePath[] roots
 	) returns void
-	
+
 	## Sets the root paths used to determine which files to analyze. The set of files to be analyzed are all of the files in one of the root paths that are not either explicitly or implicitly excluded. A file is explicitly excluded if it is in one of the excluded paths. A file is implicitly excluded if it is in a subdirectory of one of the root paths where the name of the subdirectory starts with a period (that is, a hidden directory).
 	## Note that this request determines the set of requested analysis roots. The actual set of analysis roots at any given time is the intersection of this set with the set of files and directories actually present on the filesystem. When the filesystem changes, the actual set of analysis roots is automatically updated, but the set of requested analysis roots is unchanged. This means that if the client sets an analysis root before the root becomes visible to server in the filesystem, there is no error; once the server sees the root in the filesystem it will start analyzing it. Similarly, server will stop analyzing files that are removed from the file system but they will remain in the set of requested roots.
-	## If an included path represents a file, then server will look in the directory containing the file for a pubspec.yaml file. If none is found, then the parents of the directory will be searched until such a file is found or the root of the file system is reached. If such a file is found, it will be used to resolve package: URI’s within the file. 
+	## If an included path represents a file, then server will look in the directory containing the file for a pubspec.yaml file. If none is found, then the parents of the directory will be searched until such a file is found or the root of the file system is reached. If such a file is found, it will be used to resolve package: URI’s within the file.
 	request setAnalysisRoots(
 		## A list of the files and directories that should be analyzed.
 		model.FilePath[] included
@@ -818,7 +818,7 @@ service analysis {
 		## Files in any directories that are not overridden by this mapping have their package: URI's resolved using the normal pubspec.yaml mechanism. If this field is absent, or the empty map is specified, that indicates that the normal pubspec.yaml mechanism should always be used.
 		optional java.util.Map<model.FilePath,model.FilePath> packageRoots
 	) returns void
-	 
+
 	## Set the priority files to the files in the given list. A priority file is a file that is given priority when scheduling which analysis work to do first. The list typically contains those files that are visible to the user and those for which analysis results will have the biggest impact on the user experience. The order of the files within the list is significant: the first file will be given higher priority than the second, the second higher priority than the third, and so on.
 	## Note that this request determines the set of requested priority files. The actual set of priority files is the intersection of the requested set of priority files with the set of files currently subject to analysis. (See analysis.setSubscriptions for a description of files that are subject to analysis.)
 	## If a requested priority file is a directory it is ignored, but remains in the set of requested priority files so that if it later becomes a file it can be included in the set of actual priority files.
@@ -826,31 +826,31 @@ service analysis {
 		## The files that are to be a priority for analysis.
 		model.FilePath[] files
 	) returns void
-	
+
 	## Subscribe for services. All previous subscriptions are replaced by the current set of subscriptions. If a given service is not included as a key in the map then no files will be subscribed to the service, exactly as if the service had been included in the map with an explicit empty list of files.
 	## Note that this request determines the set of requested subscriptions. The actual set of subscriptions at any given time is the intersection of this set with the set of files currently subject to analysis. The files currently subject to analysis are the set of files contained within an actual analysis root but not excluded, plus all of the files transitively reachable from those files via import, export and part directives. (See analysis.setAnalysisRoots for an explanation of how the actual analysis roots are determined.) When the actual analysis roots change, the actual set of subscriptions is automatically updated, but the set of requested subscriptions is unchanged.
 	## If a requested subscription is a directory it is ignored, but remains in the set of requested subscriptions so that if it later becomes a file it can be included in the set of actual subscriptions.
-	## It is an error if any of the keys in the map are not valid services. If there is an error, then the existing subscriptions will remain unchanged. 
+	## It is an error if any of the keys in the map are not valid services. If there is an error, then the existing subscriptions will remain unchanged.
 	request setSubscriptions(
 		## A table mapping services to a list of the files being subscribed to the service.
 		java.util.Map<model.AnalysisService, model.FilePath[]> subscriptions
 	) returns void
-	
-	## Update the content of one or more files. Files that were previously updated but not included in this update remain unchanged. This effectively represents an overlay of the filesystem. The files whose content is overridden are therefore seen by server as being files with the given content, even if the files do not exist on the filesystem or if the file path represents the path to a directory on the filesystem. 
+
+	## Update the content of one or more files. Files that were previously updated but not included in this update remain unchanged. This effectively represents an overlay of the filesystem. The files whose content is overridden are therefore seen by server as being files with the given content, even if the files do not exist on the filesystem or if the file path represents the path to a directory on the filesystem.
 	request updateContent (
 		## A table mapping the files whose content has changed to a description of the content change.
 		java.util.Map<model.FilePath, model.Overlay> files
 	)
-	returns void 
-	
-	##  Update the options controlling analysis based on the given set of options. Any options that are not included in the analysis options will not be changed. If there are options in the analysis options that are not valid, they will be silently ignored. 
+	returns void
+
+	##  Update the options controlling analysis based on the given set of options. Any options that are not included in the analysis options will not be changed. If there are options in the analysis options that are not valid, they will be silently ignored.
 	request updateOptions(
 		## The options that are to be used to control analysis.
 		model.AnalysisOptions options
 	) returns void
-	
+
 	## Reports the errors associated with a given file. The set of errors included in the notification is always a complete list that supersedes any previously reported errors.
-	## It is only possible to unsubscribe from this notification by using the command-line flag --no-error-notification. 
+	## It is only possible to unsubscribe from this notification by using the command-line flag --no-error-notification.
 	notification errors (
 		## The file containing the errors.
 		model.FilePath file
@@ -859,32 +859,32 @@ service analysis {
 	)
 	## Reports that any analysis results that were previously associated with the given files should be considered to be invalid because those files are no longer being analyzed, either because the analysis root that contained it is no longer being analyzed or because the file no longer exists.
 	## If a file is included in this notification and at some later time a notification with results for the file is received, clients should assume that the file is once again being analyzed and the information should be processed.
-	## It is not possible to subscribe to or unsubscribe from this notification. 
+	## It is not possible to subscribe to or unsubscribe from this notification.
 	notification flushResults (
 		## The files that are no longer being analyzed.
 		model.FilePath[] files
 	)
-	
+
 	## Reports the folding regions associated with a given file. Folding regions can be nested, but will not be overlapping. Nesting occurs when a foldable element, such as a method, is nested inside another foldable element such as a class.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "FOLDING" in the list of services passed in an analysis.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "FOLDING" in the list of services passed in an analysis.setSubscriptions request.
 	notification folding(
 		## The file containing the folding regions.
 		model.FilePath file
 		## The folding regions contained in the file.
 		model.FoldingRegion regions
 	)
-	
+
 	## Reports the highlight regions associated with a given file.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "HIGHLIGHTS" in the list of services passed in an analysis.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "HIGHLIGHTS" in the list of services passed in an analysis.setSubscriptions request.
 	notification highlights (
 		## The file containing the highlight regions.
 		model.FilePath file
-		## The highlight regions contained in the file. Each highlight region represents a particular syntactic or semantic meaning associated with some range. Note that the highlight regions that are returned can overlap other highlight regions if there is more than one meaning associated with a particular region. 
+		## The highlight regions contained in the file. Each highlight region represents a particular syntactic or semantic meaning associated with some range. Note that the highlight regions that are returned can overlap other highlight regions if there is more than one meaning associated with a particular region.
 		model.HighlightRegion[] regions
 	)
-	
+
 	## Reports that the navigation information associated with a region of a single file has become invalid and should be re-requested.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "INVALIDATE" in the list of services passed in an analysis.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "INVALIDATE" in the list of services passed in an analysis.setSubscriptions request.
 	notification invalidate (
 		## The file whose information has been invalidated.
 		model.FilePath file
@@ -895,40 +895,40 @@ service analysis {
 		## The delta to be applied to the offsets in information that follows the invalidated region in order to update it so that it doesn't need to be re-requested.
 		int delta
 	)
-	
+
 	## Reports the navigation targets associated with a given file.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "NAVIGATION" in the list of services passed in an analysis.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "NAVIGATION" in the list of services passed in an analysis.setSubscriptions request.
 	notification navigation (
 		## The file containing the navigation regions.
 		model.FilePath file
-		## The navigation regions contained in the file. The regions are sorted by their offsets. Each navigation region represents a list of targets associated with some range. The lists will usually contain a single target, but can contain more in the case of a part that is included in multiple libraries or in Dart code that is compiled against multiple versions of a package. Note that the navigation regions that are returned do not overlap other navigation regions. 
+		## The navigation regions contained in the file. The regions are sorted by their offsets. Each navigation region represents a list of targets associated with some range. The lists will usually contain a single target, but can contain more in the case of a part that is included in multiple libraries or in Dart code that is compiled against multiple versions of a package. Note that the navigation regions that are returned do not overlap other navigation regions.
 		model.NavigationRegion[] regions
 		## The navigation targets referenced in the file. They are referenced by NavigationRegions by their index in this array.
 		model.NavigationTarget[] targets
 		## The files containing navigation targets referenced in the file. They are referenced by NavigationTargets by their index in this array.
 		model.FilePath[] files
 	)
-	
+
 	## Reports the occurrences of references to elements within a single file.
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "OCCURRENCES" in the list of services passed in an analysis.setSubscriptions request. 
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "OCCURRENCES" in the list of services passed in an analysis.setSubscriptions request.
 	notification occurrences(
 		## The file in which the references occur.
 		model.FilePath file
 		## The occurrences of references to elements within the file.
 		model.Occurrences[] occurences
 	)
-	
-	## Reports the outline associated with a single file. 
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "OUTLINE" in the list of services passed in an analysis.setSubscriptions request. 
+
+	## Reports the outline associated with a single file.
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "OUTLINE" in the list of services passed in an analysis.setSubscriptions request.
 	notification outline(
 		## The file with which the outline is associated.
 		model.FilePath file
 		## The outline associated with the file.
 		model.Outline outline
 	)
-	
-	## Reports the overridding members in a file. 
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "OVERRIDES" in the list of services passed in an analysis.setSubscriptions request. 
+
+	## Reports the overridding members in a file.
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "OVERRIDES" in the list of services passed in an analysis.setSubscriptions request.
 	notification overrides(
 		## The file with which the overrides are associated.
 		model.FilePath file
@@ -938,7 +938,7 @@ service analysis {
 }
 
 service completion {
-	##  Request that completion suggestions for the given offset in the given file be returned. 
+	##  Request that completion suggestions for the given offset in the given file be returned.
 	request getSuggestions(
 		## The file containing the point at which suggestions are to be made.
 		model.FilePath file
@@ -947,8 +947,8 @@ service completion {
 	) returns
 		## The identifier used to associate results with this completion request.
 		model.CompletionId id
-	
-	##  Reports the completion suggestions that should be presented to the user. The set of suggestions included in the notification is always a complete list that supersedes any previously reported suggestions. 
+
+	##  Reports the completion suggestions that should be presented to the user. The set of suggestions included in the notification is always a complete list that supersedes any previously reported suggestions.
 	notification results(
 		## The id associated with the completion.
 		model.CompletionId id
@@ -965,7 +965,7 @@ service completion {
 
 service search {
 	## Perform a search for references to the element defined or referenced at the given offset in the given file.
-	##  An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.  
+	##  An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.
 	request findElementReferences(
 		## The file containing the declaration of or reference to the element used to define the search.
 		model.FilePath file
@@ -973,53 +973,53 @@ service search {
 		int offset
 		## True if potential matches are to be included in the results.
 		boolean includePotential
-	) returns 
-		## The identifier used to associate results with this search request. 
-		## If no element was found at the given location, this field will be absent, and no results will be reported via the search.results notification. 
+	) returns
+		## The identifier used to associate results with this search request.
+		## If no element was found at the given location, this field will be absent, and no results will be reported via the search.results notification.
 		optional model.SearchId id
 		## The element referenced or defined at the given offset and whose references will be returned in the search results.
-		## If no element was found at the given location, this field will be absent.  
+		## If no element was found at the given location, this field will be absent.
 		optional model.Element element
-		
-	## Perform a search for declarations of members whose name is equal to the given name. 
-	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available. 
+
+	## Perform a search for declarations of members whose name is equal to the given name.
+	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.
 	request findMemberDeclarations(
 		## The name of the declarations to be found.
 		java.lang.String name
 	)  returns
 		## The identifier used to associate results with this search request.
 		model.SearchId id
-		
+
 	## Perform a search for references to members whose name is equal to the given name. This search does not check to see that there is a member defined with the given name, so it is able to find references to undefined members as well.
-	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.  
+	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.
 	request findMemberReferences(
 		## The name of the references to be found.
 		java.lang.String name
 	) returns
 		## The identifier used to associate results with this search request.
 		model.SearchId id
-	
+
 	## Perform a search for declarations of top-level elements (classes, typedefs, getters, setters, functions and fields) whose name matches the given pattern.
-	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.  
+	## An identifier is returned immediately, and individual results will be returned via the search.results notification as they become available.
 	request findTopLevelDeclarations(
 		## The regular expression used to match the names of the declarations to be found.
 		java.lang.String pattern
 	) returns
 		## The identifier used to associate results with this search request.
 		model.SearchId id
-	
-	## Return the type hierarchy of the class declared or referenced at the given location. 
+
+	## Return the type hierarchy of the class declared or referenced at the given location.
 	request getTypeHierarchy(
 		## The file containing the declaration or reference to the type for which a hierarchy is being requested.
 		model.FilePath file
 		## The offset of the name of the type within the file.
 		int offset
-	) returns 
-		## A list of the types in the requested hierarchy. The first element of the list is the item representing the type for which the hierarchy was requested. The index of other elements of the list is unspecified, but correspond to the integers used to reference supertype and subtype items within the items. 
-		##  This field will be absent if the code at the given file and offset does not represent a type, or if the file has not been sufficiently analyzed to allow a type hierarchy to be produced. 
+	) returns
+		## A list of the types in the requested hierarchy. The first element of the list is the item representing the type for which the hierarchy was requested. The index of other elements of the list is unspecified, but correspond to the integers used to reference supertype and subtype items within the items.
+		##  This field will be absent if the code at the given file and offset does not represent a type, or if the file has not been sufficiently analyzed to allow a type hierarchy to be produced.
 		model.TypeHierarchyItem[] hierarchyItems
-	
-	## Reports some or all of the results of performing a requested search. Unlike other notifications, this notification contains search results that should be added to any previously received search results associated with the same search id. 
+
+	## Reports some or all of the results of performing a requested search. Unlike other notifications, this notification contains search results that should be added to any previously received search results associated with the same search id.
 	notification results(
 		## The id associated with the search.
 		model.SearchId id
@@ -1032,7 +1032,7 @@ service search {
 
 service edit {
 	## Format the contents of a single file. The currently selected region of text is passed in so that the selection can be preserved across the formatting operation. The updated selection will be as close to matching the original as possible, but whitespace at the beginning or end of the selected region will be ignored. If preserving selection information is not required, zero (0) can be specified for both the selection offset and selection length.
-	## If a request is made for a file which does not exist, or which is not currently subject to analysis (e.g. because it is not associated with any analysis root specified to analysis.setAnalysisRoots), an error of type FORMAT_INVALID_FILE will be generated. If the source contains syntax errors, an error of type FORMAT_WITH_ERRORS will be generated.  
+	## If a request is made for a file which does not exist, or which is not currently subject to analysis (e.g. because it is not associated with any analysis root specified to analysis.setAnalysisRoots), an error of type FORMAT_INVALID_FILE will be generated. If the source contains syntax errors, an error of type FORMAT_WITH_ERRORS will be generated.
 	request format(
 		## The file containing the code to be formatted.
 		model.FilePath file
@@ -1047,8 +1047,8 @@ service edit {
 		int selectionOffset
 		## The length of the selection after formatting the code.
 		int selectionLength
-		
-	## Return the set of assists that are available at the given location. An assist is distinguished from a refactoring primarily by the fact that it affects a single file and does not require user input in order to be performed. 		
+
+	## Return the set of assists that are available at the given location. An assist is distinguished from a refactoring primarily by the fact that it affects a single file and does not require user input in order to be performed.
 	request getAssists(
 		## The file containing the code for which assists are being requested.
 		model.FilePath file
@@ -1059,8 +1059,8 @@ service edit {
 	) returns
 		## The assists that are available at the given location.
 		model.SourceChange[] assists
-	
-	## Get a list of the kinds of refactorings that are valid for the given selection in the given file. 
+
+	## Get a list of the kinds of refactorings that are valid for the given selection in the given file.
 	request getAvailableRefactorings(
 		## The file containing the code on which the refactoring would be based.
 		model.FilePath file
@@ -1071,8 +1071,8 @@ service edit {
 	) returns
 		## The kinds of refactorings that are valid for the given selection.
 		model.RefactoringKind[] kinds
-	
-	## Return the set of fixes that are available for the errors at a given offset in a given file. 
+
+	## Return the set of fixes that are available for the errors at a given offset in a given file.
 	request getFixes(
 		## The file containing the errors for which fixes are being requested.
 		model.FilePath file
@@ -1081,9 +1081,9 @@ service edit {
 	) returns
 		## The fixes that are available for the errors at the given offset.
 		model.AnalysisErrorFixes[] fixes
-	
+
 	## Get the changes required to perform a refactoring.
-	##  If another refactoring request is received during the processing of this one, an error of type REFACTORING_REQUEST_CANCELLED will be generated.  
+	##  If another refactoring request is received during the processing of this one, an error of type REFACTORING_REQUEST_CANCELLED will be generated.
 	request getRefactoring(
 		## The kind of refactoring to be performed.
 		model.RefactoringKind kind
@@ -1110,10 +1110,10 @@ service edit {
 		optional model.SourceChange change
 		## The ids of source edits that are not known to be valid. An edit is not known to be valid if there was insufficient type information for the server to be able to determine whether or not the code needs to be modified, such as when a member is being renamed and there is a reference to a member from an unknown type. This field will be omitted if the change field is omitted or if there are no potential edits for the refactoring.
 		optional java.lang.String[] potentialEdits
-	
-	## Sort all of the directives, unit and class members of the given Dart file. 
-	## If a request is made for a file that does not exist, does not belong to an analysis root or is not a Dart file, SORT_MEMBERS_INVALID_FILE will be generated. 
-	## If the Dart file has scan or parse errors, SORT_MEMBERS_PARSE_ERRORS will be generated. 
+
+	## Sort all of the directives, unit and class members of the given Dart file.
+	## If a request is made for a file that does not exist, does not belong to an analysis root or is not a Dart file, SORT_MEMBERS_INVALID_FILE will be generated.
+	## If the Dart file has scan or parse errors, SORT_MEMBERS_PARSE_ERRORS will be generated.
 	request sortMembers(
 		## The Dart file to sort.
 		model.FilePath file
@@ -1123,25 +1123,25 @@ service edit {
 }
 
 service execution {
-	##  Create an execution context for the executable file with the given path. The context that is created will persist until execution.deleteContext is used to delete it. Clients, therefore, are responsible for managing the lifetime of execution contexts. 
+	##  Create an execution context for the executable file with the given path. The context that is created will persist until execution.deleteContext is used to delete it. Clients, therefore, are responsible for managing the lifetime of execution contexts.
 	request createContext(
 		## The path of the Dart or HTML file that will be launched, or the path of the directory containing the file.
 		model.FilePath contextRoot
 	) returns
 		## The identifier used to refer to the execution context that was created.
 		model.ExecutionContextId id
-	
-	## Delete the execution context with the given identifier. The context id is no longer valid after this command. The server is allowed to re-use ids when they are no longer valid. 
+
+	## Delete the execution context with the given identifier. The context id is no longer valid after this command. The server is allowed to re-use ids when they are no longer valid.
 	request deleteContext(
 		## The identifier of the execution context that is to be deleted.
 		model.ExecutionContextId id
 	) returns void
-	
-	## Map a URI from the execution context to the file that it corresponds to, or map a file to the URI that it corresponds to in the execution context. 
-	## Exactly one of the file and uri fields must be provided. If both fields are provided, then an error of type INVALID_PARAMETER will be generated. Similarly, if neither field is provided, then an error of type INVALID_PARAMETER will be generated. 
-	## If the file field is provided and the value is not the path of a file (either the file does not exist or the path references something other than a file), then an error of type INVALID_PARAMETER will be generated. 
-	## If the uri field is provided and the value is not a valid URI or if the URI references something that is not a file (either a file that does not exist or something other than a file), then an error of type INVALID_PARAMETER will be generated. 
-	## If the contextRoot used to create the execution context does not exist, then an error of type INVALID_EXECUTION_CONTEXT will be generated. 
+
+	## Map a URI from the execution context to the file that it corresponds to, or map a file to the URI that it corresponds to in the execution context.
+	## Exactly one of the file and uri fields must be provided. If both fields are provided, then an error of type INVALID_PARAMETER will be generated. Similarly, if neither field is provided, then an error of type INVALID_PARAMETER will be generated.
+	## If the file field is provided and the value is not the path of a file (either the file does not exist or the path references something other than a file), then an error of type INVALID_PARAMETER will be generated.
+	## If the uri field is provided and the value is not a valid URI or if the URI references something that is not a file (either a file that does not exist or something other than a file), then an error of type INVALID_PARAMETER will be generated.
+	## If the contextRoot used to create the execution context does not exist, then an error of type INVALID_EXECUTION_CONTEXT will be generated.
 	request mapUri(
 		## The identifier of the execution context in which the URI is to be mapped.
 		model.ExecutionContextId id
@@ -1154,16 +1154,16 @@ service execution {
 		optional model.FilePath file
 		## The URI to which the file path was mapped. This field is omitted if the file field was not given in the request.
 		optional java.lang.String uri
-	
-	## Subscribe for services. All previous subscriptions are replaced by the given set of services. 
-	## It is an error if any of the elements in the list are not valid services. If there is an error, then the current subscriptions will remain unchanged. 	
+
+	## Subscribe for services. All previous subscriptions are replaced by the given set of services.
+	## It is an error if any of the elements in the list are not valid services. If there is an error, then the current subscriptions will remain unchanged.
 	request setSubscriptions(
 		## A list of the services being subscribed to.
 		model.ExecutionService[] subscriptions
 	) returns void
-	
-	## Reports information needed to allow a single file to be launched. 
-	## This notification is not subscribed to by default. Clients can subscribe by including the value "LAUNCH_DATA" in the list of services passed in an execution.setSubscriptions request. 
+
+	## Reports information needed to allow a single file to be launched.
+	## This notification is not subscribed to by default. Clients can subscribe by including the value "LAUNCH_DATA" in the list of services passed in an execution.setSubscriptions request.
 	notification launchData(
 		## The file for which launch data is being provided. This will either be a Dart library or an HTML file.
 		model.FilePath file

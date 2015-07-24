@@ -7,10 +7,10 @@ public class Override  {
 	private int length ;
 	private OverriddenMember superclassMember ;
 	private OverriddenMember[] interfaceMembers ;
-	
+
 	public Override() {
 	}
-	
+
 	public int getOffset() {
 		return this.offset;
 	}
@@ -39,7 +39,7 @@ public class Override  {
 	public void setInterfaceMembers(OverriddenMember[] interfaceMembers) {
 		this.interfaceMembers = interfaceMembers;
 	}
-	
+
 	public String toString() {
 		return "Override@"+hashCode()+"[offset = "+offset+", length = "+length+", superclassMember = "+superclassMember+", interfaceMembers = "+interfaceMembers+"]";
 	}

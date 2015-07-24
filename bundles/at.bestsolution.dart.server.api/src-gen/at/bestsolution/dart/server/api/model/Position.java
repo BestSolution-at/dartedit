@@ -5,10 +5,10 @@ import java.util.Map;
 public class Position  {
 	private java.lang.String file ;
 	private int offset ;
-	
+
 	public Position() {
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
@@ -23,7 +23,7 @@ public class Position  {
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
-	
+
 	public String toString() {
 		return "Position@"+hashCode()+"[file = "+file+", offset = "+offset+"]";
 	}

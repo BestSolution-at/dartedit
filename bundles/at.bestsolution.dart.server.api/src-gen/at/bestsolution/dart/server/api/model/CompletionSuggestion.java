@@ -22,10 +22,10 @@ public class CompletionSuggestion  {
 	private String parameterName ;
 	private String parameterType ;
 	private String importUri ;
-	
+
 	public CompletionSuggestion() {
 	}
-	
+
 	public CompletionSuggestionKind getKind() {
 		return this.kind;
 	}
@@ -159,7 +159,7 @@ public class CompletionSuggestion  {
 	public void setImportUri(String importUri) {
 		this.importUri = importUri;
 	}
-	
+
 	public String toString() {
 		return "CompletionSuggestion@"+hashCode()+"[kind = "+kind+", relevance = "+relevance+", completion = "+completion+", selectionOffset = "+selectionOffset+", selectionLength = "+selectionLength+", isDeprecated = "+isDeprecated+", isPotential = "+isPotential+", docSummary = "+docSummary+", docComplete = "+docComplete+", declaringType = "+declaringType+", element = "+element+", returnType = "+returnType+", parameterNames = "+parameterNames+", parameterTypes = "+parameterTypes+", requiredParameterCount = "+requiredParameterCount+", hasNamedParameters = "+hasNamedParameters+", parameterName = "+parameterName+", parameterType = "+parameterType+", importUri = "+importUri+"]";
 	}

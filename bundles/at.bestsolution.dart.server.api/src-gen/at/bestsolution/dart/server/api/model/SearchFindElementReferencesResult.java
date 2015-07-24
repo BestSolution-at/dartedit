@@ -8,18 +8,18 @@ public class SearchFindElementReferencesResult {
 
 	public SearchFindElementReferencesResult() {
 	}
-	
+
 	public SearchId getId() {
 		return this.id;
 	}
-	
+
 	public void setId(SearchId id) {
 		this.id = id;
 	}
 	public Element getElement() {
 		return this.element;
 	}
-	
+
 	public void setElement(Element element) {
 		this.element = element;
 	}

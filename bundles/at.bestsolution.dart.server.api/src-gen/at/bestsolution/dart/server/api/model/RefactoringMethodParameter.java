@@ -8,10 +8,10 @@ public class RefactoringMethodParameter  {
 	private String type ;
 	private String name ;
 	private String parameters ;
-	
+
 	public RefactoringMethodParameter() {
 	}
-	
+
 	public String getId() {
 		return this.id;
 	}
@@ -47,7 +47,7 @@ public class RefactoringMethodParameter  {
 	public void setParameters(String parameters) {
 		this.parameters = parameters;
 	}
-	
+
 	public String toString() {
 		return "RefactoringMethodParameter@"+hashCode()+"[id = "+id+", kind = "+kind+", type = "+type+", name = "+name+", parameters = "+parameters+"]";
 	}

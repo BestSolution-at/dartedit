@@ -7,11 +7,11 @@ public class EditGetAssistsResult {
 
 	public EditGetAssistsResult() {
 	}
-	
+
 	public SourceChange[] getAssists() {
 		return this.assists;
 	}
-	
+
 	public void setAssists(SourceChange[] assists) {
 		this.assists = assists;
 	}

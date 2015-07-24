@@ -5,10 +5,10 @@ import java.util.Map;
 public class OverriddenMember  {
 	private Element element ;
 	private String className ;
-	
+
 	public OverriddenMember() {
 	}
-	
+
 	public Element getElement() {
 		return this.element;
 	}
@@ -23,7 +23,7 @@ public class OverriddenMember  {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
 	public String toString() {
 		return "OverriddenMember@"+hashCode()+"[element = "+element+", className = "+className+"]";
 	}

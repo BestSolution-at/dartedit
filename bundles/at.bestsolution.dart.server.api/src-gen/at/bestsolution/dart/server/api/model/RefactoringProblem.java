@@ -6,10 +6,10 @@ public class RefactoringProblem  {
 	private RefactoringProblemSeverity severity ;
 	private String message ;
 	private Location location ;
-	
+
 	public RefactoringProblem() {
 	}
-	
+
 	public RefactoringProblemSeverity getSeverity() {
 		return this.severity;
 	}
@@ -31,7 +31,7 @@ public class RefactoringProblem  {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
+
 	public String toString() {
 		return "RefactoringProblem@"+hashCode()+"[severity = "+severity+", message = "+message+", location = "+location+"]";
 	}

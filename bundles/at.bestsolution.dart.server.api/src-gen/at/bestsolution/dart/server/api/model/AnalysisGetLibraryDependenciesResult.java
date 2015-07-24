@@ -8,18 +8,18 @@ public class AnalysisGetLibraryDependenciesResult {
 
 	public AnalysisGetLibraryDependenciesResult() {
 	}
-	
+
 	public java.lang.String[] getLibraries() {
 		return this.libraries;
 	}
-	
+
 	public void setLibraries(java.lang.String[] libraries) {
 		this.libraries = libraries;
 	}
 	public Map<String,Map<String,java.lang.String[]>> getPackageMap() {
 		return this.packageMap;
 	}
-	
+
 	public void setPackageMap(Map<String,Map<String,java.lang.String[]>> packageMap) {
 		this.packageMap = packageMap;
 	}

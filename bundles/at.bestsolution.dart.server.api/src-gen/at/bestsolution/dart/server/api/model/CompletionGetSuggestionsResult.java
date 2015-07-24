@@ -7,11 +7,11 @@ public class CompletionGetSuggestionsResult {
 
 	public CompletionGetSuggestionsResult() {
 	}
-	
+
 	public java.lang.String getId() {
 		return this.id;
 	}
-	
+
 	public void setId(java.lang.String id) {
 		this.id = id;
 	}

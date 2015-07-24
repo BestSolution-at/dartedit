@@ -8,10 +8,10 @@ public class AnalysisError  {
 	private Location location ;
 	private String message ;
 	private String correction ;
-	
+
 	public AnalysisError() {
 	}
-	
+
 	public AnalysisErrorSeverity getSeverity() {
 		return this.severity;
 	}
@@ -47,7 +47,7 @@ public class AnalysisError  {
 	public void setCorrection(String correction) {
 		this.correction = correction;
 	}
-	
+
 	public String toString() {
 		return "AnalysisError@"+hashCode()+"[severity = "+severity+", type = "+type+", location = "+location+", message = "+message+", correction = "+correction+"]";
 	}

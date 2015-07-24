@@ -19,20 +19,23 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 	private final String id;
 	private Process p;
 	private Map<String,CompletableFuture<JsonObject>> waitingResponseConsumerMap = new HashMap<>();
-	
+
 	private AtomicInteger requestCount = new AtomicInteger();
-	
+
 	private LocalServerService serverService;
 	private LocalAnalysisService analysisService;
 	private LocalCompletionService completionService;
 	private LocalSearchService searchService;
 	private LocalEditService editService;
 	private LocalExecutionService executionService;
-	
+
+	private String dartSDKDir = System.getProperty("dart.sdkdir","/Users/tomschindl/Downloads/dart-sdk");
+	private String dartServer = System.getProperty("dart.analysis.binary","bin/snapshots/analysis_server.dart.snapshot");
+
 	public LocalDartServer(String id) {
 		this.id = id;
 		try {
-			p = Runtime.getRuntime().exec("/Users/tomschindl/Downloads/dart-sdk/bin/dart /Users/tomschindl/Downloads/dart-sdk/bin/snapshots/analysis_server.dart.snapshot");
+			p = Runtime.getRuntime().exec( dartSDKDir + "/bin/dart " + dartSDKDir + "/" + dartServer);
 
 			Thread t = new Thread() {
 				public void run() {
@@ -54,7 +57,7 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public Future<JsonObject> sendRequest(String method, Object request) {
 		if( p.isAlive() ) {
 			String requestId = id + "_" + requestCount.incrementAndGet();
@@ -62,7 +65,7 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 			synchronized(waitingResponseConsumerMap) {
 				waitingResponseConsumerMap.put(requestId, f);
 			}
-			
+
 			synchronized (p) {
 				String r = "{ \"id\" : \"" + requestId + "\", \"method\" : \""+method+"\" ";
 				if( request != null ) {
@@ -85,7 +88,7 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 		}
 		return null;
 	}
-	
+
 	public String getId() {
 		return this.id;
 	}
@@ -94,7 +97,7 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 		System.err.println("Dart Server message: " + input);
 		JsonParser p = new JsonParser();
 		JsonObject root = (JsonObject) p.parse(input);
-		
+
 		if( root.has("event") ) {
 			String eventTarget = root.get("event").getAsString();
 			switch(eventTarget.substring(0,eventTarget.indexOf("."))) {
@@ -147,13 +150,13 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 			synchronized(waitingResponseConsumerMap) {
 				future = waitingResponseConsumerMap.remove(id);
 			}
-			
+
 			if( future != null ) {
 				future.complete(root);
 			}
 		}
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public <S extends DartService> S getService(Class<S> serviceType) {

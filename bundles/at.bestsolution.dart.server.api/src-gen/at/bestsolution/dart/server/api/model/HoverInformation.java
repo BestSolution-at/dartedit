@@ -14,10 +14,10 @@ public class HoverInformation  {
 	private String parameter ;
 	private String propagatedType ;
 	private String staticType ;
-	
+
 	public HoverInformation() {
 	}
-	
+
 	public int getOffset() {
 		return this.offset;
 	}
@@ -95,7 +95,7 @@ public class HoverInformation  {
 	public void setStaticType(String staticType) {
 		this.staticType = staticType;
 	}
-	
+
 	public String toString() {
 		return "HoverInformation@"+hashCode()+"[offset = "+offset+", length = "+length+", containingLibraryPath = "+containingLibraryPath+", containingLibraryName = "+containingLibraryName+", containingClassDescription = "+containingClassDescription+", dartdoc = "+dartdoc+", elementDescription = "+elementDescription+", elementKind = "+elementKind+", parameter = "+parameter+", propagatedType = "+propagatedType+", staticType = "+staticType+"]";
 	}

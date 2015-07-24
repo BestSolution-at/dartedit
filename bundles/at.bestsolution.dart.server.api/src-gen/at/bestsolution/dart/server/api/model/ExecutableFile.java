@@ -5,10 +5,10 @@ import java.util.Map;
 public class ExecutableFile  {
 	private java.lang.String file ;
 	private ExecutableKind kind ;
-	
+
 	public ExecutableFile() {
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
@@ -23,7 +23,7 @@ public class ExecutableFile  {
 	public void setKind(ExecutableKind kind) {
 		this.kind = kind;
 	}
-	
+
 	public String toString() {
 		return "ExecutableFile@"+hashCode()+"[file = "+file+", kind = "+kind+"]";
 	}

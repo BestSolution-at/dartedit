@@ -8,20 +8,20 @@ import java.util.List;
 import java.util.ArrayList;
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
-	
+
 public class LocalEditService implements at.bestsolution.dart.server.api.services.ServiceEdit {
-	
+
 	private final LocalDartServer server;
-	
+
 	public LocalEditService(LocalDartServer server) {
 		this.server = server;
 	}
-	
+
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 		}
 	}
-	
+
 	// Requests
 	public at.bestsolution.dart.server.api.model.EditFormatResult format(java.lang.String file,int selectionOffset,int selectionLength) {
 		try {
@@ -35,7 +35,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetAssistsResult getAssists(java.lang.String file,int offset,int length) {
 		try {
@@ -49,7 +49,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetAvailableRefactoringsResult getAvailableRefactorings(java.lang.String file,int offset,int length) {
 		try {
@@ -63,7 +63,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetFixesResult getFixes(java.lang.String file,int offset) {
 		try {
@@ -77,7 +77,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetRefactoringResult getRefactoring(RefactoringKind kind,java.lang.String file,int offset,int length,int validateOnly,RefactoringOptions options) {
 		try {
@@ -91,7 +91,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public at.bestsolution.dart.server.api.model.EditSortMembersResult sortMembers(java.lang.String file) {
 		try {
@@ -105,7 +105,7 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 
 	// Notifications

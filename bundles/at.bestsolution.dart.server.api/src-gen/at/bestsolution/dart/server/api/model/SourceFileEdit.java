@@ -6,10 +6,10 @@ public class SourceFileEdit  {
 	private java.lang.String file ;
 	private long fileStamp ;
 	private SourceEdit[] edits ;
-	
+
 	public SourceFileEdit() {
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
@@ -31,7 +31,7 @@ public class SourceFileEdit  {
 	public void setEdits(SourceEdit[] edits) {
 		this.edits = edits;
 	}
-	
+
 	public String toString() {
 		return "SourceFileEdit@"+hashCode()+"[file = "+file+", fileStamp = "+fileStamp+", edits = "+edits+"]";
 	}

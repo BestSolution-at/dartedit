@@ -7,11 +7,11 @@ public class SearchGetTypeHierarchyResult {
 
 	public SearchGetTypeHierarchyResult() {
 	}
-	
+
 	public TypeHierarchyItem[] getHierarchyItems() {
 		return this.hierarchyItems;
 	}
-	
+
 	public void setHierarchyItems(TypeHierarchyItem[] hierarchyItems) {
 		this.hierarchyItems = hierarchyItems;
 	}

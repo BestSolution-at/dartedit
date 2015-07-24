@@ -6,10 +6,10 @@ public class Occurrences  {
 	private Element element ;
 	private int[] offsets ;
 	private int length ;
-	
+
 	public Occurrences() {
 	}
-	
+
 	public Element getElement() {
 		return this.element;
 	}
@@ -31,7 +31,7 @@ public class Occurrences  {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
+
 	public String toString() {
 		return "Occurrences@"+hashCode()+"[element = "+element+", offsets = "+offsets+", length = "+length+"]";
 	}

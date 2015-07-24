@@ -7,11 +7,11 @@ public class SearchFindMemberDeclarationsResult {
 
 	public SearchFindMemberDeclarationsResult() {
 	}
-	
+
 	public SearchId getId() {
 		return this.id;
 	}
-	
+
 	public void setId(SearchId id) {
 		this.id = id;
 	}

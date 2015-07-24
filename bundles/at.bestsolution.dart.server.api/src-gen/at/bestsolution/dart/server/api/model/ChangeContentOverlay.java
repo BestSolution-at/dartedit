@@ -5,10 +5,10 @@ import java.util.Map;
 public class ChangeContentOverlay extends Overlay {
 	private SourceEdit[] edits ;
 	private String type  = "change";
-	
+
 	public ChangeContentOverlay() {
 	}
-	
+
 	public SourceEdit[] getEdits() {
 		return this.edits;
 	}
@@ -23,7 +23,7 @@ public class ChangeContentOverlay extends Overlay {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String toString() {
 		return "ChangeContentOverlay@"+hashCode()+"[edits = "+edits+", type = "+type+"]";
 	}

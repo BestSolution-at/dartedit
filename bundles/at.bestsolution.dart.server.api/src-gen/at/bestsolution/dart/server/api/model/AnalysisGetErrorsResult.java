@@ -7,11 +7,11 @@ public class AnalysisGetErrorsResult {
 
 	public AnalysisGetErrorsResult() {
 	}
-	
+
 	public AnalysisError[] getErrors() {
 		return this.errors;
 	}
-	
+
 	public void setErrors(AnalysisError[] errors) {
 		this.errors = errors;
 	}

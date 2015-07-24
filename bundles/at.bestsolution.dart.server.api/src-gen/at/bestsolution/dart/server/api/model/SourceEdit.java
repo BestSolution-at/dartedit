@@ -7,10 +7,10 @@ public class SourceEdit  {
 	private int length ;
 	private String replacement ;
 	private String id ;
-	
+
 	public SourceEdit() {
 	}
-	
+
 	public int getOffset() {
 		return this.offset;
 	}
@@ -39,7 +39,7 @@ public class SourceEdit  {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String toString() {
 		return "SourceEdit@"+hashCode()+"[offset = "+offset+", length = "+length+", replacement = "+replacement+", id = "+id+"]";
 	}

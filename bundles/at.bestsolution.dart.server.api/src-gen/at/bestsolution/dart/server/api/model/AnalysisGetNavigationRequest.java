@@ -9,31 +9,31 @@ public class AnalysisGetNavigationRequest {
 
 	public AnalysisGetNavigationRequest() {
 	}
-	
+
 	public AnalysisGetNavigationRequest(java.lang.String file,int offset,int length) {
 		this.file = file;
 		this.offset = offset;
 		this.length = length;
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
-	
+
 	public void setFile(java.lang.String file) {
 		this.file = file;
 	}
 	public int getOffset() {
 		return this.offset;
 	}
-	
+
 	public void setOffset(int offset) {
 		this.offset = offset;
 	}
 	public int getLength() {
 		return this.length;
 	}
-	
+
 	public void setLength(int length) {
 		this.length = length;
 	}

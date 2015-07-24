@@ -7,11 +7,11 @@ public class EditSortMembersResult {
 
 	public EditSortMembersResult() {
 	}
-	
+
 	public SourceFileEdit getEdit() {
 		return this.edit;
 	}
-	
+
 	public void setEdit(SourceFileEdit edit) {
 		this.edit = edit;
 	}

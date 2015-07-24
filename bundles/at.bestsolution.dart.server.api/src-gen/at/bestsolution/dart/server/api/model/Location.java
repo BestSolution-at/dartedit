@@ -8,10 +8,10 @@ public class Location  {
 	private int length ;
 	private int startLine ;
 	private int startColumn ;
-	
+
 	public Location() {
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
@@ -47,7 +47,7 @@ public class Location  {
 	public void setStartColumn(int startColumn) {
 		this.startColumn = startColumn;
 	}
-	
+
 	public String toString() {
 		return "Location@"+hashCode()+"[file = "+file+", offset = "+offset+", length = "+length+", startLine = "+startLine+", startColumn = "+startColumn+"]";
 	}

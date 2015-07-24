@@ -7,10 +7,10 @@ public class SourceChange  {
 	private SourceFileEdit[] edits ;
 	private LinkedEditGroup[] linkedEditGroups ;
 	private Position selection ;
-	
+
 	public SourceChange() {
 	}
-	
+
 	public String getMessage() {
 		return this.message;
 	}
@@ -39,7 +39,7 @@ public class SourceChange  {
 	public void setSelection(Position selection) {
 		this.selection = selection;
 	}
-	
+
 	public String toString() {
 		return "SourceChange@"+hashCode()+"[message = "+message+", edits = "+edits+", linkedEditGroups = "+linkedEditGroups+", selection = "+selection+"]";
 	}

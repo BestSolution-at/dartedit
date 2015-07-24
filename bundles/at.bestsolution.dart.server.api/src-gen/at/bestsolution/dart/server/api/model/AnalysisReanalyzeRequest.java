@@ -7,15 +7,15 @@ public class AnalysisReanalyzeRequest {
 
 	public AnalysisReanalyzeRequest() {
 	}
-	
+
 	public AnalysisReanalyzeRequest(java.lang.String[] roots) {
 		this.roots = roots;
 	}
-	
+
 	public java.lang.String[] getRoots() {
 		return this.roots;
 	}
-	
+
 	public void setRoots(java.lang.String[] roots) {
 		this.roots = roots;
 	}

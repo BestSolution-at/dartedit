@@ -7,11 +7,11 @@ public class AnalysisGetHoverResult {
 
 	public AnalysisGetHoverResult() {
 	}
-	
+
 	public HoverInformation[] getHovers() {
 		return this.hovers;
 	}
-	
+
 	public void setHovers(HoverInformation[] hovers) {
 		this.hovers = hovers;
 	}

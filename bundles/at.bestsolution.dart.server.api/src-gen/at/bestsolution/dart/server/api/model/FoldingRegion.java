@@ -6,10 +6,10 @@ public class FoldingRegion  {
 	private FoldingKind kind ;
 	private int offset ;
 	private int length ;
-	
+
 	public FoldingRegion() {
 	}
-	
+
 	public FoldingKind getKind() {
 		return this.kind;
 	}
@@ -31,7 +31,7 @@ public class FoldingRegion  {
 	public void setLength(int length) {
 		this.length = length;
 	}
-	
+
 	public String toString() {
 		return "FoldingRegion@"+hashCode()+"[kind = "+kind+", offset = "+offset+", length = "+length+"]";
 	}

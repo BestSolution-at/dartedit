@@ -7,11 +7,11 @@ public class EditGetFixesResult {
 
 	public EditGetFixesResult() {
 	}
-	
+
 	public AnalysisErrorFixes[] getFixes() {
 		return this.fixes;
 	}
-	
+
 	public void setFixes(AnalysisErrorFixes[] fixes) {
 		this.fixes = fixes;
 	}

@@ -7,10 +7,10 @@ public class SearchResult  {
 	private SearchResultKind kind ;
 	private boolean isPotential ;
 	private Element[] path ;
-	
+
 	public SearchResult() {
 	}
-	
+
 	public Location getLocation() {
 		return this.location;
 	}
@@ -39,7 +39,7 @@ public class SearchResult  {
 	public void setPath(Element[] path) {
 		this.path = path;
 	}
-	
+
 	public String toString() {
 		return "SearchResult@"+hashCode()+"[location = "+location+", kind = "+kind+", isPotential = "+isPotential+", path = "+path+"]";
 	}

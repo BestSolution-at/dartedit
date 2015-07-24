@@ -10,10 +10,10 @@ public class TypeHierarchyItem  {
 	private int[] interfaces ;
 	private int[] mixins ;
 	private int[] subclasses ;
-	
+
 	public TypeHierarchyItem() {
 	}
-	
+
 	public Element getClassElement() {
 		return this.classElement;
 	}
@@ -63,7 +63,7 @@ public class TypeHierarchyItem  {
 	public void setSubclasses(int[] subclasses) {
 		this.subclasses = subclasses;
 	}
-	
+
 	public String toString() {
 		return "TypeHierarchyItem@"+hashCode()+"[classElement = "+classElement+", displayName = "+displayName+", memberElement = "+memberElement+", superclass = "+superclass+", interfaces = "+interfaces+", mixins = "+mixins+", subclasses = "+subclasses+"]";
 	}

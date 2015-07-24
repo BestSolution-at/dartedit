@@ -10,10 +10,10 @@ public class AnalysisOptions  {
 	private boolean generateDart2jsHints ;
 	private boolean generateHints ;
 	private boolean generateLints ;
-	
+
 	public AnalysisOptions() {
 	}
-	
+
 	public boolean getEnableAsync() {
 		return this.enableAsync;
 	}
@@ -63,7 +63,7 @@ public class AnalysisOptions  {
 	public void setGenerateLints(boolean generateLints) {
 		this.generateLints = generateLints;
 	}
-	
+
 	public String toString() {
 		return "AnalysisOptions@"+hashCode()+"[enableAsync = "+enableAsync+", enableDeferredLoading = "+enableDeferredLoading+", enableEnums = "+enableEnums+", enableNullAwareOperators = "+enableNullAwareOperators+", generateDart2jsHints = "+generateDart2jsHints+", generateHints = "+generateHints+", generateLints = "+generateLints+"]";
 	}

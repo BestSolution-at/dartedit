@@ -5,10 +5,10 @@ import java.util.Map;
 public class AddContentOverlay extends Overlay {
 	private String content ;
 	private String type  = "add";
-	
+
 	public AddContentOverlay() {
 	}
-	
+
 	public String getContent() {
 		return this.content;
 	}
@@ -23,7 +23,7 @@ public class AddContentOverlay extends Overlay {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public String toString() {
 		return "AddContentOverlay@"+hashCode()+"[content = "+content+", type = "+type+"]";
 	}

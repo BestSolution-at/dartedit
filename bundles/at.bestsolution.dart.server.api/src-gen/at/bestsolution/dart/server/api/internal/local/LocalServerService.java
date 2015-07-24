@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.ArrayList;
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
-	
+
 public class LocalServerService implements at.bestsolution.dart.server.api.services.ServiceServer {
-	
+
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerConnectedNotification>> connectedConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerErrorNotification>> errorConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerStatusNotification>> statusConsumerList = new ArrayList<>();
-	
+
 	public LocalServerService(LocalDartServer server) {
 		this.server = server;
 	}
-	
+
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 			case "server.connected": {
@@ -51,7 +51,7 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 			}
 		}
 	}
-	
+
 	// Requests
 	public at.bestsolution.dart.server.api.model.ServerGetVersionResult getVersion() {
 		try {
@@ -65,7 +65,7 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void shutdown() {
 		try {
@@ -75,7 +75,7 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 	public void setSubscriptions(ServerService[] subscriptions) {
 		try {
@@ -85,7 +85,7 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 
 	// Notifications

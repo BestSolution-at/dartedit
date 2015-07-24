@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.ArrayList;
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
-	
+
 public class LocalCompletionService implements at.bestsolution.dart.server.api.services.ServiceCompletion {
-	
+
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.CompletionResultsNotification>> resultsConsumerList = new ArrayList<>();
-	
+
 	public LocalCompletionService(LocalDartServer server) {
 		this.server = server;
 	}
-	
+
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 			case "completion.results": {
@@ -31,7 +31,7 @@ public class LocalCompletionService implements at.bestsolution.dart.server.api.s
 			}
 		}
 	}
-	
+
 	// Requests
 	public at.bestsolution.dart.server.api.model.CompletionGetSuggestionsResult getSuggestions(java.lang.String file,int offset) {
 		try {
@@ -45,7 +45,7 @@ public class LocalCompletionService implements at.bestsolution.dart.server.api.s
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
-		}			
+		}
 	}
 
 	// Notifications

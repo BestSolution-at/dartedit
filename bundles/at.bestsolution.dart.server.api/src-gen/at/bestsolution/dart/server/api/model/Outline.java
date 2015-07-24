@@ -7,10 +7,10 @@ public class Outline  {
 	private int offset ;
 	private int length ;
 	private Outline[] children ;
-	
+
 	public Outline() {
 	}
-	
+
 	public Element getElement() {
 		return this.element;
 	}
@@ -39,7 +39,7 @@ public class Outline  {
 	public void setChildren(Outline[] children) {
 		this.children = children;
 	}
-	
+
 	public String toString() {
 		return "Outline@"+hashCode()+"[element = "+element+", offset = "+offset+", length = "+length+", children = "+children+"]";
 	}

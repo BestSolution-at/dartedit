@@ -8,18 +8,18 @@ public class ExecutionMapUriResult {
 
 	public ExecutionMapUriResult() {
 	}
-	
+
 	public java.lang.String getFile() {
 		return this.file;
 	}
-	
+
 	public void setFile(java.lang.String file) {
 		this.file = file;
 	}
 	public String getUri() {
 		return this.uri;
 	}
-	
+
 	public void setUri(String uri) {
 		this.uri = uri;
 	}

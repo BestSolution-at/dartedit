@@ -7,11 +7,11 @@ public class EditGetAvailableRefactoringsResult {
 
 	public EditGetAvailableRefactoringsResult() {
 	}
-	
+
 	public RefactoringKind[] getKinds() {
 		return this.kinds;
 	}
-	
+
 	public void setKinds(RefactoringKind[] kinds) {
 		this.kinds = kinds;
 	}

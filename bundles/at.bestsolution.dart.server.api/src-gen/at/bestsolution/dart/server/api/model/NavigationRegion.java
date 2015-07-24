@@ -6,10 +6,10 @@ public class NavigationRegion  {
 	private int offset ;
 	private int length ;
 	private int[] targets ;
-	
+
 	public NavigationRegion() {
 	}
-	
+
 	public int getOffset() {
 		return this.offset;
 	}
@@ -31,7 +31,7 @@ public class NavigationRegion  {
 	public void setTargets(int[] targets) {
 		this.targets = targets;
 	}
-	
+
 	public String toString() {
 		return "NavigationRegion@"+hashCode()+"[offset = "+offset+", length = "+length+", targets = "+targets+"]";
 	}
