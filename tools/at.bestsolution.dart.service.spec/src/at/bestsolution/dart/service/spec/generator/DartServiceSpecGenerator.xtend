@@ -12,7 +12,6 @@ import at.bestsolution.dart.service.spec.dartServiceSpec.ServiceDefs
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
 import org.eclipse.xtext.generator.IGenerator
-import java.util.concurrent.ExecutionException
 
 /**
  * Generates code from your model files on save.
@@ -161,10 +160,13 @@ class DartServiceSpecGenerator implements IGenerator {
 		private Local«s.name.toFirstUpper»Service «s.name»Service;
 		«ENDFOR»
 
+		private String dartSDKDir = System.getProperty("dart.sdkdir","/Users/tomschindl/Downloads/dart-sdk");
+		private String dartServer = System.getProperty("dart.analysis.binary","bin/snapshots/analysis_server.dart.snapshot");
+
 		public LocalDartServer(String id) {
 			this.id = id;
 			try {
-				p = Runtime.getRuntime().exec("/Users/tomschindl/Downloads/dart-sdk/bin/dart /Users/tomschindl/Downloads/dart-sdk/bin/snapshots/analysis_server.dart.snapshot");
+				p = Runtime.getRuntime().exec( dartSDKDir + "/bin/dart " + dartSDKDir + "/" + dartServer);
 
 				Thread t = new Thread() {
 					public void run() {
