@@ -11,13 +11,14 @@
         <children xsi:type="basic:PartStack" xmi:id="_qAa0MBO4EeWDScKklswuYA" elementId="at.bestsolution.dart.app.editorstack" containerData="400">
           <persistedState key="fx_layout_grab_horizontal" value="true"/>
           <persistedState key="fx_layout_grab_vertical" value="true"/>
+          <tags>editorContainer</tags>
         </children>
       </children>
       <children xsi:type="basic:Part" xmi:id="_8KAmQBZqEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.part.1" containerData="100" contributionURI="bundleclass://org.eclipse.fx.code.outline/org.eclipse.fx.code.outline.FileOutlineViewer"/>
     </children>
     <variables>activeInput</variables>
   </children>
-  <handlers xmi:id="_zP68gBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.handler.0" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.handlers.SaveFile" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
+  <handlers xmi:id="_zP68gBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.handler.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.handlers.SaveFile" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
   <handlers xmi:id="_25cqkBZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.handler.1" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.handlers.SwitchTheme" command="_1UMkABZ1EeWLWqhHszNLKg"/>
   <bindingTables xmi:id="_vA-P0BRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.bindingtable.0" bindingContext="_FgwfwAU_EeWaU_pgkGpdwA">
     <bindings xmi:id="_wKpNoBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.keybinding.0" keySequence="M1+S" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
@@ -36,6 +37,6 @@
   <addons xmi:id="_FgwfyAU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
   <addons xmi:id="_FgwfyQU_EeWaU_pgkGpdwA" elementId="org.eclipse.fx.ui.keybindings.e4.model" contributionURI="bundleclass://org.eclipse.fx.ui.keybindings.e4/org.eclipse.fx.ui.keybindings.e4.BindingProcessingAddon"/>
   <addons xmi:id="_FgwfygU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.ui.workbench.addons.HandlerProcessingAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
-  <addons xmi:id="_lceawBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.addon.0" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.addon.DirtyStateTrackerAddon"/>
+  <addons xmi:id="_lceawBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.addon.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.addons.DirtyStateTrackingAddon"/>
   <addons xmi:id="_ZmNHEBaCEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.addon.1" contributionURI="bundleclass://at.bestsolution.dart.editor/at.bestsolution.dart.editor.internal.DartRemoteFileManager"/>
 </application:Application>

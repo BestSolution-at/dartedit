@@ -1,18 +1,15 @@
 package at.bestsolution.dart.app.parts;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.e4.ui.model.application.MApplication;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
-import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.fx.code.editor.services.TextEditorOpener;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.ui.controls.filesystem.FileItem;
 import org.eclipse.fx.ui.controls.filesystem.ResourceEvent;
@@ -33,6 +30,9 @@ public class ProjectExplorer {
 
 	@Inject
 	EPartService partService;
+
+	@Inject
+	TextEditorOpener textEditorOpener;
 
 	MPartStack partStack;
 
@@ -60,20 +60,22 @@ public class ProjectExplorer {
 	}
 
 	private void handle(FileItem item) {
-		Optional<MStackElement> first = partStack.getChildren().stream().filter( c -> item.getUri().endsWith(c.getPersistedState().get("documentUrl"))).findFirst();
+		textEditorOpener.openEditor(item.getUri());
 
-		if( first.isPresent() ) {
-			partService.activate((MPart) first.get());
-		} else {
-			MPart part = modelService.createModelElement(MPart.class);
-			part.setCloseable(true);
-			part.setLabel(((Path)item.getNativeResourceObject()).getFileName().toString());
-			part.setContributionURI("bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.TextEditor");
-			part.setIconURI("platform:/plugin/at.bestsolution.dart.app/css/icons/16/dart.png");
-			part.getPersistedState().put("documentUrl", item.getUri());
-			part.getTags().add("removeOnHide");
-			partStack.getChildren().add(part);
-			partService.activate(part);
-		}
+//		Optional<MStackElement> first = partStack.getChildren().stream().filter( c -> item.getUri().endsWith(c.getPersistedState().get("documentUrl"))).findFirst();
+//
+//		if( first.isPresent() ) {
+//			partService.activate((MPart) first.get());
+//		} else {
+//			MPart part = modelService.createModelElement(MPart.class);
+//			part.setCloseable(true);
+//			part.setLabel(((Path)item.getNativeResourceObject()).getFileName().toString());
+//			part.setContributionURI("bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.TextEditor");
+//			part.setIconURI("platform:/plugin/at.bestsolution.dart.app/css/icons/16/dart.png");
+//			part.getPersistedState().put("documentUrl", item.getUri());
+//			part.getTags().add("removeOnHide");
+//			partStack.getChildren().add(part);
+//			partService.activate(part);
+//		}
 	}
 }

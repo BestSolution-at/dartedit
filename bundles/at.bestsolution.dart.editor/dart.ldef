@@ -68,7 +68,7 @@ dart {
 			default dart_string
 			dart_string_inter {
 				single_line "${" => "}"
-				//TODO We need a $ => IDENTIFIER_CHAR rule
+				pattern "\\$" containing "\\w"
 			}
 		}
 	}
