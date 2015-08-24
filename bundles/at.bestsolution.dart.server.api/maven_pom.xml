@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>at.bestsolution</groupId>
+	<artifactId>at.bestsolution.dart.server.api</artifactId>
+	<version>1.0.0</version>
+	<name>Java API for dart analysis server</name>
+	<description>Java APIs to interface with the dart analysis server</description>
+	<url>https://github.com/BestSolution-at/dartedit</url>
+	<licenses>
+		<license>
+			<name>Eclipse Public License - v 1.0</name>
+			<url>http://www.eclipse.org/legal/epl-v10.html</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/BestSolution-at/dartedit/tree/master/bundles/at.bestsolution.dart.server.api</url>
+	</scm>
+	<developers>
+		<developer>
+			<name>Tom Schindl</name>
+			<organization>Eclipse.org</organization>
+			<roles>
+				<role>contributor</role>
+			</roles>
+		</developer>
+	</developers>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+	</dependencies>
+</project>
