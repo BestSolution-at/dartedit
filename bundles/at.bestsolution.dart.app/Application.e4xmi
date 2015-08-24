@@ -14,7 +14,7 @@
           <tags>editorContainer</tags>
         </children>
       </children>
-      <children xsi:type="basic:Part" xmi:id="_8KAmQBZqEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.part.1" containerData="100" contributionURI="bundleclass://org.eclipse.fx.code.outline/org.eclipse.fx.code.outline.FileOutlineViewer"/>
+      <children xsi:type="basic:Part" xmi:id="_8KAmQBZqEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.part.1" containerData="100" contributionURI="bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.OutlineViewer"/>
     </children>
     <variables>activeInput</variables>
   </children>
