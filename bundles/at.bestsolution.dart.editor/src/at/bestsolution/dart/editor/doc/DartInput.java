@@ -2,6 +2,7 @@ package at.bestsolution.dart.editor.doc;
 
 import java.nio.file.Path;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,12 +22,20 @@ import javafx.beans.property.SimpleObjectProperty;
 public class DartInput extends LocalSourceFileInput {
 	private final ObjectProperty<Outline> outline = new SimpleObjectProperty<>();
 	private Registration outlineReg;
+	private DartServer server;
 
 	@Inject
 	public DartInput(DartServer server, EventBus eventBus, @Adapt @Named(Constants.DOCUMENT_URL) Path path) {
 		super(path, eventBus);
+		this.server = server;
+	}
+
+	@PostConstruct
+	@Override
+	protected void init() {
 		ServiceAnalysis service = server.getService(ServiceAnalysis.class);
 		outlineReg = service.outline(this::handleOutlineChange);
+		super.init();
 	}
 
 	@Override

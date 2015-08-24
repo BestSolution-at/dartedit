@@ -2,6 +2,6 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.editor.outline.DartOutlineFactory">
    <implementation class="at.bestsolution.dart.editor.outline.DartOutlineFactory"/>
    <service>
-      <provide interface="org.eclipse.fx.code.outline.services.OutlineTypeProvider"/>
+      <provide interface="org.eclipse.fx.code.editor.fx.services.OutlineTypeProviderService"/>
    </service>
 </scr:component>

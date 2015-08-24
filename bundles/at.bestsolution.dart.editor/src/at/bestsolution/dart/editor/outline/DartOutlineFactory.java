@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
-import org.eclipse.fx.code.outline.Outline;
-import org.eclipse.fx.code.outline.Outline.OutlineItem;
-import org.eclipse.fx.code.outline.services.OutlineTypeProvider;
+import org.eclipse.fx.code.editor.fx.services.Outline;
+import org.eclipse.fx.code.editor.fx.services.Outline.OutlineItem;
+import org.eclipse.fx.code.editor.fx.services.OutlineTypeProviderService;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.ui.controls.styledtext.StyledString;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor;
@@ -31,7 +31,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 @Component
-public class DartOutlineFactory implements OutlineTypeProvider {
+public class DartOutlineFactory implements OutlineTypeProviderService {
 
 	@Override
 	public boolean test(Input<?> input) {
