@@ -10,12 +10,19 @@ import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
 public class LocalExecutionService implements at.bestsolution.dart.server.api.services.ServiceExecution {
-
+	private boolean disposed = false;
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ExecutionLaunchDataNotification>> launchDataConsumerList = new ArrayList<>();
 
 	public LocalExecutionService(LocalDartServer server) {
 		this.server = server;
+	}
+
+	public void dispose() {
+		this.disposed = true;
+		synchronized(launchDataConsumerList) {
+			launchDataConsumerList.clear();
+		}
 	}
 
 	public void dispatchEvent(JsonObject root) {
@@ -34,6 +41,9 @@ public class LocalExecutionService implements at.bestsolution.dart.server.api.se
 
 	// Requests
 	public at.bestsolution.dart.server.api.model.ExecutionCreateContextResult createContext(java.lang.String contextRoot) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "execution.createContext", new ExecutionCreateContextRequest(contextRoot)).get();
 			if( o.has("error") ) {
@@ -48,6 +58,9 @@ public class LocalExecutionService implements at.bestsolution.dart.server.api.se
 		}
 	}
 	public void deleteContext(ExecutionContextId id) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "execution.deleteContext", new ExecutionDeleteContextRequest(id)).get();
 			if( o.has("error") ) {
@@ -58,6 +71,9 @@ public class LocalExecutionService implements at.bestsolution.dart.server.api.se
 		}
 	}
 	public at.bestsolution.dart.server.api.model.ExecutionMapUriResult mapUri(ExecutionContextId id,java.lang.String file,String uri) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "execution.mapUri", new ExecutionMapUriRequest(id, file, uri)).get();
 			if( o.has("error") ) {
@@ -72,6 +88,9 @@ public class LocalExecutionService implements at.bestsolution.dart.server.api.se
 		}
 	}
 	public void setSubscriptions(ExecutionService[] subscriptions) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "execution.setSubscriptions", new ExecutionSetSubscriptionsRequest(subscriptions)).get();
 			if( o.has("error") ) {
@@ -84,6 +103,9 @@ public class LocalExecutionService implements at.bestsolution.dart.server.api.se
 
 	// Notifications
 	public at.bestsolution.dart.server.api.Registration launchData( java.util.function.Consumer<at.bestsolution.dart.server.api.model.ExecutionLaunchDataNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(launchDataConsumerList) {
 			launchDataConsumerList.add(consumer);
 		}

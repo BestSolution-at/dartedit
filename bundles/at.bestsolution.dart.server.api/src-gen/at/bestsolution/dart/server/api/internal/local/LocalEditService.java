@@ -10,11 +10,15 @@ import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
 public class LocalEditService implements at.bestsolution.dart.server.api.services.ServiceEdit {
-
+	private boolean disposed = false;
 	private final LocalDartServer server;
 
 	public LocalEditService(LocalDartServer server) {
 		this.server = server;
+	}
+
+	public void dispose() {
+		this.disposed = true;
 	}
 
 	public void dispatchEvent(JsonObject root) {
@@ -24,6 +28,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 
 	// Requests
 	public at.bestsolution.dart.server.api.model.EditFormatResult format(java.lang.String file,int selectionOffset,int selectionLength) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.format", new EditFormatRequest(file, selectionOffset, selectionLength)).get();
 			if( o.has("error") ) {
@@ -38,6 +45,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetAssistsResult getAssists(java.lang.String file,int offset,int length) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.getAssists", new EditGetAssistsRequest(file, offset, length)).get();
 			if( o.has("error") ) {
@@ -52,6 +62,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetAvailableRefactoringsResult getAvailableRefactorings(java.lang.String file,int offset,int length) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.getAvailableRefactorings", new EditGetAvailableRefactoringsRequest(file, offset, length)).get();
 			if( o.has("error") ) {
@@ -66,6 +79,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetFixesResult getFixes(java.lang.String file,int offset) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.getFixes", new EditGetFixesRequest(file, offset)).get();
 			if( o.has("error") ) {
@@ -80,6 +96,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 		}
 	}
 	public at.bestsolution.dart.server.api.model.EditGetRefactoringResult getRefactoring(RefactoringKind kind,java.lang.String file,int offset,int length,int validateOnly,RefactoringOptions options) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.getRefactoring", new EditGetRefactoringRequest(kind, file, offset, length, validateOnly, options)).get();
 			if( o.has("error") ) {
@@ -94,6 +113,9 @@ public class LocalEditService implements at.bestsolution.dart.server.api.service
 		}
 	}
 	public at.bestsolution.dart.server.api.model.EditSortMembersResult sortMembers(java.lang.String file) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "edit.sortMembers", new EditSortMembersRequest(file)).get();
 			if( o.has("error") ) {

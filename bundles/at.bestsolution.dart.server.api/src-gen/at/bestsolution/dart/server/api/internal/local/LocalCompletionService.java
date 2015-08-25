@@ -10,12 +10,19 @@ import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
 public class LocalCompletionService implements at.bestsolution.dart.server.api.services.ServiceCompletion {
-
+	private boolean disposed = false;
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.CompletionResultsNotification>> resultsConsumerList = new ArrayList<>();
 
 	public LocalCompletionService(LocalDartServer server) {
 		this.server = server;
+	}
+
+	public void dispose() {
+		this.disposed = true;
+		synchronized(resultsConsumerList) {
+			resultsConsumerList.clear();
+		}
 	}
 
 	public void dispatchEvent(JsonObject root) {
@@ -34,6 +41,9 @@ public class LocalCompletionService implements at.bestsolution.dart.server.api.s
 
 	// Requests
 	public at.bestsolution.dart.server.api.model.CompletionGetSuggestionsResult getSuggestions(java.lang.String file,int offset) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "completion.getSuggestions", new CompletionGetSuggestionsRequest(file, offset)).get();
 			if( o.has("error") ) {
@@ -50,6 +60,9 @@ public class LocalCompletionService implements at.bestsolution.dart.server.api.s
 
 	// Notifications
 	public at.bestsolution.dart.server.api.Registration results( java.util.function.Consumer<at.bestsolution.dart.server.api.model.CompletionResultsNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(resultsConsumerList) {
 			resultsConsumerList.add(consumer);
 		}

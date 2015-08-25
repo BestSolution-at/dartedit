@@ -51,10 +51,33 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 					}
 				}
 			};
+			t.setDaemon(true);
 			t.start();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		}
+	}
+
+	public void dispose() {
+		p.destroy();
+		if( serverService != null ) {
+			serverService.dispose();
+		}
+		if( analysisService != null ) {
+			analysisService.dispose();
+		}
+		if( completionService != null ) {
+			completionService.dispose();
+		}
+		if( searchService != null ) {
+			searchService.dispose();
+		}
+		if( editService != null ) {
+			editService.dispose();
+		}
+		if( executionService != null ) {
+			executionService.dispose();
 		}
 	}
 
@@ -76,7 +99,6 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 				r = r.replace('\r', ' ');
 				r += "\n";
 				try {
-					System.err.println("Sending: " + r);
 					p.getOutputStream().write(r.getBytes());
 					p.getOutputStream().flush();
 				} catch (IOException e) {
@@ -94,7 +116,6 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 	}
 
 	private void dispatch(String input) {
-		System.err.println("Dart Server message: " + input);
 		JsonParser p = new JsonParser();
 		JsonObject root = (JsonObject) p.parse(input);
 

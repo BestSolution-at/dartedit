@@ -10,7 +10,7 @@ import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
 public class LocalAnalysisService implements at.bestsolution.dart.server.api.services.ServiceAnalysis {
-
+	private boolean disposed = false;
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisErrorsNotification>> errorsConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisFlushResultsNotification>> flushResultsConsumerList = new ArrayList<>();
@@ -24,6 +24,37 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 
 	public LocalAnalysisService(LocalDartServer server) {
 		this.server = server;
+	}
+
+	public void dispose() {
+		this.disposed = true;
+		synchronized(errorsConsumerList) {
+			errorsConsumerList.clear();
+		}
+		synchronized(flushResultsConsumerList) {
+			flushResultsConsumerList.clear();
+		}
+		synchronized(foldingConsumerList) {
+			foldingConsumerList.clear();
+		}
+		synchronized(highlightsConsumerList) {
+			highlightsConsumerList.clear();
+		}
+		synchronized(invalidateConsumerList) {
+			invalidateConsumerList.clear();
+		}
+		synchronized(navigationConsumerList) {
+			navigationConsumerList.clear();
+		}
+		synchronized(occurrencesConsumerList) {
+			occurrencesConsumerList.clear();
+		}
+		synchronized(outlineConsumerList) {
+			outlineConsumerList.clear();
+		}
+		synchronized(overridesConsumerList) {
+			overridesConsumerList.clear();
+		}
 	}
 
 	public void dispatchEvent(JsonObject root) {
@@ -114,6 +145,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 
 	// Requests
 	public at.bestsolution.dart.server.api.model.AnalysisGetErrorsResult getErrors(java.lang.String file) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.getErrors", new AnalysisGetErrorsRequest(file)).get();
 			if( o.has("error") ) {
@@ -128,6 +162,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetHoverResult getHover(java.lang.String file,int offset) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.getHover", new AnalysisGetHoverRequest(file, offset)).get();
 			if( o.has("error") ) {
@@ -142,6 +179,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetLibraryDependenciesResult getLibraryDependencies() {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.getLibraryDependencies", null).get();
 			if( o.has("error") ) {
@@ -156,6 +196,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public at.bestsolution.dart.server.api.model.AnalysisGetNavigationResult getNavigation(java.lang.String file,int offset,int length) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.getNavigation", new AnalysisGetNavigationRequest(file, offset, length)).get();
 			if( o.has("error") ) {
@@ -170,6 +213,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void reanalyze(java.lang.String[] roots) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.reanalyze", new AnalysisReanalyzeRequest(roots)).get();
 			if( o.has("error") ) {
@@ -180,6 +226,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void setAnalysisRoots(java.lang.String[] included,java.lang.String[] excluded,Map<java.lang.String,java.lang.String> packageRoots) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.setAnalysisRoots", new AnalysisSetAnalysisRootsRequest(included, excluded, packageRoots)).get();
 			if( o.has("error") ) {
@@ -190,6 +239,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void setPriorityFiles(java.lang.String[] files) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.setPriorityFiles", new AnalysisSetPriorityFilesRequest(files)).get();
 			if( o.has("error") ) {
@@ -200,6 +252,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void setSubscriptions(Map<AnalysisService,java.lang.String[]> subscriptions) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.setSubscriptions", new AnalysisSetSubscriptionsRequest(subscriptions)).get();
 			if( o.has("error") ) {
@@ -210,6 +265,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void updateContent(Map<java.lang.String,Overlay> files) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.updateContent", new AnalysisUpdateContentRequest(files)).get();
 			if( o.has("error") ) {
@@ -220,6 +278,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		}
 	}
 	public void updateOptions(AnalysisOptions options) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "analysis.updateOptions", new AnalysisUpdateOptionsRequest(options)).get();
 			if( o.has("error") ) {
@@ -232,6 +293,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 
 	// Notifications
 	public at.bestsolution.dart.server.api.Registration errors( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisErrorsNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(errorsConsumerList) {
 			errorsConsumerList.add(consumer);
 		}
@@ -242,6 +306,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration flushResults( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisFlushResultsNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(flushResultsConsumerList) {
 			flushResultsConsumerList.add(consumer);
 		}
@@ -252,6 +319,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration folding( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisFoldingNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(foldingConsumerList) {
 			foldingConsumerList.add(consumer);
 		}
@@ -262,6 +332,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration highlights( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisHighlightsNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(highlightsConsumerList) {
 			highlightsConsumerList.add(consumer);
 		}
@@ -272,6 +345,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration invalidate( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisInvalidateNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(invalidateConsumerList) {
 			invalidateConsumerList.add(consumer);
 		}
@@ -282,6 +358,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration navigation( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisNavigationNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(navigationConsumerList) {
 			navigationConsumerList.add(consumer);
 		}
@@ -292,6 +371,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration occurrences( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOccurrencesNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(occurrencesConsumerList) {
 			occurrencesConsumerList.add(consumer);
 		}
@@ -302,6 +384,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration outline( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOutlineNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(outlineConsumerList) {
 			outlineConsumerList.add(consumer);
 		}
@@ -312,6 +397,9 @@ public class LocalAnalysisService implements at.bestsolution.dart.server.api.ser
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration overrides( java.util.function.Consumer<at.bestsolution.dart.server.api.model.AnalysisOverridesNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(overridesConsumerList) {
 			overridesConsumerList.add(consumer);
 		}

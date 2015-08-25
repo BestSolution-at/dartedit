@@ -10,7 +10,7 @@ import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
 public class LocalServerService implements at.bestsolution.dart.server.api.services.ServiceServer {
-
+	private boolean disposed = false;
 	private final LocalDartServer server;
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerConnectedNotification>> connectedConsumerList = new ArrayList<>();
 	private final List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerErrorNotification>> errorConsumerList = new ArrayList<>();
@@ -18,6 +18,19 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 
 	public LocalServerService(LocalDartServer server) {
 		this.server = server;
+	}
+
+	public void dispose() {
+		this.disposed = true;
+		synchronized(connectedConsumerList) {
+			connectedConsumerList.clear();
+		}
+		synchronized(errorConsumerList) {
+			errorConsumerList.clear();
+		}
+		synchronized(statusConsumerList) {
+			statusConsumerList.clear();
+		}
 	}
 
 	public void dispatchEvent(JsonObject root) {
@@ -54,6 +67,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 
 	// Requests
 	public at.bestsolution.dart.server.api.model.ServerGetVersionResult getVersion() {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "server.getVersion", null).get();
 			if( o.has("error") ) {
@@ -68,6 +84,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 		}
 	}
 	public void shutdown() {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "server.shutdown", null).get();
 			if( o.has("error") ) {
@@ -78,6 +97,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 		}
 	}
 	public void setSubscriptions(ServerService[] subscriptions) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		try {
 			JsonObject o = server.sendRequest( "server.setSubscriptions", new ServerSetSubscriptionsRequest(subscriptions)).get();
 			if( o.has("error") ) {
@@ -90,6 +112,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 
 	// Notifications
 	public at.bestsolution.dart.server.api.Registration connected( java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerConnectedNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(connectedConsumerList) {
 			connectedConsumerList.add(consumer);
 		}
@@ -100,6 +125,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration error( java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerErrorNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(errorConsumerList) {
 			errorConsumerList.add(consumer);
 		}
@@ -110,6 +138,9 @@ public class LocalServerService implements at.bestsolution.dart.server.api.servi
 		};
 	}
 	public at.bestsolution.dart.server.api.Registration status( java.util.function.Consumer<at.bestsolution.dart.server.api.model.ServerStatusNotification> consumer) {
+		if( disposed ) {
+			throw new IllegalStateException("The server is disposed");
+		}
 		synchronized(statusConsumerList) {
 			statusConsumerList.add(consumer);
 		}
