@@ -9,7 +9,7 @@ import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
-import org.eclipse.fx.code.editor.services.TextEditorOpener;
+import org.eclipse.fx.code.editor.services.EditorOpener;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.ui.controls.filesystem.FileItem;
 import org.eclipse.fx.ui.controls.filesystem.ResourceEvent;
@@ -24,6 +24,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
+@SuppressWarnings("restriction")
 public class ProjectExplorer {
 	@Inject
 	EModelService modelService;
@@ -32,7 +33,7 @@ public class ProjectExplorer {
 	EPartService partService;
 
 	@Inject
-	TextEditorOpener textEditorOpener;
+	EditorOpener textEditorOpener;
 
 	MPartStack partStack;
 
