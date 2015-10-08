@@ -69,7 +69,7 @@ class DartServiceSpecGenerator implements IGenerator {
 	import java.util.Map;
 
 	public class Local«d.name.toFirstUpper»Service implements at.bestsolution.dart.server.api.services.Service«d.name.toFirstUpper» {
-
+		private boolean disposed = false;
 		private final LocalDartServer server;
 		«FOR n : d.notifications»
 		private final List<java.util.function.Consumer<«(n.eContainer.eContainer as ServiceDefs).packageName».model.«(n.eContainer as ServiceDef).name.toFirstUpper»«n.name.toFirstUpper»Notification>> «n.name»ConsumerList = new ArrayList<>();
@@ -77,6 +77,15 @@ class DartServiceSpecGenerator implements IGenerator {
 
 		public Local«d.name.toFirstUpper»Service(LocalDartServer server) {
 			this.server = server;
+		}
+
+		public void dispose() {
+			this.disposed = true;
+			«FOR n : d.notifications»
+			synchronized(«n.name»ConsumerList) {
+				«n.name»ConsumerList.clear();
+			}
+			«ENDFOR»
 		}
 
 		public void dispatchEvent(JsonObject root) {
@@ -98,6 +107,9 @@ class DartServiceSpecGenerator implements IGenerator {
 		// Requests
 		«FOR req : d.requests»
 			public «IF req.returnVals.empty»void«ELSE»«(d.eContainer as ServiceDefs).packageName».model.«(req.eContainer as ServiceDef).name.toFirstUpper»«req.name.toFirstUpper»Result«ENDIF» «req.name»(«req.attributes.map[type.typeString + " " + name].join(",")») {
+				if( disposed ) {
+					throw new IllegalStateException("The server is disposed");
+				}
 				try {
 					JsonObject o = server.sendRequest( "«d.name».«req.name»", «IF req.attributes.empty»null«ELSE»new «(req.eContainer as ServiceDef).name.toFirstUpper»«req.name.toFirstUpper»Request(«req.attributes.map[name].join(", ")»)«ENDIF»).get();
 					if( o.has("error") ) {
@@ -118,6 +130,9 @@ class DartServiceSpecGenerator implements IGenerator {
 		// Notifications
 		«FOR n : d.notifications»
 			public at.bestsolution.dart.server.api.Registration «n.name»( java.util.function.Consumer<«(n.eContainer.eContainer as ServiceDefs).packageName».model.«(n.eContainer as ServiceDef).name.toFirstUpper»«n.name.toFirstUpper»Notification> consumer) {
+				if( disposed ) {
+					throw new IllegalStateException("The server is disposed");
+				}
 				synchronized(«n.name»ConsumerList) {
 					«n.name»ConsumerList.add(consumer);
 				}
@@ -163,10 +178,35 @@ class DartServiceSpecGenerator implements IGenerator {
 		private String dartSDKDir = System.getProperty("dart.sdkdir","/Users/tomschindl/Downloads/dart-sdk");
 		private String dartServer = System.getProperty("dart.analysis.binary","bin/snapshots/analysis_server.dart.snapshot");
 
-		public LocalDartServer(String id) {
+		private at.bestsolution.dart.server.api.DartServerConfiguration configuration;
+
+		public LocalDartServer(at.bestsolution.dart.server.api.DartServerConfiguration configuration, String id) {
 			this.id = id;
+			this.configuration = configuration;
+
+			if( this.configuration != null ) {
+				configuration.addConfigurationChangeConsumer(this::handleConfigurationChange);
+			}
+			startServer();
+		}
+
+		private void handleConfigurationChange(String sdkDir, String serverBinary) {
+			startServer();
+		}
+
+		public boolean isAlive() {
+			return p != null && p.isAlive();
+		}
+
+		private void startServer() {
+			if(p != null && p.isAlive() ) {
+				p.destroy();
+			}
+			String sdk = configuration == null ? dartSDKDir : configuration.getDartSDKDirectory();
+			String binary = configuration == null ? dartServer : configuration.getServerBinary();
+
 			try {
-				p = Runtime.getRuntime().exec( dartSDKDir + "/bin/dart " + dartSDKDir + "/" + dartServer);
+				p = Runtime.getRuntime().exec( sdk + "/bin/dart " + sdk + "/" + binary);
 
 				Thread t = new Thread() {
 					public void run() {
@@ -182,11 +222,24 @@ class DartServiceSpecGenerator implements IGenerator {
 						}
 					}
 				};
+				t.setDaemon(true);
 				t.start();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		}
+
+		public void dispose() {
+			if( this.configuration != null ) {
+				configuration.removeConfigurationChangeConsumer(this::handleConfigurationChange);
+			}
+			p.destroy();
+			«FOR s : defs.serviceDefs»
+				if( «s.name»Service != null ) {
+					«s.name»Service.dispose();
+				}
+			«ENDFOR»
 		}
 
 		public Future<JsonObject> sendRequest(String method, Object request) {
@@ -207,7 +260,6 @@ class DartServiceSpecGenerator implements IGenerator {
 					r = r.replace('\r', ' ');
 					r += "\n";
 					try {
-						System.err.println("Sending: " + r);
 						p.getOutputStream().write(r.getBytes());
 						p.getOutputStream().flush();
 					} catch (IOException e) {
@@ -225,7 +277,6 @@ class DartServiceSpecGenerator implements IGenerator {
 		}
 
 		private void dispatch(String input) {
-			System.err.println("Dart Server message: " + input);
 			JsonParser p = new JsonParser();
 			JsonObject root = (JsonObject) p.parse(input);
 
