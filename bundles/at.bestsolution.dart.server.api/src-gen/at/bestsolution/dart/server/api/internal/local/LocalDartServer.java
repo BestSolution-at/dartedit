@@ -32,10 +32,35 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 	private String dartSDKDir = System.getProperty("dart.sdkdir","/Users/tomschindl/Downloads/dart-sdk");
 	private String dartServer = System.getProperty("dart.analysis.binary","bin/snapshots/analysis_server.dart.snapshot");
 
-	public LocalDartServer(String id) {
+	private at.bestsolution.dart.server.api.DartServerConfiguration configuration;
+
+	public LocalDartServer(at.bestsolution.dart.server.api.DartServerConfiguration configuration, String id) {
 		this.id = id;
+		this.configuration = configuration;
+
+		if( this.configuration != null ) {
+			configuration.addConfigurationChangeConsumer(this::handleConfigurationChange);
+		}
+		startServer();
+	}
+
+	private void handleConfigurationChange(String sdkDir, String serverBinary) {
+		startServer();
+	}
+
+	public boolean isAlive() {
+		return p != null && p.isAlive();
+	}
+
+	private void startServer() {
+		if(p != null && p.isAlive() ) {
+			p.destroy();
+		}
+		String sdk = configuration == null ? dartSDKDir : configuration.getDartSDKDirectory();
+		String binary = configuration == null ? dartServer : configuration.getServerBinary();
+
 		try {
-			p = Runtime.getRuntime().exec( dartSDKDir + "/bin/dart " + dartSDKDir + "/" + dartServer);
+			p = Runtime.getRuntime().exec( sdk + "/bin/dart " + sdk + "/" + binary);
 
 			Thread t = new Thread() {
 				public void run() {
@@ -60,6 +85,9 @@ public class LocalDartServer implements at.bestsolution.dart.server.api.DartServ
 	}
 
 	public void dispose() {
+		if( this.configuration != null ) {
+			configuration.removeConfigurationChangeConsumer(this::handleConfigurationChange);
+		}
 		p.destroy();
 		if( serverService != null ) {
 			serverService.dispose();

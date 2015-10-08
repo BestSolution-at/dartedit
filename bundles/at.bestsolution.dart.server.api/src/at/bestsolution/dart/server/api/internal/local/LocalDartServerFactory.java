@@ -14,16 +14,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 import at.bestsolution.dart.server.api.DartServer;
+import at.bestsolution.dart.server.api.DartServerConfiguration;
 import at.bestsolution.dart.server.api.DartServerFactory;
 
 public class LocalDartServerFactory implements DartServerFactory {
 	private Map<String, DartServer> serverMap = new HashMap<>();
+	private DartServerConfiguration configuration;
+
+	public void setDartServerConfiguration(DartServerConfiguration configuration) {
+		this.configuration = configuration;
+	}
+
+	public void unsetDartServerConfiguration(DartServerConfiguration configuration) {
+		if( this.configuration == configuration ) {
+			this.configuration = null;
+		}
+	}
 
 	@Override
 	public DartServer getServer(String id) {
 		DartServer s = serverMap.get(id);
 		if (s == null) {
-			s = new LocalDartServer(id);
+			s = new LocalDartServer(configuration, id);
 			serverMap.put(id, s);
 		}
 		return s;

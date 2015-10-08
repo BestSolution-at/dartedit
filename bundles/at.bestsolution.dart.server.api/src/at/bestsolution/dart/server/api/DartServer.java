@@ -20,6 +20,11 @@ public interface DartServer {
 	public String getId();
 
 	/**
+	 * @return <code>true</code> if the server is alive
+	 */
+	public boolean isAlive();
+
+	/**
 	 * Get a service from the server
 	 *
 	 * @param serviceType
