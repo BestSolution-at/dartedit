@@ -13,14 +13,21 @@ package at.bestsolution.dart.server.api.internal.local;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
+
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.DartServerConfiguration;
 import at.bestsolution.dart.server.api.DartServerFactory;
 
+@Component
 public class LocalDartServerFactory implements DartServerFactory {
 	private Map<String, DartServer> serverMap = new HashMap<>();
 	private DartServerConfiguration configuration;
 
+	@Reference(cardinality=ReferenceCardinality.OPTIONAL,policyOption=ReferencePolicyOption.GREEDY)
 	public void setDartServerConfiguration(DartServerConfiguration configuration) {
 		this.configuration = configuration;
 	}

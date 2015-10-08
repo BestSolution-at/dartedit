@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.server.api.localdartserverfactory">
-   <implementation class="at.bestsolution.dart.server.api.internal.local.LocalDartServerFactory"/>
-   <service>
-      <provide interface="at.bestsolution.dart.server.api.DartServerFactory"/>
-   </service>
-</scr:component>

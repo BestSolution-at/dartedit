@@ -9,5 +9,6 @@ Export-Package: at.bestsolution.dart.server.api,
  at.bestsolution.dart.server.api.services
 Bundle-ClassPath: libs/gson-2.3.1.jar,
  .
-Service-Component: OSGI-INF/services/localdartserverfactory.xml
+Service-Component: OSGI-INF/services/at.bestsolution.dart.server.api.internal.local.LocalDartServerFactory.xml
 Bundle-ActivationPolicy: lazy
+Import-Package: org.osgi.service.component.annotations
