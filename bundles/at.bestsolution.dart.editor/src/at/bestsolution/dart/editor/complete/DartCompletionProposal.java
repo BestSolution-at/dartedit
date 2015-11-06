@@ -2,16 +2,24 @@ package at.bestsolution.dart.editor.complete;
 
 import java.util.function.Supplier;
 
-import org.eclipse.jface.text.contentassist.CompletetionProposal;
+import org.eclipse.fx.code.editor.services.CompletionProposal.BaseCompletetionProposal;
 
 import javafx.scene.Node;
 
-public class DartCompletionProposal extends CompletetionProposal implements Comparable<DartCompletionProposal> {
-	private int relevance;
-	
+@SuppressWarnings("restriction")
+public class DartCompletionProposal extends BaseCompletetionProposal implements Comparable<DartCompletionProposal> {
+	private final int relevance;
+	private final Supplier<Node> graphicSupplier;
+
 	public DartCompletionProposal(int relevance, String replacementString, int replacementOffset, int replacementLength,
 			CharSequence label, Supplier<Node> graphicSupplier) {
-		super(replacementString, replacementOffset, replacementLength, label, graphicSupplier);
+		super(replacementString, replacementOffset, replacementLength, label);
+		this.relevance = relevance;
+		this.graphicSupplier = graphicSupplier;
+	}
+
+	public Supplier<Node> getGraphicSupplier() {
+		return graphicSupplier;
 	}
 
 	@Override

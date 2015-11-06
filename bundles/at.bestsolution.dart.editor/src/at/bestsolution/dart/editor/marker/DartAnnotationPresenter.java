@@ -6,9 +6,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.eclipse.fx.core.URI;
+import org.eclipse.fx.text.ui.source.AnnotationPresenter;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.AnnotationPresenter;
 
 import at.bestsolution.dart.server.api.model.AnalysisErrorType;
 import javafx.scene.Node;

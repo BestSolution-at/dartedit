@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.eclipse.fx.code.editor.fx.services.ProposalComputer;
+import org.eclipse.fx.code.editor.services.CompletionProposal;
+import org.eclipse.fx.code.editor.services.ProposalComputer;
 import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.core.log.Log;
@@ -26,7 +27,6 @@ import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Adornment;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Location;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.Registration;
@@ -44,8 +44,8 @@ public class DartProposalComputer implements ProposalComputer {
 	private String requestId;
 	private ServiceCompletion completionService;
 	private Registration proposalRegistration;
-	private CompletableFuture<List<ICompletionProposal>> future;
-	private List<ICompletionProposal> completions = new ArrayList<>();
+	private CompletableFuture<List<CompletionProposal>> future;
+	private List<CompletionProposal> completions = new ArrayList<>();
 
 	private Logger logger;
 
@@ -63,13 +63,13 @@ public class DartProposalComputer implements ProposalComputer {
 		if( requestId != null && requestId.equals(notification.getId()) ) {
 			completions.addAll(Stream.of(notification.getResults()).map( e -> mapToCompletion(notification, e)).collect(Collectors.toList()));
 			if( notification.getIsLast() ) {
-				List<ICompletionProposal> tmp = completions;
+				List<CompletionProposal> tmp = completions;
 				completions = new ArrayList<>();
 				if( ! future.isDone() ) {
-					Collections.sort(tmp, new Comparator<ICompletionProposal>() {
+					Collections.sort(tmp, new Comparator<CompletionProposal>() {
 
 						@Override
-						public int compare(ICompletionProposal o1, ICompletionProposal o2) {
+						public int compare(CompletionProposal o1, CompletionProposal o2) {
 							return ((DartCompletionProposal)o1).compareTo((DartCompletionProposal) o2);
 						}
 					});
@@ -208,7 +208,7 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	@Override
-	public Future<List<ICompletionProposal>> compute(ProposalContext context) {
+	public CompletableFuture<List<CompletionProposal>> compute(ProposalContext context) {
 		URIProvider p = (URIProvider) context.input;
 		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
 

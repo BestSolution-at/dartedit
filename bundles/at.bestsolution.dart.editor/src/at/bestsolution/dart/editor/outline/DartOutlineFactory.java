@@ -26,6 +26,10 @@ import at.bestsolution.dart.editor.doc.DartInput;
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.model.ElementKind;
 import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -122,15 +126,33 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 		private final at.bestsolution.dart.server.api.model.Outline outline;
 		private final OutlineItem parent;
 		private GraphicsLoader graphicsLoader;
+		private ReadOnlyObjectWrapper<CharSequence> label = new ReadOnlyObjectWrapper<>(this, "label");
+		private ReadOnlyObjectWrapper<Node> graphic = new ReadOnlyObjectWrapper<>(this, "graphic");
 
 		public DartOutlineItem(GraphicsLoader graphicsLoader, OutlineItem parent, at.bestsolution.dart.server.api.model.Outline outline) {
 			this.graphicsLoader = graphicsLoader;
 			this.outline = outline;
 			this.parent = parent;
+			this.label.set(calculateLabel());
+			this.graphic.set(calculateGraphic());
+		}
+
+		@Override
+		public ReadOnlyProperty<Node> graphicProperty() {
+			return graphic.getReadOnlyProperty();
+		}
+
+		@Override
+		public ReadOnlyProperty<CharSequence> labelProperty() {
+			return label.getReadOnlyProperty();
 		}
 
 		@Override
 		public CharSequence getLabel() {
+			return label.get();
+		}
+
+		private CharSequence calculateLabel() {
 			if( outline.getElement().getKind() == ElementKind.FIELD ) {
 				StyledString s = new StyledString();
 				s.appendSegment(outline.getElement().getName(), "dart-element-name");
@@ -146,8 +168,7 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 			return outline.getElement().getName();
 		}
 
-		@Override
-		public Node getGraphic() {
+		private Node calculateGraphic() {
 			if( outline.getElement().getKind() == ElementKind.CLASS ) {
 				return graphicsLoader.getGraphicsNode(URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/classpub_obj.png"));
 			} else if( outline.getElement().getKind() == ElementKind.FIELD ) {
@@ -162,6 +183,11 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 				return graphicsLoader.getGraphicsNode(URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/methpub_obj.png"));
 			}
 			return null;
+		}
+
+		@Override
+		public Node getGraphic() {
+			return graphic.get();
 		}
 
 		@Override
@@ -184,24 +210,42 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 		private at.bestsolution.dart.server.api.model.Outline setter;
 		private GraphicsLoader graphicsLoader;
 		private OutlineItem parent;
+		private ReadOnlyObjectWrapper<CharSequence> label;
+		private ReadOnlyObjectWrapper<Node> graphic = new ReadOnlyObjectWrapper<>(this, "graphic");
 
 		public DartPropertyOutlineItem(OutlineItem parent, GraphicsLoader graphicsLoader) {
 			this.parent = parent;
 			this.graphicsLoader = graphicsLoader;
-		}
 
-		@Override
-		public CharSequence getLabel() {
-			return this.getter != null ? this.getter.getElement().getName() : this.setter.getElement().getName();
-		}
-
-		@Override
-		public Node getGraphic() {
 			AdornedImageDescriptor desc = new AdornedImageDescriptor(
 					URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/field_public_obj.png"),
 					Collections.singletonList(
 							new Adornment(Location.LEFT_TOP,URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/7/property.png"))));
-			return graphicsLoader.getGraphicsNode(desc);
+			graphic.set(graphicsLoader.getGraphicsNode(desc));
+		}
+
+		@Override
+		public CharSequence getLabel() {
+			return labelProperty().getValue();
+		}
+
+		@Override
+		public ReadOnlyProperty<CharSequence> labelProperty() {
+			if( this.label == null ) {
+				this.label = new ReadOnlyObjectWrapper<>(this, "label", this.getter != null ? this.getter.getElement().getName() : this.setter.getElement().getName());
+			}
+
+			return label.getReadOnlyProperty();
+		}
+
+		@Override
+		public Node getGraphic() {
+			return graphicProperty().getValue();
+		}
+
+		@Override
+		public ReadOnlyProperty<Node> graphicProperty() {
+			return graphic.getReadOnlyProperty();
 		}
 
 		@Override

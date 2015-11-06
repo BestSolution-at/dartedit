@@ -43,7 +43,7 @@
 }
 
 .styled-text-area .dart.dart_builtin_types {
-	-styled-text-color: #74a567;
+	-styled-text-color: -source-editor-buitin-type;
 	-fx-font-weight: bold;
 }
 
