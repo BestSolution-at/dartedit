@@ -8,11 +8,11 @@ import org.osgi.service.component.annotations.Component;
 import at.bestsolution.dart.editor.doc.DartInput;
 
 @Component
-public class DartTextHoverMapProvider implements HoverInformationProviderTypeProvider {
+public class DartHoverInformationProviderTypeProvider implements HoverInformationProviderTypeProvider {
 
 	@Override
 	public Class<? extends HoverInformationProvider> getType(Input<?> s) {
-		return DartTextHoverMap.class;
+		return DartHoverInformationProvider.class;
 	}
 
 	@Override

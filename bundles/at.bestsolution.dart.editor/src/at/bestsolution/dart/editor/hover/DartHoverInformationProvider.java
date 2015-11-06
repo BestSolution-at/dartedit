@@ -13,13 +13,13 @@ import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.model.AnalysisGetHoverResult;
 import at.bestsolution.dart.server.api.services.ServiceAnalysis;
 
-public class DartTextHoverMap implements HoverInformationProvider {
+public class DartHoverInformationProvider implements HoverInformationProvider {
 
 	private ServiceAnalysis analysis;
 	private LocalSourceFileInput fInput;
 
 	@Inject
-	public DartTextHoverMap(DartServer server, Input<?> input) {
+	public DartHoverInformationProvider(DartServer server, Input<?> input) {
 		fInput = (LocalSourceFileInput) input;
 		analysis = server.getService(ServiceAnalysis.class);
 	}

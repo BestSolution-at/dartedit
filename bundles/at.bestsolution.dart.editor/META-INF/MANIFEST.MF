@@ -29,9 +29,9 @@ Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.DartServerCF.xm
  OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDefModelProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.marker.DartAnnotationPresenterTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.hover.DartTextHoverMapProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.style.DartStylesheet.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.complete.DartCompletionProposalPresenterTypeProvider.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.complete.DartCompletionProposalPresenterTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverInformationProviderTypeProvider.xml
 Import-Package: javax.inject,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.fx.core,
