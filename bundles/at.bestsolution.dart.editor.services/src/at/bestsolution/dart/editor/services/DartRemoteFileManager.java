@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor.internal;
+package at.bestsolution.dart.editor.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.fx.code.editor.Constants;
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.LocalSourceFileInput;
@@ -33,6 +32,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 
+@SuppressWarnings("restriction")
 public class DartRemoteFileManager {
 	private List<String> activeInputList = new ArrayList<>();
 	private Set<String> activeContentOverlay = new HashSet<>();

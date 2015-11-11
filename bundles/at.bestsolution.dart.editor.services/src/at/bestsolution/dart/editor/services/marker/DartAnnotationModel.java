@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor.marker;
+package at.bestsolution.dart.editor.services.marker;
 
 import java.net.URI;
 import java.nio.file.Path;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.services.URIProvider;
-import org.eclipse.fx.ui.services.sync.UISynchronize;
+import org.eclipse.fx.core.ThreadSynchronize;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.AnnotationModel;
 
@@ -24,11 +24,11 @@ import at.bestsolution.dart.server.api.services.ServiceAnalysis;
 
 public class DartAnnotationModel extends AnnotationModel {
 	private Registration subscription;
-	private final UISynchronize synchronize;
+	private final ThreadSynchronize synchronize;
 	private Path file;
 
 	@Inject
-	public DartAnnotationModel(DartServer server, Input<?> input, UISynchronize synchronize) {
+	public DartAnnotationModel(DartServer server, Input<?> input, ThreadSynchronize synchronize) {
 		this.synchronize = synchronize;
 		URIProvider uriProvider = (URIProvider) input;
 		file = Paths.get(URI.create(uriProvider.getURI().toString())).toAbsolutePath();

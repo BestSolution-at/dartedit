@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: E4
+Bundle-SymbolicName: at.bestsolution.dart.editor.services.e4
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.e4.core.contexts,
+ at.bestsolution.dart.server.api
+Import-Package: org.osgi.service.component.annotations
+Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.services.e4.DartServerCF.xml
+Bundle-ActivationPolicy: lazy

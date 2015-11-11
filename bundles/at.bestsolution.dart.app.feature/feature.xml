@@ -168,4 +168,32 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="at.bestsolution.dart.editor"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="at.bestsolution.dart.editor.services"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="at.bestsolution.dart.editor.services.e4"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="at.bestsolution.dart.server.api"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>

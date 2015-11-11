@@ -10,7 +10,7 @@ import org.eclipse.fx.code.editor.ldef.lDef.Root;
 import org.eclipse.fx.code.editor.ldef.text.LDefModelProvider;
 import org.osgi.service.component.annotations.Component;
 
-import at.bestsolution.dart.editor.doc.DartInput;
+import at.bestsolution.dart.editor.services.doc.DartInput;
 
 @Component
 public class DarLDefModelProvider implements LDefModelProvider {

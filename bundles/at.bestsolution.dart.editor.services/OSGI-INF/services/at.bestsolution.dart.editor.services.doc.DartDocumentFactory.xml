@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.editor.doc.DartDocumentFactory">
-   <implementation class="at.bestsolution.dart.editor.doc.DartDocumentFactory"/>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.editor.services.doc.DartDocumentFactory">
+   <implementation class="at.bestsolution.dart.editor.services.doc.DartDocumentFactory"/>
    <service>
       <provide interface="org.eclipse.fx.code.editor.services.DocumentTypeProvider"/>
    </service>

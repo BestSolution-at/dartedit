@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor.doc;
+package at.bestsolution.dart.editor.services.doc;
 
 import java.nio.file.Path;
 

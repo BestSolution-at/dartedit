@@ -22,7 +22,7 @@ import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.fx.ui.services.sync.UISynchronize;
 import org.osgi.service.component.annotations.Component;
 
-import at.bestsolution.dart.editor.doc.DartInput;
+import at.bestsolution.dart.editor.services.doc.DartInput;
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.model.ElementKind;
 import javafx.beans.Observable;

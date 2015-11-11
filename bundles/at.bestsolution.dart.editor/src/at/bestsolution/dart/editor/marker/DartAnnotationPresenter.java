@@ -10,6 +10,7 @@ import org.eclipse.fx.text.ui.source.AnnotationPresenter;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.jface.text.source.Annotation;
 
+import at.bestsolution.dart.editor.services.marker.DartAnnotation;
 import at.bestsolution.dart.server.api.model.AnalysisErrorType;
 import javafx.scene.Node;
 import javafx.scene.control.Label;

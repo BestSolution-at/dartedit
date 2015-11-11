@@ -1,11 +1,11 @@
-package at.bestsolution.dart.editor.marker;
+package at.bestsolution.dart.editor.services.marker;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.services.AnnotationModelTypeProvider;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.osgi.service.component.annotations.Component;
 
-import at.bestsolution.dart.editor.doc.DartInput;
+import at.bestsolution.dart.editor.services.doc.DartInput;
 
 @Component
 public class DartAnnotationModelTypeProvider implements AnnotationModelTypeProvider {

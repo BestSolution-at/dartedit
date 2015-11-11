@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor.doc;
+package at.bestsolution.dart.editor.services.doc;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.services.DocumentTypeProvider;

@@ -5,7 +5,7 @@ import org.eclipse.fx.code.editor.fx.services.AnnotationPresenterTypeProvider;
 import org.eclipse.fx.text.ui.source.AnnotationPresenter;
 import org.osgi.service.component.annotations.Component;
 
-import at.bestsolution.dart.editor.doc.DartInput;
+import at.bestsolution.dart.editor.services.doc.DartInput;
 
 @Component
 public class DartAnnotationPresenterTypeProvider implements AnnotationPresenterTypeProvider {

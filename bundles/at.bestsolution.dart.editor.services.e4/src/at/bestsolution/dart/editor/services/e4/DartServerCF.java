@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor;
+package at.bestsolution.dart.editor.services.e4;
 
 import org.eclipse.e4.core.contexts.ContextFunction;
 import org.eclipse.e4.core.contexts.IContextFunction;
