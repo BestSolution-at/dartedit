@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="at.bestsolution.dart.app.MinMaxAnimation">
+   <service>
+      <provide interface="org.eclipse.fx.ui.workbench.renderers.base.services.MaximizationTransitionService"/>
+   </service>
+   <implementation class="at.bestsolution.dart.app.MinMaxAnimation"/>
+</scr:component>

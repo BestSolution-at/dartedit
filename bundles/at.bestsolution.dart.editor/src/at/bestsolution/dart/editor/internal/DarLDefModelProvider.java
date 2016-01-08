@@ -1,19 +1,20 @@
 package at.bestsolution.dart.editor.internal;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import org.eclipse.fx.code.editor.Input;
-import org.eclipse.fx.code.editor.ldef.LDefStandaloneSetup;
-import org.eclipse.fx.code.editor.ldef.lDef.LanguageDef;
-import org.eclipse.fx.code.editor.ldef.lDef.Root;
-import org.eclipse.fx.code.editor.ldef.text.LDefModelProvider;
+import org.eclipse.fx.code.editor.configuration.EditorGModel;
+import org.eclipse.fx.code.editor.configuration.LanguageDef;
+import org.eclipse.fx.code.editor.configuration.text.ConfigurationModelProvider;
+import org.eclipse.fx.core.log.LoggerCreator;
 import org.osgi.service.component.annotations.Component;
 
 import at.bestsolution.dart.editor.services.doc.DartInput;
 
+@SuppressWarnings("restriction")
 @Component
-public class DarLDefModelProvider implements LDefModelProvider {
+public class DarLDefModelProvider implements ConfigurationModelProvider {
 	private LanguageDef model;
 
 	@Override
@@ -23,13 +24,15 @@ public class DarLDefModelProvider implements LDefModelProvider {
 
 	@Override
 	public LanguageDef getModel(Input<?> input) {
-		if( model == null ) {
-			LDefStandaloneSetup.doSetup();
-			ResourceSetImpl rs = new ResourceSetImpl();
-			Resource resource = rs.getResource(URI.createURI("platform:/plugin/at.bestsolution.dart.editor/dart.ldef"), true);
-			model = ((Root) resource.getContents().get(0)).getLanguageDefinition();
+		if( model != null ) {
+			return model;
 		}
-		return model;
+		try( InputStream in = getClass().getClassLoader().getResourceAsStream("at/bestsolution/sample/code/dart.json");
+				InputStreamReader r = new InputStreamReader(in) ) {
+			return model = EditorGModel.create().createObject(r);
+		} catch (Exception e1) {
+			LoggerCreator.createLogger(DarLDefModelProvider.class).error("Unable to load json file", e1);
+			return null;
+		}
 	}
-
 }

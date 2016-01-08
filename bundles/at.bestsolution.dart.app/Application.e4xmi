@@ -39,4 +39,5 @@
   <addons xmi:id="_FgwfygU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.ui.workbench.addons.HandlerProcessingAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_lceawBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.addon.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.addons.DirtyStateTrackingAddon"/>
   <addons xmi:id="_ZmNHEBaCEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.addon.1" contributionURI="bundleclass://at.bestsolution.dart.editor.services/at.bestsolution.dart.editor.services.DartRemoteFileManager"/>
+  <addons xmi:id="_Tg2EIJQ-EeW0a-xuwVYiTA" elementId="at.bestsolution.dart.app.addon.2" contributionURI="bundleclass://org.eclipse.fx.ui.workbench.renderers.base/org.eclipse.fx.ui.workbench.renderers.base.addons.MinMaxAddon"/>
 </application:Application>

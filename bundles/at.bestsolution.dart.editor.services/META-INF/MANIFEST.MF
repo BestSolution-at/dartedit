@@ -7,9 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.fx.code.editor,
  org.eclipse.text;bundle-version="3.5.400",
  at.bestsolution.dart.server.api,
- org.eclipse.fx.core,
- org.eclipse.fx.code.editor.ldef,
- org.eclipse.fx.code.editor.ldef.text
+ org.eclipse.fx.core
 Import-Package: javax.inject,
  org.osgi.service.component.annotations;version="1.2.0"
 Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.services.doc.DartInputFactory.xml,
