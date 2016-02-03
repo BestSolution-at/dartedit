@@ -1,11 +1,10 @@
 package at.bestsolution.dart.editor.complete;
 
 import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.SourceFileInput;
 import org.eclipse.fx.code.editor.fx.services.CompletionProposalPresenter;
 import org.eclipse.fx.code.editor.fx.services.CompletionProposalPresenterTypeProvider;
 import org.osgi.service.component.annotations.Component;
-
-import at.bestsolution.dart.editor.services.doc.DartInput;
 
 @SuppressWarnings("restriction")
 @Component
@@ -17,8 +16,8 @@ public class DartCompletionProposalPresenterTypeProvider implements CompletionPr
 	}
 
 	@Override
-	public boolean test(Input<?> t) {
-		return t instanceof DartInput;
+	public boolean test(Input<?> input) {
+		return input instanceof SourceFileInput && ((SourceFileInput)input).getURI().endsWith(".dart");
 	}
 
 }

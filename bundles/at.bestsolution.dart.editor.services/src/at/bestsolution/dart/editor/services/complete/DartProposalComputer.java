@@ -1,7 +1,6 @@
 package at.bestsolution.dart.editor.services.complete;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,9 +12,9 @@ import java.util.stream.Stream;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.fx.code.editor.LocalFile;
 import org.eclipse.fx.code.editor.services.CompletionProposal;
 import org.eclipse.fx.code.editor.services.ProposalComputer;
-import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.log.Log;
 import org.eclipse.fx.core.log.Logger;
 import org.eclipse.jface.text.IDocument;
@@ -75,8 +74,8 @@ public class DartProposalComputer implements ProposalComputer {
 
 	@Override
 	public CompletableFuture<List<CompletionProposal>> compute(ProposalContext context) {
-		URIProvider p = (URIProvider) context.input;
-		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
+		LocalFile p = (LocalFile) context.input;
+		Path file = p.getPath();
 
 		CompletionGetSuggestionsResult result = completionService.getSuggestions(file.toString(), context.location);
 		requestId = result.getId();
