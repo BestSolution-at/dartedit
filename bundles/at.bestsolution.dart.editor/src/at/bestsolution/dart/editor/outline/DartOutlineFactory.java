@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.SourceFileInput;
 import org.eclipse.fx.code.editor.fx.services.Outline;
 import org.eclipse.fx.code.editor.fx.services.Outline.OutlineItem;
 import org.eclipse.fx.code.editor.fx.services.OutlineTypeProviderService;
@@ -22,14 +23,13 @@ import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.fx.ui.services.sync.UISynchronize;
 import org.osgi.service.component.annotations.Component;
 
-import at.bestsolution.dart.editor.services.doc.DartInput;
+import at.bestsolution.dart.editor.services.DartRemoteFileManager;
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.model.ElementKind;
 import javafx.beans.Observable;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -39,7 +39,7 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 
 	@Override
 	public boolean test(Input<?> input) {
-		return input instanceof DartInput;
+		return input instanceof SourceFileInput && ((SourceFileInput)input).getURI().endsWith(".dart");
 	}
 
 	@Override
@@ -51,21 +51,23 @@ public class DartOutlineFactory implements OutlineTypeProviderService {
 
 		private UISynchronize sync;
 		private ObservableList<OutlineItem> items = FXCollections.observableArrayList();
-		private DartInput input;
+		private SourceFileInput input;
 		private GraphicsLoader graphicsLoader;
+		private ObjectProperty<at.bestsolution.dart.server.api.model.Outline> outlineProperty;
 
 		@Inject
-		public DartOutline(UISynchronize sync, Input<?> input, GraphicsLoader graphicsLoader, DartServer server) {
+		public DartOutline(DartRemoteFileManager dartRemoteManager, UISynchronize sync, Input<?> input, GraphicsLoader graphicsLoader, DartServer server) {
 			this.graphicsLoader = graphicsLoader;
 			this.sync = sync;
-			this.input = (DartInput) input;
-			this.input.outlineProperty().addListener( this::handleOutlineChange );
-			handleOutlineChange(this.input.outlineProperty());
+			this.input = (SourceFileInput) input;
+			outlineProperty = dartRemoteManager.outlineProperty(input);
+			outlineProperty.addListener( this::handleOutlineChange );
+			handleOutlineChange(outlineProperty);
 		}
 
 		private void handleOutlineChange(Observable obs) {
-			if( this.input.outlineProperty().get() != null ) {
-				List<? extends OutlineItem> list = transformItems(null, graphicsLoader, this.input.outlineProperty().get().getChildren());
+			if( outlineProperty.get() != null ) {
+				List<? extends OutlineItem> list = transformItems(null, graphicsLoader, outlineProperty.get().getChildren());
 				sync.asyncExec(() -> items.setAll(list));
 			} else {
 				sync.asyncExec(() -> items.clear());

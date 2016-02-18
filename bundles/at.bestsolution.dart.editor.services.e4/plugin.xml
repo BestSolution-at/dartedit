@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="id1"
+         point="org.eclipse.e4.workbench.model">
+      <processor
+            apply="always"
+            beforefragment="true"
+            class="at.bestsolution.dart.editor.services.e4.DartRemoteFileManagerProcessor">
+      </processor>
+   </extension>
+
+</plugin>

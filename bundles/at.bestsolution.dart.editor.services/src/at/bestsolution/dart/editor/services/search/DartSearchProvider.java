@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.CodeReference;
 import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.SourceFileInput;
 import org.eclipse.fx.code.editor.services.SearchProvider;
 import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.event.EventBus;
@@ -23,7 +24,6 @@ import org.eclipse.fx.core.log.Logger;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 
-import at.bestsolution.dart.editor.services.doc.DartInput;
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.Registration;
 import at.bestsolution.dart.server.api.model.SearchFindElementReferencesResult;
@@ -61,7 +61,11 @@ public class DartSearchProvider implements SearchProvider {
 	private CodeReference mapTo(SearchResult r) {
 
 		Path path = Paths.get(r.getLocation().getFile());
-		Input input = new DartInput(fServer, eventBus, path);
+
+		// TODO update to inputless api
+//		Input input = new DartInput(fServer, eventBus, path);
+
+//		((SourceFileInput)input).getURI().endsWith(".dart");
 
 		IRegion region = new IRegion() {
 
@@ -86,7 +90,8 @@ public class DartSearchProvider implements SearchProvider {
 
 			@Override
 			public Input<?> getInput() {
-				return input;
+				return null;
+//				return input;
 			}
 		};
 	}

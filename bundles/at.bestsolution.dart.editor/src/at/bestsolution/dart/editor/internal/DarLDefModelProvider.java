@@ -4,13 +4,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.SourceFileInput;
 import org.eclipse.fx.code.editor.configuration.EditorGModel;
 import org.eclipse.fx.code.editor.configuration.LanguageDef;
 import org.eclipse.fx.code.editor.configuration.text.ConfigurationModelProvider;
 import org.eclipse.fx.core.log.LoggerCreator;
 import org.osgi.service.component.annotations.Component;
-
-import at.bestsolution.dart.editor.services.doc.DartInput;
 
 @SuppressWarnings("restriction")
 @Component
@@ -19,7 +18,7 @@ public class DarLDefModelProvider implements ConfigurationModelProvider {
 
 	@Override
 	public boolean applies(Input<?> input) {
-		return input instanceof DartInput;
+		return input instanceof SourceFileInput && ((SourceFileInput)input).getURI().endsWith(".dart");
 	}
 
 	@Override

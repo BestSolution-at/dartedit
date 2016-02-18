@@ -1,10 +1,11 @@
 package at.bestsolution.dart.server.api.model;
 
+import java.util.List;
 import java.util.Map;
 
 public class SearchResultsNotification {
 	private SearchId id;
-	private SearchResult results;
+	private List<SearchResult> results;
 	private boolean isLast;
 
 	public SearchResultsNotification() {
@@ -17,11 +18,11 @@ public class SearchResultsNotification {
 	public void setId(SearchId id) {
 		this.id = id;
 	}
-	public SearchResult getResults() {
+	public List<SearchResult> getResults() {
 		return this.results;
 	}
 
-	public void setResults(SearchResult results) {
+	public void setResults(List<SearchResult> results) {
 		this.results = results;
 	}
 	public boolean getIsLast() {

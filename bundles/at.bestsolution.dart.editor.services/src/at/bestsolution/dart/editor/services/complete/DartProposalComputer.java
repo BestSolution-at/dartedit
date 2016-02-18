@@ -95,7 +95,7 @@ public class DartProposalComputer implements ProposalComputer {
 
 	@Override
 	public CompletableFuture<List<CompletionProposal>> compute(ProposalContext context) {
-		System.err.println("compute " + this);
+//		System.err.println("compute " + this);
 		URIProvider p = (URIProvider) context.input;
 		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
 

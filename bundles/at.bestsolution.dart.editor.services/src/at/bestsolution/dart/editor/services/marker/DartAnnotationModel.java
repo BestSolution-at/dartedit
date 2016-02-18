@@ -1,6 +1,5 @@
 package at.bestsolution.dart.editor.services.marker;
 
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,17 +8,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Stream;
 
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
-import org.eclipse.fx.code.editor.services.URIProvider;
+import org.eclipse.fx.code.editor.LocalFile;
 import org.eclipse.fx.core.ThreadSynchronize;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
-import org.eclipse.jface.text.source.IAnnotationMap;
 
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.Registration;
@@ -27,8 +25,8 @@ import at.bestsolution.dart.server.api.model.AnalysisError;
 import at.bestsolution.dart.server.api.model.AnalysisErrorsNotification;
 import at.bestsolution.dart.server.api.model.AnalysisGetErrorsResult;
 import at.bestsolution.dart.server.api.services.ServiceAnalysis;
-import org.eclipse.jface.text.source.Annotation;
 
+@SuppressWarnings("restriction")
 public class DartAnnotationModel extends AnnotationModel {
 	private Registration subscription;
 	private final ThreadSynchronize synchronize;
@@ -37,8 +35,7 @@ public class DartAnnotationModel extends AnnotationModel {
 	@Inject
 	public DartAnnotationModel(DartServer server, Input<?> input, ThreadSynchronize synchronize) {
 		this.synchronize = synchronize;
-		URIProvider uriProvider = (URIProvider) input;
-		file = Paths.get(URI.create(uriProvider.getURI().toString())).toAbsolutePath();
+		file = ((LocalFile)input).getPath();
 
 		// Subscribe to errors
 		ServiceAnalysis service = server.getService(ServiceAnalysis.class);

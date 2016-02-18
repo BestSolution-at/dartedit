@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.text.ui.source.ILineRulerAnnotationPresenter;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
