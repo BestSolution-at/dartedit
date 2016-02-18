@@ -13,7 +13,8 @@ Import-Package: javax.inject,
 Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.services.doc.DartInputFactory.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.services.doc.DartDocumentFactory.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.services.complete.DartProposalComputerTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.services.marker.DartAnnotationModelTypeProvider.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.services.marker.DartAnnotationModelTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.services.search.DartProposalComputerTypeProvider.xml
 Bundle-ActivationPolicy: lazy
 Export-Package: at.bestsolution.dart.editor.services.complete,
  at.bestsolution.dart.editor.services.doc,

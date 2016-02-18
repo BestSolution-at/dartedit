@@ -19,12 +19,12 @@ Require-Bundle: org.eclipse.fx.text.ui,
  org.eclipse.fx.code.editor.fx.themes,
  org.eclipse.text,
  org.eclipse.fx.code.editor.fx;bundle-version="2.2.0"
-Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDefModelProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.marker.DartAnnotationPresenterTypeProvider.xml,
+Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDefModelProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.style.DartStylesheet.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.complete.DartCompletionProposalPresenterTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverInformationProviderTypeProvider.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverInformationProviderTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.complete.DartContextInformationPresenterTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.presenter.DartAnnotationPresenterTypeProvider.xml
 Import-Package: at.bestsolution.dart.editor.services.complete,
  at.bestsolution.dart.editor.services.doc,
  at.bestsolution.dart.editor.services.marker,

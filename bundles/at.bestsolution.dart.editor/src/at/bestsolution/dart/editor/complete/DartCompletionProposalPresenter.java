@@ -7,15 +7,16 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.fx.services.CompletionProposalPresenter;
+import org.eclipse.fx.code.editor.fx.services.ContextInformationPresenter;
 import org.eclipse.fx.code.editor.fx.services.FXCompletionProposal;
 import org.eclipse.fx.code.editor.services.CompletionProposal;
 import org.eclipse.fx.core.URI;
 import org.eclipse.fx.text.ui.contentassist.ICompletionProposal;
 import org.eclipse.fx.ui.controls.styledtext.StyledString;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor;
-import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Adornment;
 import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Location;
+import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 
 import at.bestsolution.dart.editor.services.complete.DartCompletionProposal;
 import at.bestsolution.dart.server.api.model.CompletionResultsNotification;
@@ -29,6 +30,9 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 	private final GraphicsLoader graphicsLoader;
 
 	@Inject
+	private ContextInformationPresenter contextInformationPresenter;
+
+	@Inject
 	public DartCompletionProposalPresenter(GraphicsLoader graphicsLoader) {
 		this.graphicsLoader = graphicsLoader;
 	}
@@ -36,6 +40,7 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 	@Override
 	public ICompletionProposal createProposal(CompletionProposal proposal) {
 		DartCompletionProposal p = (DartCompletionProposal) proposal;
+
 		return mapToCompletion(proposal, p.notification,p.proposal);
 	}
 
@@ -45,12 +50,21 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 		URI baseImage;
 		List<Adornment> adornments = new ArrayList<>();
 
+
 		if( suggestion.getKind() == CompletionSuggestionKind.KEYWORD ) {
 			baseImage = null;
 			s.appendSegment(suggestion.getCompletion(), "dart-element-name");
 		} else if( suggestion.getKind() == CompletionSuggestionKind.INVOCATION ) {
 			if( suggestion.getElement() != null ) {
-				if( suggestion.getElement().getKind() == ElementKind.FUNCTION
+				if (suggestion.getElement().getKind() == ElementKind.LOCAL_VARIABLE) {
+					baseImage = URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/local_field_obj.png");;
+					s.appendSegment(suggestion.getElement().getName() + " \u2192 " + suggestion.getReturnType(), "dart-element-name");
+				}
+				else if (suggestion.getElement().getKind() == ElementKind.CLASS) {
+					baseImage = URI.createPlatformPluginURI("at.bestsolution.dart.editor", "css/icons/16/classpub_obj.png");
+					s.appendSegment(suggestion.getElement().getName(), "dart-element-name");
+				}
+				else if( suggestion.getElement().getKind() == ElementKind.FUNCTION
 						|| suggestion.getElement().getKind() == ElementKind.METHOD
 						|| suggestion.getElement().getKind() == ElementKind.GETTER
 						|| suggestion.getElement().getKind() == ElementKind.SETTER) {
@@ -106,6 +120,6 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 			supplier = () -> null;
 		}
 
-		return new FXCompletionProposal(proposal,s, supplier);
+		return new FXCompletionProposal(proposal, s, supplier, contextInformationPresenter.createInformation(proposal.getContextInformation()), suggestion.getDocComplete());
 	}
 }

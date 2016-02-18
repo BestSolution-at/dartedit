@@ -44,10 +44,12 @@ public class ProjectExplorer {
 		b.getChildren().add(new Label("Project Explorer", nodeProvider.getGraphicsNode(URI.createPlatformPluginURI("at.bestsolution.dart.app","css/icons/16/filenav_nav.png"))));
 		p.setTop(b);
 
+		String workspace = System.getProperty("dart.workspace", "/Users/tomschindl/dart-samples/");
+
 		partStack = (MPartStack) modelService.find("at.bestsolution.dart.app.editorstack", application);
-		server.getService(ServiceAnalysis.class).setAnalysisRoots(new String[] {"/Users/tomschindl/dart-samples/"}, new String[0], null);
+		server.getService(ServiceAnalysis.class).setAnalysisRoots(new String[] {workspace}, new String[0], null);
 		ResourceTreeView viewer = new ResourceTreeView();
-		viewer.setRootDirectories(FXCollections.observableArrayList(ResourceItem.createObservedPath(Paths.get("/Users/tomschindl/dart-samples/"))));
+		viewer.setRootDirectories(FXCollections.observableArrayList(ResourceItem.createObservedPath(Paths.get(workspace))));
 		viewer.addEventHandler(ResourceEvent.openResourceEvent(), this::handleEvent);
 		p.setCenter(viewer);
 	}

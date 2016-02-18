@@ -1,4 +1,4 @@
-package at.bestsolution.dart.editor.marker;
+package at.bestsolution.dart.editor.presenter;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.fx.services.AnnotationPresenterTypeProvider;

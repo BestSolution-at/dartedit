@@ -30,7 +30,8 @@ Require-Bundle: org.eclipse.fx.ui.workbench.fx,
  org.eclipse.fx.code.editor.fx;bundle-version="1.0.0",
  org.eclipse.fx.code.editor.e4;bundle-version="2.1.0",
  at.bestsolution.dart.editor.services;bundle-version="1.0.0",
- org.eclipse.fx.ui.workbench.renderers.base
+ org.eclipse.fx.ui.workbench.renderers.base,
+ org.eclipse.jdt.annotation;bundle-version="2.0.100";resolution:=optional
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

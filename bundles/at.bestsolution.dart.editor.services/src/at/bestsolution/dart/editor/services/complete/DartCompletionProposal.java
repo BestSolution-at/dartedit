@@ -1,6 +1,7 @@
 package at.bestsolution.dart.editor.services.complete;
 
 import org.eclipse.fx.code.editor.services.CompletionProposal.BaseCompletetionProposal;
+import org.eclipse.fx.code.editor.services.ContextInformation;
 
 import at.bestsolution.dart.server.api.model.CompletionResultsNotification;
 import at.bestsolution.dart.server.api.model.CompletionSuggestion;
@@ -10,15 +11,15 @@ public class DartCompletionProposal extends BaseCompletetionProposal implements 
 	public final CompletionResultsNotification notification;
 	public final CompletionSuggestion proposal;
 
-	public DartCompletionProposal(CompletionResultsNotification notification, CompletionSuggestion proposal) {
-		super(proposal.getCompletion(),notification.getReplacementOffset(),notification.getReplacementLength(),proposal.getCompletion());
+	public DartCompletionProposal(CompletionResultsNotification notification, CompletionSuggestion proposal, ContextInformation contextInformation) {
+		super(proposal.getCompletion(),notification.getReplacementOffset(),notification.getReplacementLength(),proposal.getCompletion(), contextInformation);
 		this.notification = notification;
 		this.proposal = proposal;
 	}
 
 	@Override
 	public int compareTo(DartCompletionProposal o) {
-		int compare = Integer.compare(proposal.getRelevance(), o.proposal.getRelevance());
+		int compare = Integer.compare(o.proposal.getRelevance(), proposal.getRelevance());
 		if( compare == 0 ) {
 			compare = getLabel().toString().compareTo(o.getLabel().toString());
 		}

@@ -14,6 +14,7 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.services.CompletionProposal;
+import org.eclipse.fx.code.editor.services.ContextInformation;
 import org.eclipse.fx.code.editor.services.ProposalComputer;
 import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.log.Log;
@@ -25,6 +26,7 @@ import at.bestsolution.dart.server.api.Registration;
 import at.bestsolution.dart.server.api.model.CompletionGetSuggestionsResult;
 import at.bestsolution.dart.server.api.model.CompletionResultsNotification;
 import at.bestsolution.dart.server.api.model.CompletionSuggestion;
+import at.bestsolution.dart.server.api.model.CompletionSuggestionKind;
 import at.bestsolution.dart.server.api.services.ServiceCompletion;
 
 @SuppressWarnings("restriction")
@@ -48,6 +50,7 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	private synchronized void handleHandleResults(CompletionResultsNotification notification) {
+		System.err.println("handleResult("+notification.getId()+")");
 		if( requestId != null && requestId.equals(notification.getId()) ) {
 			completions.addAll(Stream.of(notification.getResults()).map( e -> mapToCompletion(notification, e)).collect(Collectors.toList()));
 			if( notification.getIsLast() ) {
@@ -67,14 +70,32 @@ public class DartProposalComputer implements ProposalComputer {
 				}
 			}
 		}
+		else {
+			System.err.println("dropping result for request " + notification.getId());
+		}
+	}
+
+	private ContextInformation createContextInformation(CompletionResultsNotification notification, CompletionSuggestion proposal) {
+		if (proposal.getKind() == CompletionSuggestionKind.ARGUMENT_LIST) {
+			String paramString = "";
+			for (int i = 0; i < proposal.getParameterTypes().length; i++) {
+				paramString += proposal.getParameterTypes()[i] + " " + proposal.getParameterNames()[i];
+				if (i < proposal.getParameterTypes().length - 1) {
+					paramString +=", ";
+				}
+			}
+			return new ContextInformation.BaseContextInformation(0, paramString);
+		}
+		return null;
 	}
 
 	private DartCompletionProposal mapToCompletion(CompletionResultsNotification notification, CompletionSuggestion proposal) {
-		return new DartCompletionProposal(notification,proposal);
+		return new DartCompletionProposal(notification, proposal, createContextInformation(notification, proposal));
 	}
 
 	@Override
 	public CompletableFuture<List<CompletionProposal>> compute(ProposalContext context) {
+		System.err.println("compute " + this);
 		URIProvider p = (URIProvider) context.input;
 		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
 

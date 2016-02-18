@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutionException;
 import at.bestsolution.dart.server.api.RequestErrorException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import at.bestsolution.dart.server.api.model.*;
 import java.util.Map;
 
@@ -28,11 +30,24 @@ public class LocalCompletionService implements at.bestsolution.dart.server.api.s
 	public void dispatchEvent(JsonObject root) {
 		switch(root.get("event").getAsString()) {
 			case "completion.results": {
+				System.err.println("dispatch=" + root);
 				at.bestsolution.dart.server.api.model.CompletionResultsNotification o = new Gson().fromJson(root.get("params"), at.bestsolution.dart.server.api.model.CompletionResultsNotification.class);
 				List<java.util.function.Consumer<at.bestsolution.dart.server.api.model.CompletionResultsNotification>> l;
+
+				// patch o for now
+				Arrays.stream(o.getResults()).forEach(e->{
+					if (e.getDocSummary() == null) {
+						e.setDocSummary("Doc Summary missing");
+					}
+					if (e.getDocComplete() == null) {
+						e.setDocComplete("Doc Complete missing");
+					}
+				});
+
 				synchronized(resultsConsumerList) {
 					l = new ArrayList<>(resultsConsumerList);
 				}
+
 				l.stream().forEach( c -> c.accept(o));
 				break;
 			}
