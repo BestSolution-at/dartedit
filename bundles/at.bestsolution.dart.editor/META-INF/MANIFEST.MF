@@ -24,7 +24,8 @@ Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDe
  OSGI-INF/services/at.bestsolution.dart.editor.complete.DartCompletionProposalPresenterTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverInformationProviderTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.complete.DartContextInformationPresenterTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.presenter.DartAnnotationPresenterTypeProvider.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.presenter.DartAnnotationPresenterTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml
 Import-Package: at.bestsolution.dart.editor.services.complete,
  at.bestsolution.dart.editor.services.doc,
  at.bestsolution.dart.editor.services.marker,
