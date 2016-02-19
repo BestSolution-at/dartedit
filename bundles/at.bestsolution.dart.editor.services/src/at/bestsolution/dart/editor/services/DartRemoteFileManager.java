@@ -55,7 +55,7 @@ public class DartRemoteFileManager {
 		eventBroker.subscribe(Constants.TOPIC_SOURCE_FILE_INPUT_CREATED, this::handleInputOpened);
 		eventBroker.subscribe(Constants.TOPIC_SOURCE_FILE_INPUT_MODIFIED, this::handleInputModified);
 		eventBroker.subscribe(Constants.TOPIC_SOURCE_FILE_INPUT_SAVED, this::handleInputSaved);
-		eventBroker.subscribe(Constants.TOPIC_SOURCE_FILE_INPUT_DISPOSED, this::handleInputOpened);
+		eventBroker.subscribe(Constants.TOPIC_SOURCE_FILE_INPUT_DISPOSED, this::handleInputDisposed);
 	}
 
 	DartServer getServer(Input<?> input) {
