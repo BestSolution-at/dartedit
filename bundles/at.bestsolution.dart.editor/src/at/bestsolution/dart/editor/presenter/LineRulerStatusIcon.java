@@ -44,14 +44,12 @@ public class LineRulerStatusIcon implements ILineRulerAnnotationPresenter {
 		return annotation instanceof DartAnnotation;
 	}
 
-	private Map<ImageView, Tooltip> tooltips = new HashMap<>();
-
 	@Override
 	public Node createNode() {
 		ImageView i = new ImageView();
 		Tooltip tt = new Tooltip();
 		Tooltip.install(i, tt);
-		tooltips.put(i, tt);
+		i.setUserData(tt);
 		return i;
 
 //		Label label = new Label();
@@ -161,11 +159,12 @@ public class LineRulerStatusIcon implements ILineRulerAnnotationPresenter {
 
 		String message = computeMessage(byImportance);
 		if (message == null || message.isEmpty()) {
-			tooltips.get(node).setText("");
+			Tooltip tt = (Tooltip) node.getUserData();
+			tt.setText("");
 		}
 		else {
 			// attaching and detaching is expensive - but there is no api to hide empty tooltips -.-
-			Tooltip tt = tooltips.get(node);
+			Tooltip tt = (Tooltip) node.getUserData();
 			tt.setText(message);
 		}
 

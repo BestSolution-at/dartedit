@@ -25,14 +25,12 @@ public class TextMarker implements ITextAnnotationPresenter {
 		return annotation instanceof DartAnnotation;
 	}
 
-	private Map<Node, Tooltip> blub = new HashMap<>();
-
 	@Override
 	public Node createNode() {
 		Region r = new Region();
 		Tooltip t = new Tooltip();
 		Tooltip.install(r, t);
-		blub.put(r, t);
+		r.setUserData(t);
 		return r;
 	}
 
@@ -50,8 +48,7 @@ public class TextMarker implements ITextAnnotationPresenter {
 		case INFO: c = Color.BLANCHEDALMOND; break;
 		}
 		r.setBorder(new Border(new BorderStroke(c, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1.5, 0))));
-
-		Tooltip t = blub.get(node);
+		Tooltip t = (Tooltip) node.getUserData();
 		t.setText(a.getError().getMessage());
 	}
 
