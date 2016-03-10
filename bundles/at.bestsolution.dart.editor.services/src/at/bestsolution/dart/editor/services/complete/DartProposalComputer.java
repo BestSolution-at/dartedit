@@ -3,6 +3,7 @@ package at.bestsolution.dart.editor.services.complete;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -80,10 +81,10 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	private ContextInformation createContextInformation(CompletionResultsNotification notification, CompletionSuggestion proposal) {
-		System.err.println(" - " + proposal.getCompletion());
-		System.err.println("kind: " + proposal.getKind());
-		System.err.println(proposal.getHasNamedParameters());
-		System.err.println(proposal.getElement());
+//		System.err.println(" - " + proposal.getCompletion());
+//		System.err.println("kind: " + proposal.getKind());
+//		System.err.println(proposal.getHasNamedParameters());
+//		System.err.println(proposal.getElement());
 
 
 		if (proposal.getElement() != null && proposal.getElement().getKind() == ElementKind.METHOD) {
@@ -104,6 +105,13 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	private DartCompletionProposal mapToCompletion(CompletionResultsNotification notification, CompletionSuggestion proposal) {
+
+		System.err.println("notification " + notification.getReplacementOffset() + " - " + notification.getReplacementLength());
+		System.err.println("mapping " + proposal);
+		System.err.println(" el: " + proposal.getElement());
+
+		System.err.println(" " + proposal.getSelectionOffset() + " - " + proposal.getSelectionLength());
+
 		return new DartCompletionProposal(notification, proposal, createContextInformation(notification, proposal));
 	}
 
