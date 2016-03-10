@@ -28,9 +28,9 @@ public class TextMarker implements ITextAnnotationPresenter {
 	@Override
 	public Node createNode() {
 		Region r = new Region();
-		Tooltip t = new Tooltip();
-		Tooltip.install(r, t);
-		r.setUserData(t);
+//		Tooltip t = new Tooltip();
+//		Tooltip.install(r, t);
+//		r.setUserData(t);
 		return r;
 	}
 
@@ -48,8 +48,12 @@ public class TextMarker implements ITextAnnotationPresenter {
 		case INFO: c = Color.BLANCHEDALMOND; break;
 		}
 		r.setBorder(new Border(new BorderStroke(c, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1.5, 0))));
-		Tooltip t = (Tooltip) node.getUserData();
-		t.setText(a.getError().getMessage());
+//		Tooltip t = (Tooltip) node.getUserData();
+//		t.setText(a.getError().getMessage());
 	}
 
+	@Override
+	public String toString() {
+		return "DartTextMarkerAP@" + hashCode();
+	}
 }

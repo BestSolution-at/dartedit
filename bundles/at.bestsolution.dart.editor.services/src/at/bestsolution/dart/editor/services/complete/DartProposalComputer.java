@@ -27,6 +27,7 @@ import at.bestsolution.dart.server.api.model.CompletionGetSuggestionsResult;
 import at.bestsolution.dart.server.api.model.CompletionResultsNotification;
 import at.bestsolution.dart.server.api.model.CompletionSuggestion;
 import at.bestsolution.dart.server.api.model.CompletionSuggestionKind;
+import at.bestsolution.dart.server.api.model.ElementKind;
 import at.bestsolution.dart.server.api.services.ServiceCompletion;
 
 @SuppressWarnings("restriction")
@@ -64,6 +65,9 @@ public class DartProposalComputer implements ProposalComputer {
 							return ((DartCompletionProposal)o1).compareTo((DartCompletionProposal) o2);
 						}
 					});
+					for (CompletionProposal p : tmp) {
+						System.err.println(" * " + p.getLabel() + " -> " + p.getContextInformation());
+					}
 					future.complete(tmp);
 				} else {
 					System.err.println("Received informations after the last item has been sent");
@@ -76,6 +80,16 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	private ContextInformation createContextInformation(CompletionResultsNotification notification, CompletionSuggestion proposal) {
+		System.err.println(" - " + proposal.getCompletion());
+		System.err.println("kind: " + proposal.getKind());
+		System.err.println(proposal.getHasNamedParameters());
+		System.err.println(proposal.getElement());
+
+
+		if (proposal.getElement() != null && proposal.getElement().getKind() == ElementKind.METHOD) {
+			return new ContextInformation.BaseContextInformation(0, proposal.getElement().getParameters());
+		}
+
 		if (proposal.getKind() == CompletionSuggestionKind.ARGUMENT_LIST) {
 			String paramString = "";
 			for (int i = 0; i < proposal.getParameterTypes().length; i++) {

@@ -12,7 +12,7 @@ public class DartCompletionProposal extends BaseCompletetionProposal implements 
 	public final CompletionSuggestion proposal;
 
 	public DartCompletionProposal(CompletionResultsNotification notification, CompletionSuggestion proposal, ContextInformation contextInformation) {
-		super(proposal.getCompletion(),notification.getReplacementOffset(),notification.getReplacementLength(),proposal.getCompletion(), contextInformation);
+		super(proposal.getCompletion(),notification.getReplacementOffset(),notification.getReplacementLength(), proposal.getCompletion(), contextInformation);
 		this.notification = notification;
 		this.proposal = proposal;
 	}

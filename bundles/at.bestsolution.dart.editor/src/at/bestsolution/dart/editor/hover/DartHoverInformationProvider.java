@@ -1,10 +1,15 @@
 package at.bestsolution.dart.editor.hover;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.LocalSourceFileInput;
 import org.eclipse.fx.code.editor.services.HoverInformationProvider;
+import org.eclipse.fx.text.hover.AnnotationHoverProvider;
+import org.eclipse.fx.text.hover.DocumentHoverProvider;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
@@ -18,10 +23,16 @@ public class DartHoverInformationProvider implements HoverInformationProvider {
 	private ServiceAnalysis analysis;
 	private LocalSourceFileInput fInput;
 
+	private Set<AnnotationHoverProvider> ap = new HashSet<>();
+	private DocumentHoverProvider dp;
+
 	@Inject
 	public DartHoverInformationProvider(DartServer server, Input<?> input) {
 		fInput = (LocalSourceFileInput) input;
 		analysis = server.getService(ServiceAnalysis.class);
+
+		dp = new DartDocumentHoverProvider(server, input);
+		ap.add(new DartMarkerAnnotationHoverProvider());
 	}
 
 	@Override
@@ -38,5 +49,16 @@ public class DartHoverInformationProvider implements HoverInformationProvider {
 		return new Region(offset, 0);
 	}
 
+
+
+	@Override
+	public Set<AnnotationHoverProvider> getAnnotationHoverProviders() {
+		return ap;
+	}
+
+	@Override
+	public DocumentHoverProvider getDocumentHoverProvider() {
+		return dp;
+	}
 
 }

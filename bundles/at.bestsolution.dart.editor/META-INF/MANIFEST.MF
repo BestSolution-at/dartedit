@@ -26,12 +26,14 @@ Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.internal.DarLDe
  OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverInformationProviderTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.complete.DartContextInformationPresenterTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.presenter.DartAnnotationPresenterTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.outline.DartOutlineFactory.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.hover.DartHoverProviderTypeProvider.xml
 Import-Package: javax.inject,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.fx.code.editor.configuration,
  org.eclipse.fx.code.editor.configuration.text,
  org.eclipse.fx.core,
+ org.eclipse.fx.text.hover,
  org.eclipse.fx.ui.services.theme,
  org.osgi.service.component.annotations;version="1.2.0",
  org.osgi.service.event;version="1.3.1"

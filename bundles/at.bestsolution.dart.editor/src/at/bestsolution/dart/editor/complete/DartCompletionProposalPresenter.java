@@ -122,4 +122,9 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 
 		return new FXCompletionProposal(proposal, s, supplier, contextInformationPresenter.createInformation(proposal.getContextInformation()), suggestion.getDocComplete());
 	}
+
+	@Override
+	public String getAutoTriggers() {
+		return ".";
+	}
 }

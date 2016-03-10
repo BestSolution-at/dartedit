@@ -180,4 +180,8 @@ public class LineRulerStatusIcon implements ILineRulerAnnotationPresenter {
 		return byImportance.stream().map(e-> e.getSeverity() + ": " + e.getMessage()).collect(Collectors.joining("\n"));
 	}
 
+	@Override
+	public String toString() {
+		return "DartStatusIconAP@" + hashCode();
+	}
 }
