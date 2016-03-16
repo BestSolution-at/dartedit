@@ -26,17 +26,11 @@ import javafx.scene.image.ImageView;
 public class LineRulerStatusIcon implements ILineRulerAnnotationPresenter {
 
 	private GraphicsLoader loader;
-	private DoubleProperty width = new SimpleDoubleProperty(this,"width",16.0);
 
 	private DoubleProperty width = new SimpleDoubleProperty(16);
 
 	public LineRulerStatusIcon(GraphicsLoader loader) {
 		this.loader = loader;
-	}
-
-	@Override
-	public DoubleProperty getWidth() {
-		return this.width;
 	}
 
 	@Override
