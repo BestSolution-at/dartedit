@@ -15,6 +15,8 @@ import org.eclipse.jface.text.source.Annotation;
 import at.bestsolution.dart.editor.services.marker.DartAnnotation;
 import at.bestsolution.dart.server.api.model.AnalysisError;
 import at.bestsolution.dart.server.api.model.AnalysisErrorType;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -25,8 +27,15 @@ public class LineRulerStatusIcon implements ILineRulerAnnotationPresenter {
 
 	private GraphicsLoader loader;
 
+	private DoubleProperty width = new SimpleDoubleProperty(16);
+
 	public LineRulerStatusIcon(GraphicsLoader loader) {
 		this.loader = loader;
+	}
+
+	@Override
+	public DoubleProperty getWidth() {
+		return this.width;
 	}
 
 	@Override
