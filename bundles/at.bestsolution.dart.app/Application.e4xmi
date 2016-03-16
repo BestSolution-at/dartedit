@@ -21,12 +21,21 @@
       <children xsi:type="menu:Menu" xmi:id="_CpGUQOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.file" label="File"/>
       <children xsi:type="menu:Menu" xmi:id="_D-GYUOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.editor" label="Editor">
         <children xsi:type="menu:Menu" xmi:id="_Hg_QQOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.editorfeatures" label="Editor Features"/>
+        <children xsi:type="menu:Menu" xmi:id="_v-Ry4OvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.tab" label="Tab">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_ymFioOvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.handledmenuitem.2" label="2" type="Radio" command="_zHkfEOvGEeWgu7jS30MYmw">
+            <parameters xmi:id="__Z82sOvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.parameter.0" name="tabAdvance" value="2"/>
+          </children>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_8WS4cOvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.handledmenuitem.4" label="4" selected="true" type="Radio" command="_zHkfEOvGEeWgu7jS30MYmw">
+            <parameters xmi:id="_Bmj4MOvHEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.parameter.1" name="tabAdvance" value="4"/>
+          </children>
+        </children>
       </children>
     </mainMenu>
   </children>
   <handlers xmi:id="_zP68gBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.handler.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.handlers.SaveFile" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
   <handlers xmi:id="_25cqkBZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.handler.1" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.handlers.SwitchTheme" command="_1UMkABZ1EeWLWqhHszNLKg"/>
   <handlers xmi:id="_XAm_8Ou8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.handler.2" contributionURI="bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.handlers.ToggleEditorFeature" command="_P1grMOu8EeWgu7jS30MYmw"/>
+  <handlers xmi:id="_3Y6_gOvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.handler.3" contributionURI="bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.handlers.SetTabAdvance" command="_zHkfEOvGEeWgu7jS30MYmw"/>
   <bindingTables xmi:id="_vA-P0BRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.bindingtable.0" bindingContext="_FgwfwAU_EeWaU_pgkGpdwA">
     <bindings xmi:id="_wKpNoBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.keybinding.0" keySequence="M1+S" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
     <bindings xmi:id="_z7MwwBZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.keybinding.1" keySequence="M1+T" command="_1UMkABZ1EeWLWqhHszNLKg"/>
@@ -39,6 +48,9 @@
   <commands xmi:id="_1UMkABZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.command.switchtheme" commandName="Switch Theme"/>
   <commands xmi:id="_P1grMOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.command.toggleeditorfeature" commandName="Toggle Editor Feature">
     <parameters xmi:id="_k1eBgOu9EeWgu7jS30MYmw" elementId="feature" name="Feature"/>
+  </commands>
+  <commands xmi:id="_zHkfEOvGEeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.command.tabadvance" commandName="Tab Advance">
+    <parameters xmi:id="_0mG5oOvGEeWgu7jS30MYmw" elementId="tabAdvance" name="Tab Advance"/>
   </commands>
   <addons xmi:id="_FgwfxAU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_FgwfxQU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
