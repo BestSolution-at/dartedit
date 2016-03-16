@@ -3,16 +3,16 @@ package at.bestsolution.dart.server.api.model;
 import java.util.Map;
 
 public class SearchFindTopLevelDeclarationsResult {
-	private SearchId id;
+	private String id;
 
 	public SearchFindTopLevelDeclarationsResult() {
 	}
 
-	public SearchId getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(SearchId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 }

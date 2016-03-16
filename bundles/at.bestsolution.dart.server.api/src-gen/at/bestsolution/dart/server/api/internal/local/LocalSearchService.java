@@ -3,6 +3,9 @@ package at.bestsolution.dart.server.api.internal.local;
 import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import at.bestsolution.dart.server.api.RequestErrorException;
 import java.util.List;
 import java.util.ArrayList;
@@ -45,7 +48,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The server is disposed");
 		}
 		try {
-			JsonObject o = server.sendRequest( "search.findElementReferences", new SearchFindElementReferencesRequest(file, offset, includePotential)).get();
+			JsonObject o = server.sendRequest( "search.findElementReferences", new SearchFindElementReferencesRequest(file, offset, includePotential)).get(1, TimeUnit.SECONDS);
 			if( o.has("error") ) {
 				throw new RequestErrorException(new Gson().fromJson(o.get("error"), at.bestsolution.dart.server.api.model.RequestError.class));
 			}
@@ -55,6 +58,8 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 			throw new IllegalStateException("The request did not return a result");
 		} catch (InterruptedException | ExecutionException e) {
 			throw new IllegalStateException(e);
+		} catch (TimeoutException e) {
+			throw new IllegalStateException("The dart server did not respond in time!");
 		}
 	}
 	public at.bestsolution.dart.server.api.model.SearchFindMemberDeclarationsResult findMemberDeclarations(String name) {
@@ -101,6 +106,7 @@ public class LocalSearchService implements at.bestsolution.dart.server.api.servi
 				throw new RequestErrorException(new Gson().fromJson(o.get("error"), at.bestsolution.dart.server.api.model.RequestError.class));
 			}
 			if( o.has("result") ) {
+				System.err.println("RESULT JSON " + o);
 				return new Gson().fromJson(o.get("result"), at.bestsolution.dart.server.api.model.SearchFindTopLevelDeclarationsResult.class);
 			}
 			throw new IllegalStateException("The request did not return a result");

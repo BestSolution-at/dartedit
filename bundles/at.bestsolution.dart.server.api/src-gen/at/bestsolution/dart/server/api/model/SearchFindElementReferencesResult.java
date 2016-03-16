@@ -3,17 +3,17 @@ package at.bestsolution.dart.server.api.model;
 import java.util.Map;
 
 public class SearchFindElementReferencesResult {
-	private SearchId id;
+	private String id;
 	private Element element;
 
 	public SearchFindElementReferencesResult() {
 	}
 
-	public SearchId getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(SearchId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public Element getElement() {

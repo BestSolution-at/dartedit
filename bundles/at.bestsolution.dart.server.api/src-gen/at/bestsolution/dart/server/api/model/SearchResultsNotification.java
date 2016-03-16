@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchResultsNotification {
-	private SearchId id;
+	private String id;
 	private List<SearchResult> results;
 	private boolean isLast;
 
 	public SearchResultsNotification() {
 	}
 
-	public SearchId getId() {
+	public String getId() {
 		return this.id;
 	}
 
-	public void setId(SearchId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public List<SearchResult> getResults() {
