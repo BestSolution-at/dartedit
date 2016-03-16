@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmi:id="_FgwfwQU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.application" bindingContexts="_FgwfwAU_EeWaU_pgkGpdwA">
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_FgwfwQU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.application" bindingContexts="_FgwfwAU_EeWaU_pgkGpdwA">
   <children xsi:type="basic:TrimmedWindow" xmi:id="_A46ywBO1EeWTCoi5q3KDzA" elementId="at.bestsolution.dart.app.trimmedwindow.bestsolutiondarteditor" label="BestSolution Dart Editor" x="30" y="30" width="1024" height="800">
     <persistedState key="efx.window.root.fxml" value="platform:/plugin/at.bestsolution.dart.app/at/bestsolution/dart/app/DartEditorWindow.fxml"/>
     <tags>efx-lightweight-dialogs</tags>
@@ -17,9 +17,16 @@
       <children xsi:type="basic:Part" xmi:id="_8KAmQBZqEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.part.1" containerData="100" contributionURI="bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.OutlineViewer"/>
     </children>
     <variables>activeInput</variables>
+    <mainMenu xmi:id="_BfWd8Ou8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.0">
+      <children xsi:type="menu:Menu" xmi:id="_CpGUQOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.file" label="File"/>
+      <children xsi:type="menu:Menu" xmi:id="_D-GYUOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.editor" label="Editor">
+        <children xsi:type="menu:Menu" xmi:id="_Hg_QQOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.menu.editorfeatures" label="Editor Features"/>
+      </children>
+    </mainMenu>
   </children>
   <handlers xmi:id="_zP68gBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.handler.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.handlers.SaveFile" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
   <handlers xmi:id="_25cqkBZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.handler.1" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.handlers.SwitchTheme" command="_1UMkABZ1EeWLWqhHszNLKg"/>
+  <handlers xmi:id="_XAm_8Ou8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.handler.2" contributionURI="bundleclass://org.eclipse.fx.code.editor.fx/org.eclipse.fx.code.editor.fx.handlers.ToggleEditorFeature" command="_P1grMOu8EeWgu7jS30MYmw"/>
   <bindingTables xmi:id="_vA-P0BRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.bindingtable.0" bindingContext="_FgwfwAU_EeWaU_pgkGpdwA">
     <bindings xmi:id="_wKpNoBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.keybinding.0" keySequence="M1+S" command="_w-V7cBRvEeWx7uBqMKmxpw"/>
     <bindings xmi:id="_z7MwwBZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.keybinding.1" keySequence="M1+T" command="_1UMkABZ1EeWLWqhHszNLKg"/>
@@ -30,6 +37,9 @@
   </rootContext>
   <commands xmi:id="_w-V7cBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.save" commandName="Save File"/>
   <commands xmi:id="_1UMkABZ1EeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.command.switchtheme" commandName="Switch Theme"/>
+  <commands xmi:id="_P1grMOu8EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.command.toggleeditorfeature" commandName="Toggle Editor Feature">
+    <parameters xmi:id="_k1eBgOu9EeWgu7jS30MYmw" elementId="feature" name="Feature"/>
+  </commands>
   <addons xmi:id="_FgwfxAU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_FgwfxQU_EeWaU_pgkGpdwA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_FgwfxgU_EeWaU_pgkGpdwA" elementId="org.eclipse.fx.ui.keybindings.e4.service" contributionURI="bundleclass://org.eclipse.fx.ui.keybindings.e4/org.eclipse.fx.ui.keybindings.e4.BindingServiceAddon"/>
@@ -40,4 +50,5 @@
   <addons xmi:id="_lceawBRvEeWx7uBqMKmxpw" elementId="at.bestsolution.dart.app.addon.0" contributionURI="bundleclass://org.eclipse.fx.code.editor.e4/org.eclipse.fx.code.editor.e4.addons.DirtyStateTrackingAddon"/>
   <addons xmi:id="_ZmNHEBaCEeWLWqhHszNLKg" elementId="at.bestsolution.dart.app.addon.1" contributionURI="bundleclass://at.bestsolution.dart.editor.services/at.bestsolution.dart.editor.services.DartRemoteFileManager"/>
   <addons xmi:id="_Tg2EIJQ-EeW0a-xuwVYiTA" elementId="at.bestsolution.dart.app.addon.2" contributionURI="bundleclass://org.eclipse.fx.ui.workbench.renderers.base/org.eclipse.fx.ui.workbench.renderers.base.addons.MinMaxAddon"/>
+  <addons xmi:id="_fURCwOu9EeWgu7jS30MYmw" elementId="at.bestsolution.dart.app.addon.3" contributionURI="bundleclass://at.bestsolution.dart.app/at.bestsolution.dart.app.addons.EditorFeatureAddon"/>
 </application:Application>

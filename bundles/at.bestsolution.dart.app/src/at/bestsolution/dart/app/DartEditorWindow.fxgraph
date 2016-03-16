@@ -5,10 +5,19 @@ import org.eclipse.fx.ui.controls.stage.DefaultTrimmedWindowPane
 import org.eclipse.fx.ui.panes.FillLayoutPane
 import javafx.scene.layout.Pane
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
 
 component DartEditorWindow {
 	DefaultTrimmedWindowPane {
 		content : BorderPane {
+			top : HBox {
+				children : [
+					StackPane {
+						^id : "menu-bar-area",
+						call HBox#hgrow : "ALWAYS"
+					}
+				]
+			},
 			center : FillLayoutPane {
 				^id : "client-area"
 			}

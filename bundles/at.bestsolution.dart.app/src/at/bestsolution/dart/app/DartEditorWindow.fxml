@@ -5,6 +5,8 @@
 
 <?import java.lang.*?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import org.eclipse.fx.ui.controls.stage.DefaultTrimmedWindowPane?>
 <?import org.eclipse.fx.ui.panes.FillLayoutPane?>
 
@@ -12,6 +14,13 @@
 
 	<content>
 		<BorderPane> 
+			<top>
+				<HBox> 
+					<children>
+						<StackPane id="menu-bar-area" HBox.hgrow="ALWAYS"/> 
+					</children>
+				</HBox>
+			</top>
 			<center>
 				<FillLayoutPane id="client-area"/> 
 			</center>

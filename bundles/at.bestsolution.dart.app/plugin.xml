@@ -2,7 +2,7 @@
 <?eclipse version="3.0"?>
 <plugin>
 <extension id="product" point="org.eclipse.core.runtime.products">
-	<product name="Dart IDE" application="org.eclipse.fx.ui.workbench.fx.application" >
+	<product name="%product.name" application="org.eclipse.fx.ui.workbench.fx.application" >
 		<property name="appName" value="Dart IDE" />
 		
 		<property name="applicationXMI" value="at.bestsolution.dart.app/Application.e4xmi" />
