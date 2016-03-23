@@ -1,7 +1,6 @@
 package at.bestsolution.dart.editor.services.navigation;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -9,8 +8,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -100,11 +99,23 @@ public class DartNavigationProvider implements NavigationProvider {
 
 
 	@Override
-	public Future<List<NavigationRegion>> getNavigationRegions() {
+	public CompletableFuture<List<NavigationRegion>> getNavigationRegions() {
 		return CompletableFuture.supplyAsync(()-> {
 			AnalysisGetNavigationResult dartResult = this.fAnalysisService.getNavigation(getInputPath().toString(), 0, this.fDocument.getLength());
 			List<NavigationRegion> regions = Arrays.stream(dartResult.getRegions()).map(dartRegion->convertRegion(dartResult, dartRegion)).collect(Collectors.toList());
 			return regions;
 		});
+	}
+
+	@Override
+	public CompletableFuture<Optional<NavigationRegion>> getNavigationRegion(int caretOffet) {
+		return getNavigationRegions().thenApply( list -> {
+			for (NavigationRegion region : list) {
+				if (region.getRegion().getOffset() <= caretOffet && region.getRegion().getOffset() + region.getRegion().getLength() > caretOffet) {
+					return java.util.Optional.of(region);
+				}
+			}
+			return Optional.empty();
+		} );
 	}
 }
