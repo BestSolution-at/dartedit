@@ -130,7 +130,7 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 		}
 
 		// suggestion.getDocComplete() always returns Doc Complete missing
-		Function<DartCompletionProposal, String> documentation = p -> {
+		Function<DartCompletionProposal, CharSequence> documentation = p -> {
 			AnalysisGetHoverResult hover = analysis.getHover(p.proposal.getElement().getLocation().getFile(), p.proposal.getElement().getLocation().getOffset());
 			String text = hover.getHovers().length > 0 ? hover.getHovers()[0].getDartdoc() : "no documentation";
 			return text == null ? "no documentation" : text;
