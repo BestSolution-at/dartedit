@@ -41,10 +41,10 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 	public ICompletionProposal createProposal(CompletionProposal proposal) {
 		DartCompletionProposal p = (DartCompletionProposal) proposal;
 
-		return mapToCompletion(proposal, p.notification,p.proposal);
+		return mapToCompletion(p, p.notification,p.proposal);
 	}
 
-	private FXCompletionProposal mapToCompletion(CompletionProposal proposal, CompletionResultsNotification notification, CompletionSuggestion suggestion) {
+	private FXCompletionProposal<DartCompletionProposal> mapToCompletion(DartCompletionProposal proposal, CompletionResultsNotification notification, CompletionSuggestion suggestion) {
 		StyledString s = new StyledString();
 
 		URI baseImage;
@@ -120,7 +120,7 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 			supplier = () -> null;
 		}
 
-		return new FXCompletionProposal(proposal, s, supplier, contextInformationPresenter.createInformation(proposal.getContextInformation()), suggestion.getDocComplete());
+		return new FXCompletionProposal<>(proposal, s, supplier, contextInformationPresenter.createInformation(proposal.getContextInformation()), suggestion.getDocComplete());
 	}
 
 	@Override
