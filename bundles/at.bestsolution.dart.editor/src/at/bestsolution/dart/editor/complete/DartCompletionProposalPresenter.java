@@ -2,6 +2,7 @@ package at.bestsolution.dart.editor.complete;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.inject.Inject;
@@ -19,10 +20,13 @@ import org.eclipse.fx.ui.services.resources.AdornedImageDescriptor.Location;
 import org.eclipse.fx.ui.services.resources.GraphicsLoader;
 
 import at.bestsolution.dart.editor.services.complete.DartCompletionProposal;
+import at.bestsolution.dart.server.api.DartServer;
+import at.bestsolution.dart.server.api.model.AnalysisGetHoverResult;
 import at.bestsolution.dart.server.api.model.CompletionResultsNotification;
 import at.bestsolution.dart.server.api.model.CompletionSuggestion;
 import at.bestsolution.dart.server.api.model.CompletionSuggestionKind;
 import at.bestsolution.dart.server.api.model.ElementKind;
+import at.bestsolution.dart.server.api.services.ServiceAnalysis;
 import javafx.scene.Node;
 
 @SuppressWarnings("restriction")
@@ -32,9 +36,14 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 	@Inject
 	private ContextInformationPresenter contextInformationPresenter;
 
+	private DartServer server;
+
+	private ServiceAnalysis analysis;
+
 	@Inject
-	public DartCompletionProposalPresenter(GraphicsLoader graphicsLoader) {
+	public DartCompletionProposalPresenter(DartServer server, GraphicsLoader graphicsLoader) {
 		this.graphicsLoader = graphicsLoader;
+		this.analysis = server.getService(ServiceAnalysis.class);
 	}
 
 	@Override
@@ -120,7 +129,13 @@ public class DartCompletionProposalPresenter implements CompletionProposalPresen
 			supplier = () -> null;
 		}
 
-		return new FXCompletionProposal<>(proposal, s, supplier, contextInformationPresenter.createInformation(proposal.getContextInformation()), suggestion.getDocComplete());
+		// suggestion.getDocComplete() always returns Doc Complete missing
+		Function<DartCompletionProposal, String> documentation = p -> {
+			AnalysisGetHoverResult hover = analysis.getHover(p.proposal.getElement().getLocation().getFile(), p.proposal.getElement().getLocation().getOffset());
+			String text = hover.getHovers().length > 0 ? hover.getHovers()[0].getDartdoc() : "no documentation";
+			return text == null ? "no documentation" : text;
+		};
+		return new FXCompletionProposal<>(proposal, p -> s, p -> supplier.get(), contextInformationPresenter.createInformation(proposal.getContextInformation()), documentation);
 	}
 
 	@Override
