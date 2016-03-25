@@ -16,7 +16,8 @@ Service-Component: OSGI-INF/services/at.bestsolution.dart.editor.services.doc.Da
  OSGI-INF/services/at.bestsolution.dart.editor.services.complete.DartProposalComputerTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.services.marker.DartAnnotationModelTypeProvider.xml,
  OSGI-INF/services/at.bestsolution.dart.editor.services.search.DartSearchProviderTypeProvider.xml,
- OSGI-INF/services/at.bestsolution.dart.editor.services.navigation.DartNavigationProviderTypeProvider.xml
+ OSGI-INF/services/at.bestsolution.dart.editor.services.navigation.DartNavigationProviderTypeProvider.xml,
+ OSGI-INF/services/at.bestsolution.dart.editor.services.DartBehaviorContributorTypeProvider.xml
 Bundle-ActivationPolicy: lazy
 Export-Package: at.bestsolution.dart.editor.services,
  at.bestsolution.dart.editor.services.complete,
