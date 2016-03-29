@@ -35,6 +35,8 @@ public class DartAnnotationPresenter implements AnnotationPresenter {
 	public void init() {
 		lineRulerAnnotationPresenter.add(new LineRulerStatusIcon(loader));
 		textAnnotationPresenter.add(new TextMarker());
+		textAnnotationPresenter.add(new PairMarker());
+		textAnnotationPresenter.add(new SameWordMarker());
 		lineRulerAnnotationPresenter.add(new BreakpointIcon(loader, model, document));
 	}
 

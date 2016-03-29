@@ -14,8 +14,10 @@ import java.util.stream.Stream;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.services.CompletionProposal;
 import org.eclipse.fx.code.editor.services.ContextInformation;
+import org.eclipse.fx.code.editor.services.EditingContext;
 import org.eclipse.fx.code.editor.services.ProposalComputer;
 import org.eclipse.fx.code.editor.services.URIProvider;
 import org.eclipse.fx.core.log.Log;
@@ -34,6 +36,9 @@ import at.bestsolution.dart.server.api.services.ServiceCompletion;
 @SuppressWarnings("restriction")
 public class DartProposalComputer implements ProposalComputer {
 
+	private final Input<?> input;
+	private final EditingContext editingContext;
+
 	private String requestId;
 	private ServiceCompletion completionService;
 	private Registration proposalRegistration;
@@ -43,9 +48,11 @@ public class DartProposalComputer implements ProposalComputer {
 	private Logger logger;
 
 	@Inject
-	public DartProposalComputer(IDocument document, DartServer server, @Log Logger logger) {
+	public DartProposalComputer(IDocument document, Input<?> input, EditingContext editingContext, DartServer server, @Log Logger logger) {
 		this.logger = logger;
 		this.logger.debug("Creating proposal computer");
+		this.input = input;
+		this.editingContext = editingContext;
 		completionService = server.getService(ServiceCompletion.class);
 
 		proposalRegistration = completionService.results(this::handleHandleResults);
@@ -116,12 +123,12 @@ public class DartProposalComputer implements ProposalComputer {
 	}
 
 	@Override
-	public CompletableFuture<List<CompletionProposal>> compute(ProposalContext context) {
+	public CompletableFuture<List<CompletionProposal>> compute() {
 //		System.err.println("compute " + this);
-		URIProvider p = (URIProvider) context.input;
+		URIProvider p = (URIProvider) this.input;
 		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
 
-		CompletionGetSuggestionsResult result = completionService.getSuggestions(file.toString(), context.location);
+		CompletionGetSuggestionsResult result = completionService.getSuggestions(file.toString(), editingContext.getCaretOffset());
 		requestId = result.getId();
 
 		future = new CompletableFuture<>();

@@ -1,7 +1,8 @@
 package at.bestsolution.dart.editor.services;
 
 import java.text.BreakIterator;
-import java.text.StringCharacterIterator;
+
+import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.services.BehaviorContributor;
 import org.eclipse.fx.code.editor.services.EditingContext;
@@ -9,8 +10,18 @@ import org.eclipse.fx.core.text.DefaultTextEditActions;
 import org.eclipse.fx.core.text.SourceTextEditActions;
 import org.eclipse.fx.core.text.TextEditAction;
 import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 
 public class DartBehaviorContributor implements BehaviorContributor {
+
+	private final EditingContext editingContext;
+	private final IDocument document;
+
+	@Inject
+	public DartBehaviorContributor(IDocument document, EditingContext editingContext) {
+		this.document = document;
+		this.editingContext = editingContext;
+	}
 
 	public final static TextEditAction CUSTOM_FUN = new TextEditAction() {
 	};
@@ -34,13 +45,13 @@ public class DartBehaviorContributor implements BehaviorContributor {
 	}
 
 	@Override
-	public boolean handle(TextEditAction action, EditingContext context) {
+	public boolean handle(TextEditAction action) {
 
 		// custom event handling
 		if (action == CUSTOM_FUN) {
 			try {
-				context.document.replace(context.location - 1, 1, "var fun = \"Hello Dart!\";");
-				context.editor.setCaret(context.location + 23);
+				this.document.replace(this.editingContext.getCaretOffset() - 1, 1, "var fun = \"Hello Dart!\";");
+				this.editingContext.setCaretOffset(this.editingContext.getCaretOffset() + 23);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
@@ -50,19 +61,19 @@ public class DartBehaviorContributor implements BehaviorContributor {
 		// example to change word navigation behavior
 		if (action == DefaultTextEditActions.WORD_NEXT) {
 			BreakIterator wordInstance = new CamelCaseBreakIterator();
-			wordInstance.setText(context.document.get());
-			int following = wordInstance.following(context.editor.getCaret());
+			wordInstance.setText(this.document.get());
+			int following = wordInstance.following(this.editingContext.getCaretOffset());
 			if (following != BreakIterator.DONE) {
-				context.editor.setCaret(following);
+				this.editingContext.setCaretOffset(following);
 			}
 			return true;
 		}
 		if (action == DefaultTextEditActions.WORD_PREVIOUS) {
 			BreakIterator wordInstance = new CamelCaseBreakIterator();
-			wordInstance.setText(context.document.get());
-			int prev = wordInstance.preceding(context.editor.getCaret());
+			wordInstance.setText(this.document.get());
+			int prev = wordInstance.preceding(this.editingContext.getCaretOffset());
 			if (prev != BreakIterator.DONE) {
-				context.editor.setCaret(prev);
+				this.editingContext.setCaretOffset(prev);
 			}
 			return true;
 		}
@@ -70,24 +81,24 @@ public class DartBehaviorContributor implements BehaviorContributor {
 		// example to change word selection behavior
 		if (action == DefaultTextEditActions.SELECT_WORD_NEXT) {
 			BreakIterator wordInstance = new CamelCaseBreakIterator();
-			wordInstance.setText(context.document.get());
-			int following = wordInstance.following(context.editor.getCaret());
+			wordInstance.setText(this.document.get());
+			int following = wordInstance.following(this.editingContext.getCaretOffset());
 			if (following != BreakIterator.DONE) {
-				context.editor.setCaret(following, true);
+				this.editingContext.setCaretOffset(following, true);
 			}
 			return true;
 		}
 		if (action == DefaultTextEditActions.SELECT_WORD_PREVIOUS) {
 			BreakIterator wordInstance = new CamelCaseBreakIterator();
-			wordInstance.setText(context.document.get());
-			int prev = wordInstance.preceding(context.editor.getCaret());
+			wordInstance.setText(this.document.get());
+			int prev = wordInstance.preceding(this.editingContext.getCaretOffset());
 			if (prev != BreakIterator.DONE) {
-				context.editor.setCaret(prev, true);
+				this.editingContext.setCaretOffset(prev, true);
 			}
 			return true;
 		}
 
-		return BehaviorContributor.super.handle(action, context);
+		return BehaviorContributor.super.handle(action);
 	}
 
 }
