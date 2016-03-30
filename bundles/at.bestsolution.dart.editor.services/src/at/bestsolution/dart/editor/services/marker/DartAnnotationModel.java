@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +29,9 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
 
+import at.bestsolution.dart.editor.services.pair.PairManager;
+import at.bestsolution.dart.editor.services.pair.PairType.Pair;
+import at.bestsolution.dart.editor.services.pair.PairTypeProvider;
 import at.bestsolution.dart.server.api.DartServer;
 import at.bestsolution.dart.server.api.Registration;
 import at.bestsolution.dart.server.api.model.AnalysisError;
@@ -45,12 +48,17 @@ public class DartAnnotationModel extends AnnotationModel {
 	private final EditingContext editingContext;
 	private final IDocument document;
 
+	private PairManager pairManager;
+
 	@Inject
 	public DartAnnotationModel(DartServer server, IDocument document, EditingContext editingContext, Input<?> input, ThreadSynchronize synchronize) {
 		this.synchronize = synchronize;
 		this.document = document;
 		this.editingContext = editingContext;
 		file = ((LocalFile)input).getPath();
+
+		// TODO change this to injection
+		pairManager = new PairManager(document, editingContext, new PairTypeProvider());
 
 		// Subscribe to errors
 		ServiceAnalysis service = server.getService(ServiceAnalysis.class);
@@ -60,18 +68,19 @@ public class DartAnnotationModel extends AnnotationModel {
 				() -> service.getErrors(file.toString())).thenAccept(this::accept);
 
 		this.editingContext.registerOnCaretOffsetChanged(this::onCaretOffsetChanged);
+
 	}
 
 	private ActivePairAnnotation activePairAnnotation = null;
 
-	private void setActivePairAnnotation(IRegion region) {
+	private void setActivePairAnnotation(Optional<IRegion> region) {
 		if (activePairAnnotation != null) {
 			removeAnnotation(activePairAnnotation);
 		}
 
-		if (region != null) {
+		if (region.isPresent()) {
 			activePairAnnotation = new ActivePairAnnotation();
-			addAnnotation(activePairAnnotation, new Position(region.getOffset(), region.getLength()));
+			addAnnotation(activePairAnnotation, region.map(r->new Position(r.getOffset(), r.getLength())).get());
 		}
 	}
 
@@ -89,89 +98,6 @@ public class DartAnnotationModel extends AnnotationModel {
 		}
 
 		replaceAnnotations(oldAnnotations.toArray(new Annotation[]{}), replacement);
-	}
-
-	private interface PairType {
-		Pattern getPattern();
-	}
-
-	private enum SimplePairType implements PairType {
-		CURLY_BRACKET("([{])|([}])"),
-		BRACE("([(])|([)])"),
-		LTGT("([<])|([>])"),
-		BEGIN_END("(begin)|(end)"),
-		BRACKET("([\\[])|([\\]])");;
-
-		private Pattern pattern;
-		private SimplePairType(String pattern) {
-			this.pattern = Pattern.compile(pattern);
-		}
-
-		@Override
-		public Pattern getPattern() {
-			return pattern;
-		}
-	}
-
-	private List<PairType> activePairTypes = new ArrayList<>();
-
-	private Map<IRegion, PairType> pairTypeCache = new HashMap<>();
-	private Map<IRegion, IRegion> oppositePairCache = new HashMap<>();
-
-	private void computePairs() {
-		pairTypeCache.clear();
-		oppositePairCache.clear();
-
-		for (PairType t : activePairTypes) {
-
-			Stack<IRegion> leftSide = new Stack<>();
-
-			Matcher matcher = t.getPattern().matcher(document.get());
-			while (matcher.find()) {
-
-				if (matcher.group(1) != null) {
-					// left hit
-					IRegion left = new Region(matcher.start(1), matcher.end(1) - matcher.start(1));
-					leftSide.push(left);
-
-				}
-				else if (matcher.group(2) != null) {
-					// right hit
-					if (!leftSide.isEmpty()) {
-						IRegion left = leftSide.pop();
-						IRegion right = new Region(matcher.start(2), matcher.end(2) - matcher.start(2));
-						oppositePairCache.put(left, right);
-						oppositePairCache.put(right, left);
-						pairTypeCache.put(left, t);
-						pairTypeCache.put(right, t);
-					}
-				}
-
-			}
-		}
-	}
-
-
-	private IRegion findPair(int caretOffset) {
-
-		activePairTypes.clear();
-		activePairTypes.add(SimplePairType.CURLY_BRACKET);
-		activePairTypes.add(SimplePairType.BRACE);
-		activePairTypes.add(SimplePairType.BRACKET);
-		activePairTypes.add(SimplePairType.LTGT);
-		activePairTypes.add(SimplePairType.BEGIN_END);
-
-
-		computePairs();
-
-		for (IRegion r : pairTypeCache.keySet()) {
-			if (r.getOffset() <= caretOffset && r.getOffset() + r.getLength() >= caretOffset ) {
-				// found one
-				return oppositePairCache.get(r);
-			}
-		}
-
-		return null;
 	}
 
 	private String findWordUnderCaret(int caretOffset) {
@@ -197,7 +123,7 @@ public class DartAnnotationModel extends AnnotationModel {
 
 		}
 		catch (BadLocationException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		return null;
 	}
@@ -217,17 +143,20 @@ public class DartAnnotationModel extends AnnotationModel {
 	private void onCaretOffsetChanged(int caretOffset) {
 
 		// basic example for highlighting pairs
-		IRegion result = findPair(caretOffset);
-		setActivePairAnnotation(result);
+		Optional<Pair> caretPair = this.pairManager.getHighlightPair(caretOffset);
+		Optional<Pair> opposite = caretPair.map(p->p.getOpposite());
+		Optional<IRegion> oppositeRegion = opposite.map(p->p.getRegion());
+		setActivePairAnnotation(oppositeRegion);
 
 		// basic example for highlighting similar words
 		//  find word under caret
-		String word = findWordUnderCaret(caretOffset);
-		System.err.println("WORD: " + word);
+
 
 		List<IRegion> occurences = Collections.emptyList();
-		// check if it is really a word
-		if (word != null && word.matches("[a-zA-Z]+[a-zA-Z0-9]*")) {
+		String word = findWordUnderCaret(caretOffset);
+		System.err.println("WORD: " + word);
+		// check if it is really a word (if it is a pair we don't highlight occurences)
+		if (!caretPair.isPresent() && word != null && word.matches("[a-zA-Z]+[a-zA-Z0-9]*")) {
 			occurences = findOccurences(word);
 			// remove self
 			Iterator<IRegion> iterator = occurences.iterator();

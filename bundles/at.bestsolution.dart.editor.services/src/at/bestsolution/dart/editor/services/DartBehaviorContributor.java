@@ -4,26 +4,43 @@ import java.text.BreakIterator;
 
 import javax.inject.Inject;
 
+import org.eclipse.fx.code.editor.Constants;
 import org.eclipse.fx.code.editor.services.BehaviorContributor;
 import org.eclipse.fx.code.editor.services.EditingContext;
+import org.eclipse.fx.core.Util;
+import org.eclipse.fx.core.preferences.Preference;
 import org.eclipse.fx.core.text.DefaultTextEditActions;
 import org.eclipse.fx.core.text.SourceTextEditActions;
 import org.eclipse.fx.core.text.TextEditAction;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
+
+import at.bestsolution.dart.editor.services.pair.PairManager;
+import at.bestsolution.dart.editor.services.pair.PairTypeProvider;
 
 public class DartBehaviorContributor implements BehaviorContributor {
 
 	private final EditingContext editingContext;
 	private final IDocument document;
 
+	private PairManager pairManager;
+
+
 	@Inject
 	public DartBehaviorContributor(IDocument document, EditingContext editingContext) {
 		this.document = document;
 		this.editingContext = editingContext;
+
+		// TODO should be injected
+		this.pairManager = new PairManager(document, editingContext, new PairTypeProvider());
+
 	}
 
 	public final static TextEditAction CUSTOM_FUN = new TextEditAction() {
+	};
+
+	public final static TextEditAction AUTO_FORMAT = new TextEditAction() {
 	};
 
 	@Override
@@ -42,7 +59,42 @@ public class DartBehaviorContributor implements BehaviorContributor {
 		// add custom event
 		mapping.map('ö', CUSTOM_FUN);
 
+		mapping.map("Ctrl+F", AUTO_FORMAT);
+
 	}
+
+	private int tabAdvance = 4;
+	private boolean spacesForTab = false;
+
+	@Inject
+	public void setTabAdvance(@Preference(nodePath=Constants.PREFERENCE_NODE_PATH, key=Constants.PREFERENCE_TAB_ADVANCE) Integer tabAdvance ) {
+		this.tabAdvance = tabAdvance;
+	}
+
+	@Inject
+	public void setInsertSpacesForTab(@Preference(nodePath=Constants.PREFERENCE_NODE_PATH, key=Constants.PREFERENCE_SPACES_FOR_TAB) Boolean spacesForTab ) {
+		this.spacesForTab = spacesForTab;
+	}
+
+	private String repeat(String s, int count) {
+		StringBuilder result = new StringBuilder();
+		for (int i = 0; i < count; i++) {
+			result.append(s);
+		}
+		return result.toString();
+	}
+
+	private String getTabString() {
+		if (spacesForTab) {
+			return repeat(" ", tabAdvance);
+		}
+		return "\t";
+	}
+
+	private String getTabs(int count) {
+		return repeat(getTabString(), count);
+	}
+
 
 	@Override
 	public boolean handle(TextEditAction action) {
@@ -96,6 +148,65 @@ public class DartBehaviorContributor implements BehaviorContributor {
 				this.editingContext.setCaretOffset(prev, true);
 			}
 			return true;
+		}
+
+		if (action == AUTO_FORMAT) {
+			pairManager.autoformat();
+			return true;
+		}
+
+		if (action == DefaultTextEditActions.NEW_LINE) {
+			pairManager.fixIndentationOnEnter();
+			return true;
+//			try {
+//				int caret = editingContext.getCaretOffset();
+//
+//				int lineIdx = document.getLineOfOffset(caret);
+//
+//				int count = pairManager.getIndent(lineIdx+1);
+//				System.err.println("line " + lineIdx + ": " + count);
+//
+//				String tabString = getTabString();
+//
+//
+//				// TODO get tab config here
+////				if( this.viewer.getTextWidget().isInsertSpacesForTab() ) {
+////					tabString = Util.createRepeatedString(' ', viewer.getTextWidget().getTabAdvance());
+////				}
+//
+//				int replaceAt = caret;
+//				int replaceLen = 0;
+//				String replace = "\n";
+//				for (int i = 0; i < count; i++) {
+//					replace += tabString;
+//				}
+//
+//
+//				// endfix
+//				int indent = pairManager.getIndent(caret);
+//				int lineBegin = document.getLineInformationOfOffset(caret).getOffset();
+//				String before = document.get().substring(lineBegin, caret);
+//				if (before.matches("^\\s*}")) {
+//					String tabs = "";
+//					for (int i = 0; i < indent; i++) {
+//						tabs += tabString;
+//					}
+//					replaceAt = lineBegin;
+//					replaceLen = before.length();
+//					replace = tabs + '}' + replace;
+//				}
+//
+//
+//
+//				document.replace(replaceAt, replaceLen, replace);
+//				editingContext.setCaretOffset(caret - replaceLen + replace.length());
+//				return true;
+//
+//
+//			}
+//			catch (BadLocationException e) {
+//				e.printStackTrace();
+//			}
 		}
 
 		return BehaviorContributor.super.handle(action);
