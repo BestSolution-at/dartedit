@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_NnYxIO4JEeWm_-oB-Rb30w">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_TM19wO4JEeWm_-oB-Rb30w" featurename="handlers" parentElementId="org.eclipse.e4.application">
+    <elements xsi:type="commands:Handler" xmi:id="_hY_6cO4JEeWm_-oB-Rb30w" elementId="at.bestsolution.dart.editor.sample.dyn.handler.0" contributionURI="bundleclass://at.bestsolution.dart.editor.sample.dyn/at.bestsolution.dart.editor.sample.dyn.DynToggleHandler" command="_dwNO0O4JEeWm_-oB-Rb30w"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_ZdFz0O4JEeWm_-oB-Rb30w" featurename="commands" parentElementId="org.eclipse.e4.application">
+    <elements xsi:type="commands:Command" xmi:id="_dwNO0O4JEeWm_-oB-Rb30w" elementId="at.bestsolution.dart.editor.sample.dyn.command.toggledy" commandName="Toggle Dy"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_kgFnMO4JEeWm_-oB-Rb30w" featurename="children" parentElementId="at.bestsolution.dart.app.menu.editor">
+    <elements xsi:type="menu:HandledMenuItem" xmi:id="_tU_LUO4JEeWm_-oB-Rb30w" elementId="at.bestsolution.dart.editor.sample.dyn.handledmenuitem.dynsample" label="Dyn Sample" type="Check" command="_dwNO0O4JEeWm_-oB-Rb30w"/>
+  </fragments>
+</fragment:ModelFragments>
