@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Constants;
 import org.eclipse.fx.code.editor.services.BehaviorContributor;
+import org.eclipse.fx.code.editor.services.ContextInformation;
 import org.eclipse.fx.code.editor.services.EditingContext;
 import org.eclipse.fx.core.Util;
 import org.eclipse.fx.core.preferences.Preference;
@@ -43,6 +44,13 @@ public class DartBehaviorContributor implements BehaviorContributor {
 	public final static TextEditAction AUTO_FORMAT = new TextEditAction() {
 	};
 
+	public final static TextEditAction SINGLE_LINE_AUTO_CLOSE = new TextEditAction() {
+	};
+
+	public final static TextEditAction TRIGGER_CONTEXT_INFORMATION = new TextEditAction() {
+	};
+
+
 	@Override
 	public void initializeMapping(MappingRegistry mapping) {
 		// add autocompletion trigger for a typed character
@@ -60,6 +68,11 @@ public class DartBehaviorContributor implements BehaviorContributor {
 		mapping.map('ö', CUSTOM_FUN);
 
 		mapping.map("Ctrl+F", AUTO_FORMAT);
+
+
+		mapping.map('(', SINGLE_LINE_AUTO_CLOSE);
+
+		mapping.map("Ctrl+Shift+Space", TRIGGER_CONTEXT_INFORMATION);
 
 	}
 
@@ -155,8 +168,59 @@ public class DartBehaviorContributor implements BehaviorContributor {
 			return true;
 		}
 
+		if (action == TRIGGER_CONTEXT_INFORMATION) {
+			int offset = this.editingContext.getCaretOffset();
+			ContextInformation info = new ContextInformation() {
+				@Override
+				public CharSequence getText() {
+					return "This is an example of ContextInformation via the EditingContext#showContextInformation() api";
+				}
+
+				@Override
+				public int getOffset() {
+					return offset;
+				}
+			};
+			this.editingContext.showContextInformation(info);
+		}
+
+		if (action == SINGLE_LINE_AUTO_CLOSE) {
+			try {
+
+				int offset = this.editingContext.getCaretOffset();
+					if ("(".equals(document.get(offset - 1, 1))) {
+						document.replace(offset, 0, ")");
+					}
+
+				}
+			catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 		if (action == DefaultTextEditActions.NEW_LINE) {
-			pairManager.fixIndentationOnEnter();
+
+			boolean fixAlsoNextLine = false;
+
+			// automatically insert }
+			try {
+				int offset = this.editingContext.getCaretOffset();
+
+				IRegion lf = this.document.getLineInformationOfOffset(offset);
+				String line = this.document.get(lf.getOffset(), lf.getLength());
+
+				if (line.matches(".*[{]\\s*")) {
+
+					document.replace(offset, 0, "\n}");
+					fixAlsoNextLine = true;
+				}
+			}
+			catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+
+			pairManager.fixIndentationOnEnter(fixAlsoNextLine);
 			return true;
 //			try {
 //				int caret = editingContext.getCaretOffset();
