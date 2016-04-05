@@ -1,3 +1,8 @@
 .root {
     -fx-font-size: 1em;
 }
+
+.styled-text-area .lua.dyn-sample {
+	-fx-fill: -source-editor-keyword;
+	-fx-font-weight: bold;
+}
