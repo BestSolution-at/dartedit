@@ -184,4 +184,32 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="org.eclipse.fx.code.editor.langs.contrib"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.fx.code.editor.fx.themes"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.fx.code.editor.langs"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.fx.code.editor.langs.themes"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
