@@ -112,7 +112,7 @@ public class PairManager {
 		}
 	}
 
-	public void fixIndentationOnEnter() {
+	public void fixIndentationOnEnter(boolean fixAlsoNextLine) {
 		try {
 			int caretOffset = editingContext.getCaretOffset();
 			int lineIndex = document.getLineOfOffset(caretOffset);
@@ -129,6 +129,24 @@ public class PairManager {
 			String tabs = getTabs(indent);
 			document.replace(caretOffset + 1, 0, tabs);
 
+			if (fixAlsoNextLine) {
+				int indent2 = indentMap.get(lineIndex + 2);
+				System.err.println("new line next line indent = " + indent2);
+				String tabs2 = getTabs(indent2);
+				IRegion lf = document.getLineInformation(lineIndex + 2);
+
+
+				String line = document.get(lf.getOffset(), lf.getLength());
+
+				// remove whitespaces
+				line = line.replaceAll("^\\s*", "");
+
+				// add tabs
+				line = tabs2 + line;
+
+				document.replace(lf.getOffset(), lf.getLength(), line);
+
+			}
 
 			// move caret
 			editingContext.setCaretOffset(caretOffset + 1 + tabs.length());
