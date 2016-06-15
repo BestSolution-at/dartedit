@@ -15,6 +15,7 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
+import org.eclipse.fx.code.editor.LocalFile;
 import org.eclipse.fx.code.editor.services.CompletionProposal;
 import org.eclipse.fx.code.editor.services.ContextInformation;
 import org.eclipse.fx.code.editor.services.EditingContext;
@@ -73,9 +74,9 @@ public class DartProposalComputer implements ProposalComputer {
 							return ((DartCompletionProposal)o1).compareTo((DartCompletionProposal) o2);
 						}
 					});
-					for (CompletionProposal p : tmp) {
-						System.err.println(" * " + p.getLabel() + " -> " + p.getContextInformation());
-					}
+//					for (CompletionProposal p : tmp) {
+//						System.err.println(" * " + p.getLabel() + " -> " + p.getContextInformation());
+//					}
 					future.complete(tmp);
 				} else {
 					System.err.println("Received informations after the last item has been sent");
@@ -113,20 +114,21 @@ public class DartProposalComputer implements ProposalComputer {
 
 	private DartCompletionProposal mapToCompletion(CompletionResultsNotification notification, CompletionSuggestion proposal) {
 
-		System.err.println("notification " + notification.getReplacementOffset() + " - " + notification.getReplacementLength());
-		System.err.println("mapping " + proposal);
-		System.err.println(" el: " + proposal.getElement());
-
-		System.err.println(" " + proposal.getSelectionOffset() + " - " + proposal.getSelectionLength());
+//		System.err.println("notification " + notification.getReplacementOffset() + " - " + notification.getReplacementLength());
+//		System.err.println("mapping " + proposal);
+//		System.err.println(" el: " + proposal.getElement());
+//
+//		System.err.println(" " + proposal.getSelectionOffset() + " - " + proposal.getSelectionLength());
 
 		return new DartCompletionProposal(notification, proposal, createContextInformation(notification, proposal));
 	}
 
 	@Override
 	public CompletableFuture<List<CompletionProposal>> compute() {
-//		System.err.println("compute " + this);
-		URIProvider p = (URIProvider) this.input;
-		Path file = Paths.get(java.net.URI.create(p.getURI().toString())).toAbsolutePath();
+		System.err.println("compute " + this);
+		LocalFile p = (LocalFile) this.input;
+		System.err.println(p.getPath());
+		Path file = p.getPath().toAbsolutePath();
 
 		CompletionGetSuggestionsResult result = completionService.getSuggestions(file.toString(), editingContext.getCaretOffset());
 		requestId = result.getId();
