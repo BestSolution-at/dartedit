@@ -3,27 +3,37 @@
 
 <product name="Dart IDE" uid="at.bestsolution.dart.app.product" id="at.bestsolution.dart.app.product" application="org.eclipse.fx.ui.workbench.fx.application" version="1.0.0" useFeatures="true" includeLaunchers="false">
 
-	<configIni use="default">
-	</configIni>
-	<launcherArgs>
-		<programArgs>-nosplash</programArgs>
-		<vmArgs>-Dorg.osgi.framework.bundle.parent=ext</vmArgs>
-	</launcherArgs>
-	
-	<windowImages/>
-	
-	<features>
-		<feature id="at.bestsolution.dart.app.feature" />
-		<feature id="org.eclipse.fx.runtime.e4fx.feature" />
-		<feature id="org.eclipse.fx.runtime.e4fx.p2.feature" />
-	</features>
-	<configurations>
-		<plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
-		<plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
-		<plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
-		<plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-		<plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
-		<plugin id="org.eclipse.osgi" autoStart="true" startLevel="-1" />
-	</configurations>
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-nosplash
+      </programArgs>
+      <vmArgs>-Dorg.osgi.framework.bundle.parent=ext
+      </vmArgs>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="at.bestsolution.dart.app.feature"/>
+      <feature id="org.eclipse.fx.runtime.e4fx.feature"/>
+      <feature id="org.eclipse.fx.runtime.e4fx.p2.feature"/>
+      <feature id="org.eclipse.fx.code.base.feature" version="2.4.0.qualifier"/>
+      <feature id="org.eclipse.fx.code.langs.feature" version="2.4.0.qualifier"/>
+      <feature id="org.eclipse.fx.code.target.feature" version="2.4.0.qualifier"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="-1" />
+   </configurations>
+
 </product>
-   
