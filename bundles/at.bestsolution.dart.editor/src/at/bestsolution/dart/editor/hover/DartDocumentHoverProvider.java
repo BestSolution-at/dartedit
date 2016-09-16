@@ -8,13 +8,14 @@ import javax.inject.Inject;
 
 import org.eclipse.fx.code.editor.Input;
 import org.eclipse.fx.code.editor.LocalSourceFileInput;
-import org.eclipse.fx.text.hover.HoverInfo;
 import org.eclipse.fx.text.hover.DefaultHoverInfoType;
 import org.eclipse.fx.text.hover.DocumentHoverProvider;
+import org.eclipse.fx.text.hover.HoverInfo;
+import org.eclipse.fx.text.hover.HtmlString;
+import org.eclipse.fx.text.hover.LinkActionEvent;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.BadPositionCategoryException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.Region;
@@ -63,13 +64,20 @@ public class DartDocumentHoverProvider implements DocumentHoverProvider {
 
 			Region region = position.isPresent() ? new Region(position.get().offset, position.get().length) : new Region(offset, 0);
 
+			
 			if( IDocument.DEFAULT_CONTENT_TYPE.equals(partitionType) ) {
 				AnalysisGetHoverResult hover = analysis.getHover(fInput.getPath().toAbsolutePath().toString(), offset);
+				
 				String text = hover.getHovers().length > 0 ? hover.getHovers()[0].getDartdoc() : "";
 				System.err.println(" -> " + text);
+				
+				String type = hover.getHovers().length > 0 ? hover.getHovers()[0].getStaticType() : "";
 
+				HtmlString html = new HtmlString("<a href=\"lulu\">Lulu</a><h3>" + type + "</h3><p>" + text + "</p>");
+				html.addEventHandler(LinkActionEvent.LINK_ACTION, e -> {System.err.println("Link pressed: " + e.getLinkTarget());});
+				
 				if (text != null && !text.isEmpty()) {
-					return Collections.singleton(new HoverInfo(DefaultHoverInfoType.DOCUMENTATION, region, text, null));
+					return Collections.singleton(new HoverInfo(DefaultHoverInfoType.DOCUMENTATION, region, html, null));
 				}
 			}
 		}
